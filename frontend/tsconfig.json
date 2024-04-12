@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "alwaysStrict": true,
     "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": [
@@ -8,8 +9,9 @@
       "ESNext"
     ],
     "allowJs": false,
+    "baseUrl": "./",
     "skipLibCheck": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,

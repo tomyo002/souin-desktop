@@ -1,5 +1,7 @@
 # Souin Desktop
 
+This application allows to monitor the instances of souins in the form of graph as real, one can monitor in one place.
+
 ## authors
 [@darkweak](https://github.com/darkweak/)
 

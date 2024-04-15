@@ -13,6 +13,7 @@
     "@tailwindcss/typography": "^0.5.12",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
+    "parse-prometheus-text-format": "^1.1.1",
     "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

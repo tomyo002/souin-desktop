@@ -1,28 +1,23 @@
-import {useState} from 'react';
-import logo from './assets/images/logo-universal.png';
-import './App.css';
-import {Greet} from "wailsjs/go/main/App";
+import { useState } from 'react';
+
+import { Button } from './components/atomic';
+import { Line } from './components/molecule';
 
 function App() {
-    const [resultText, setResultText] = useState("Please enter your name below 👇");
-    const [name, setName] = useState('');
-    const updateName = (e: any) => setName(e.target.value);
-    const updateResultText = (result: string) => setResultText(result);
+  const d: Array<number> = [1, 25, 3];
+  const [data, setData] = useState(d);
+  const onClick = () => {
+    setData(current => {
+      return [...current, Math.floor(Math.random() * 100)];
+    });
+  };
 
-    function greet() {
-        Greet(name).then(updateResultText);
-    }
-
-    return (
-        <div id="App">
-            <img src={logo} id="logo" alt="logo"/>
-            <div id="result" className="result">{resultText}</div>
-            <div id="input" className="input-box">
-                <input id="name" className="input" onChange={updateName} autoComplete="off" name="input" type="text"/>
-                <button className="btn" onClick={greet}>Greet</button>
-            </div>
-        </div>
-    )
+  return (
+    <div className="card w-96 bg-base-100">
+      <Line data={data} title="my first chart" />
+      <Button onclick={onClick}>click</Button>
+    </div>
+  );
 }
 
-export default App
+export default App;

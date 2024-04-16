@@ -18,8 +18,10 @@ export const DisplayQuantile: React.FC<DisplayProps> = ({
   timeMilliSecond,
 }) => {
   const [data, setData] = useState([0]);
+  const [dataSum, setDataSum] = useState([0]);
   const InitialiserClick = () => {
     setData([0]);
+    setDataSum([0]);
   };
 
   useEffect(() => {
@@ -28,6 +30,9 @@ export const DisplayQuantile: React.FC<DisplayProps> = ({
         if (promise === null) {
           setData(current => {
             return [...current, 0, 0, 0, 0, 0];
+          });
+          setDataSum(current => {
+            return [...current, 0];
           });
         } else {
           const index = promise.findIndex(object => object['name'] == name);
@@ -41,6 +46,12 @@ export const DisplayQuantile: React.FC<DisplayProps> = ({
               parseFloat(promise[index]['metrics'][0]['quantiles']['1']),
             ];
           });
+          setDataSum(current => {
+            return [
+              ...current,
+              parseFloat(promise[index]['metrics'][0]['sum']),
+            ];
+          });
         }
       });
     }, timeMilliSecond);
@@ -51,7 +62,11 @@ export const DisplayQuantile: React.FC<DisplayProps> = ({
   return (
     <>
       <Card title={title}>
-        <Line data={data} title={title} />
+        <div>
+          <Line data={data} title={title} />
+          <Line data={dataSum} title={`Somme ${title}`} />
+        </div>
+
         <Button onclick={InitialiserClick}>initiliser</Button>
       </Card>
     </>

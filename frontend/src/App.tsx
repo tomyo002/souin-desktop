@@ -1,22 +1,28 @@
-import { useState } from 'react';
-
-import { Button } from './components/atomic';
-import { Line } from './components/molecule';
+import { Display } from './components/layout';
+import { DisplayQuantile } from './components/layout/DisplayQuantile';
 
 function App() {
-  const [data, setData] = useState([1, 25, 3]);
-  const onClick = () => {
-    setData(current => {
-      return [...current, Math.floor(Math.random() * 100)];
-    });
-  };
-
   return (
-    <div className="card w-96 bg-base-100">
-      <Line data={data} title="my first chart" />
-      <Button onClick={onClick}>click</Button>
-    </div>
+    <>
+      <Display
+        baseUrl="http://localhost:2019"
+        name="process_resident_memory_bytes"
+        timeMilliSecond={1000}
+        title="Octets de la mémoire résidente"
+      />
+      <Display
+        baseUrl="http://localhost:2019"
+        name="process_virtual_memory_bytes"
+        timeMilliSecond={1000}
+        title="Octets de la mémoire virtuelle"
+      />
+      <DisplayQuantile
+        baseUrl="http://localhost:2019"
+        name="go_gc_duration_seconds"
+        timeMilliSecond={5000}
+        title="Go gc durée par secondes"
+      />
+    </>
   );
 }
-
 export default App;

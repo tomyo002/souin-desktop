@@ -67,7 +67,7 @@ export const DisplayQuantile: React.FC<DisplayProps> = ({
           <Line data={dataSum} title={`Somme ${title}`} />
         </div>
 
-        <Button onclick={InitialiserClick}>initiliser</Button>
+        <Button onclick={InitialiserClick}>initialiser</Button>
       </Card>
     </>
   );

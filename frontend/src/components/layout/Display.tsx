@@ -51,7 +51,7 @@ export const Display: React.FC<DisplayProps> = ({
     <>
       <Card title={title}>
         <Line data={data} title={title} />
-        <Button onclick={InitialiserClick}>initiliser</Button>
+        <Button onclick={InitialiserClick}>initialiser</Button>
       </Card>
     </>
   );

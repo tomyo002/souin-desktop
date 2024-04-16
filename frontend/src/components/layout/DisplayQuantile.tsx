@@ -1,0 +1,59 @@
+import React, { useEffect, useState } from 'react';
+
+import { extractor } from '../../service/fetcher';
+import { Button } from '../atomic';
+import { Card, Line } from '../molecule';
+
+type DisplayProps = {
+  baseUrl: string;
+  name: string;
+  title: string;
+  timeMilliSecond: number;
+};
+
+export const DisplayQuantile: React.FC<DisplayProps> = ({
+  baseUrl,
+  name,
+  title,
+  timeMilliSecond,
+}) => {
+  const [data, setData] = useState([0]);
+  const InitialiserClick = () => {
+    setData([0]);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      extractor(baseUrl, '/metrics').then(promise => {
+        if (promise === null) {
+          setData(current => {
+            return [...current, 0, 0, 0, 0, 0];
+          });
+        } else {
+          const index = promise.findIndex(object => object['name'] == name);
+          setData(current => {
+            return [
+              ...current,
+              parseFloat(promise[index]['metrics'][0]['quantiles']['0']),
+              parseFloat(promise[index]['metrics'][0]['quantiles']['0.25']),
+              parseFloat(promise[index]['metrics'][0]['quantiles']['0.5']),
+              parseFloat(promise[index]['metrics'][0]['quantiles']['0.75']),
+              parseFloat(promise[index]['metrics'][0]['quantiles']['1']),
+            ];
+          });
+        }
+      });
+    }, timeMilliSecond);
+
+    return () => clearInterval(interval);
+  }, [baseUrl, name, timeMilliSecond]);
+
+  return (
+    <>
+      <Card title={title}>
+        <Line data={data} title={title} />
+        <Button onclick={InitialiserClick}>initiliser</Button>
+      </Card>
+    </>
+  );
+};

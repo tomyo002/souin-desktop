@@ -8,8 +8,6 @@ import React, { ComponentType } from 'react';
 
 import { ClassName } from '../global';
 
-import { ClassName } from '../global';
-
 export type AllowedIcon = 'arrow-left' | 'arrow-right' | 'trash' | 'settings';
 
 function mapIcon(

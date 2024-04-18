@@ -5,24 +5,23 @@ import { Line as LineJs } from 'react-chartjs-2';
 type PropsLine = {
   data: Array<number>;
   title: string;
+  label: Array<string>;
 };
 
-export const Line: React.FC<PropsLine> = ({ data, title }) => {
-  const labelsData: Array<number> = data.map((num, index) => {
-    return index;
-  });
-  const dataset = {
-    labels: labelsData,
-    datasets: [
-      {
-        label: title,
-        data: data,
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1,
-      },
-    ],
-  };
-
-  return <LineJs data={dataset} datasetIdKey="0" />;
-};
+export const Line: React.FC<PropsLine> = ({ data, title, label }) => (
+  <LineJs
+    data={{
+      labels: label,
+      datasets: [
+        {
+          label: title,
+          data: data,
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1,
+        },
+      ],
+    }}
+    datasetIdKey="0"
+  />
+);

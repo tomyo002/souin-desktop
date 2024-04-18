@@ -17,17 +17,18 @@ export const DisplayQuantile: React.FC<DisplayProps> = ({
   title,
   timeMilliSecond,
 }) => {
-  const [data, setData] = useState([0]);
-  const [dataSum, setDataSum] = useState([0]);
-  const InitialiserClick = () => {
-    setData([0]);
-    setDataSum([0]);
+  const [data, setData] = useState<Array<number>>([]);
+  const [dataSum, setDataSum] = useState<Array<number>>([]);
+  const InitializeClick = () => {
+    setData([]);
+    setDataSum([]);
   };
 
   useEffect(() => {
+    const quantile: Array<string> = ['0', '0.25', '0.5', '0.75', '1'];
     const interval = setInterval(() => {
-      extractor(baseUrl, '/metrics').then(promise => {
-        if (promise === null) {
+      extractor(baseUrl, '/metrics').then(lines => {
+        if (!lines) {
           setData(current => {
             return [...current, 0, 0, 0, 0, 0];
           });
@@ -35,22 +36,19 @@ export const DisplayQuantile: React.FC<DisplayProps> = ({
             return [...current, 0];
           });
         } else {
-          const index = promise.findIndex(object => object['name'] == name);
+          const index = lines.findIndex(line => line['name'] === name);
           setData(current => {
-            return [
-              ...current,
-              parseFloat(promise[index]['metrics'][0]['quantiles']['0']),
-              parseFloat(promise[index]['metrics'][0]['quantiles']['0.25']),
-              parseFloat(promise[index]['metrics'][0]['quantiles']['0.5']),
-              parseFloat(promise[index]['metrics'][0]['quantiles']['0.75']),
-              parseFloat(promise[index]['metrics'][0]['quantiles']['1']),
-            ];
+            return current.concat(
+              quantile.map(quantileIndex => {
+                return parseFloat(
+                  lines[index]['metrics'][0]['quantiles'][quantileIndex],
+                );
+              }),
+            );
           });
+
           setDataSum(current => {
-            return [
-              ...current,
-              parseFloat(promise[index]['metrics'][0]['sum']),
-            ];
+            return [...current, parseFloat(lines[index]['metrics'][0]['sum'])];
           });
         }
       });
@@ -67,7 +65,7 @@ export const DisplayQuantile: React.FC<DisplayProps> = ({
           <Line data={dataSum} title={`Somme ${title}`} />
         </div>
 
-        <Button onclick={InitialiserClick}>initialiser</Button>
+        <Button onClick={InitializeClick}>initialiser</Button>
       </Card>
     </>
   );

@@ -17,15 +17,15 @@ export const Display: React.FC<DisplayProps> = ({
   title,
   timeMilliSecond,
 }) => {
-  const [data, setData] = useState([0]);
-  const InitialiserClick = () => {
-    setData([0]);
+  const [data, setData] = useState<Array<number>>([]);
+  const InitializeClick = () => {
+    setData([]);
   };
+
   useEffect(() => {
     const interval = setInterval(() => {
-      extractor(baseUrl, '/metrics').then(promise => {
-        console.log(promise);
-        if (promise === null) {
+      extractor(baseUrl, '/metrics').then(lines => {
+        if (!lines) {
           setData(current => {
             return [...current, 0];
           });
@@ -34,7 +34,7 @@ export const Display: React.FC<DisplayProps> = ({
             return [
               ...current,
               parseFloat(
-                promise[promise.findIndex(object => object['name'] == name)][
+                lines[lines.findIndex(line => line['name'] === name)][
                   'metrics'
                 ][0]['value'],
               ),
@@ -51,7 +51,7 @@ export const Display: React.FC<DisplayProps> = ({
     <>
       <Card title={title}>
         <Line data={data} title={title} />
-        <Button onclick={InitialiserClick}>initialiser</Button>
+        <Button onClick={InitializeClick}>initialiser</Button>
       </Card>
     </>
   );

@@ -14,8 +14,8 @@ export function extractor(baseUrl: string, endpoint: string) {
   return fetcher('GET', baseUrl, endpoint)
     .then(response => response.text())
     .then(parsePrometheusTextFormat)
-    .catch(response => {
+    .catch(error => {
       return null;
-      console.log(response);
+      console.warn(error);
     });
 }

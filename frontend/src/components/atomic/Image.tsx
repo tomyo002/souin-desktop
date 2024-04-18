@@ -2,8 +2,6 @@ import React from 'react';
 
 import { ClassName } from '../global';
 
-import { ClassName } from '../global';
-
 type ImageProps = ClassName & {
   src: string;
 };

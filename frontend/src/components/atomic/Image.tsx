@@ -1,10 +1,8 @@
 import React from 'react';
+import { ClassName } from '../global';
 
-type PropsImage = {
-  classname?: string;
+type ImageProps = ClassName & {
   src: string;
 };
 
-export const Image: React.FC<PropsImage> = ({ classname, ...rest }) => (
-  <img className={classname} {...rest} />
-);
+export const Image: React.FC<ImageProps> = ({ ...props }) => <img {...props} />;

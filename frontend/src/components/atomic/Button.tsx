@@ -1,17 +1,17 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { ClassName } from '../global';
 
-type PropsButton = {
-  children: ReactNode;
-  classname?: string;
-  onclick?: (params?: unknown) => void;
-};
+type ButtonProps = ClassName &
+  React.PropsWithChildren & {
+    onClick?: (params?: unknown) => void;
+  };
 
-export const Button: React.FC<PropsButton> = ({
+export const Button: React.FC<ButtonProps> = ({
   children,
-  classname,
-  onclick,
+  className,
+  onClick,
 }) => (
-  <button className={`btn ${classname}`} onClick={onclick} type="button">
+  <button className={`btn ${className}`} onClick={onClick} type="button">
     {children}
   </button>
 );

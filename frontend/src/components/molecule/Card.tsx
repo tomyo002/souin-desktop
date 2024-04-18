@@ -1,17 +1,17 @@
-import React, { ReactNode } from "react";
-import { H2 } from "../atomic";
+import React from 'react';
+import { ClassName } from '../global';
+import { H2 } from '../atomic';
 
-type  PropsCard = {
+type CardProps = ClassName &
+  React.PropsWithChildren & {
     title: string;
-    children: ReactNode;
-    className?: string;
-}
+  };
 
-export const Card: React.FC<PropsCard> = ({className, title, children}) => (
-    <div className={`card w-96 bg-primary-content ${className}`}>
-        <div className="card-body">
-            <H2 classname="card-title" content={title} />
-            {children}
-        </div>
+export const Card: React.FC<CardProps> = ({ className, title, children }) => (
+  <div className={`card w-96 bg-primary-content ${className}`}>
+    <div className="card-body">
+      <H2 className="card-title" content={title} />
+      {children}
     </div>
+  </div>
 );

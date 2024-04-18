@@ -1,10 +1,10 @@
 import React from 'react';
+import { ClassName } from '../global';
 
-type PropsH2 = {
-  classname?: string;
+type H2Props = ClassName & {
   content: string;
 };
 
-export const H2: React.FC<PropsH2> = ({ classname, content }) => (
-  <h2 className={`prose prose-xl ${classname}`}>{content}</h2>
+export const H2: React.FC<H2Props> = ({ className, content }) => (
+  <h2 className={`prose prose-xl ${className}`}>{content}</h2>
 );

@@ -8,9 +8,8 @@ type PropsLine = {
 };
 
 export const Line: React.FC<PropsLine> = ({ data, title }) => {
-  const labelsData: Array<number> = [];
-  data.forEach((value, index) => {
-    labelsData.push(index);
+  const labelsData: Array<number> = data.map((num, index) => {
+    return index;
   });
   const dataset = {
     labels: labelsData,

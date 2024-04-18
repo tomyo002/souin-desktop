@@ -2,13 +2,13 @@ import React from 'react';
 import 'chart.js/auto';
 import { Line as LineJs } from 'react-chartjs-2';
 
-type PropsLine = {
+type LineProps = {
   data: Array<number>;
   title: string;
   label: Array<string>;
 };
 
-export const Line: React.FC<PropsLine> = ({ data, title, label }) => (
+export const Line: React.FC<LineProps> = ({ data, title, label }) => (
   <LineJs
     data={{
       labels: label,

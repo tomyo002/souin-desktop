@@ -3,7 +3,7 @@ import 'chart.js/auto';
 import { Line as LineJs } from 'react-chartjs-2';
 
 type LineProps = {
-  data: Array<number>;
+  data: ReadonlyArray<number>;
   title: string;
   label: Array<string>;
 };

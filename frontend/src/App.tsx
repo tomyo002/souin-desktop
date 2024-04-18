@@ -1,5 +1,5 @@
-import { Display } from './components/layout';
-import { DisplayQuantile } from './components/layout/DisplayQuantile';
+import { Display } from './components/molecule';
+import { DisplayQuantile } from './components/molecule/DisplayQuantile';
 
 function App() {
   return (

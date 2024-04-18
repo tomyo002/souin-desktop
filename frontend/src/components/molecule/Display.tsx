@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import { extractor } from '../../service/fetcher';
 import { Button } from '../atomic';
-import { Card, Line } from '../molecule';
+
+import { Card, Line } from '.';
 
 type DisplayProps = {
   baseUrl: string;
@@ -17,9 +18,11 @@ export const Display: React.FC<DisplayProps> = ({
   title,
   timeMilliSecond,
 }) => {
-  const [data, setData] = useState<Array<number>>([]);
+  const [data, setData] = useState<ReadonlyArray<number>>([]);
+  const [label, setlabel] = useState<Array<string>>([]);
   const InitializeClick = () => {
     setData([]);
+    setlabel([]);
   };
 
   useEffect(() => {
@@ -42,15 +45,18 @@ export const Display: React.FC<DisplayProps> = ({
           });
         }
       });
+      setlabel(current => {
+        return [...current, data.length.toString()];
+      });
     }, timeMilliSecond);
 
     return () => clearInterval(interval);
-  }, [baseUrl, name, timeMilliSecond]);
+  }, [baseUrl, name, label, data, timeMilliSecond]);
 
   return (
     <>
       <Card title={title}>
-        <Line data={data} title={title} />
+        <Line data={data} label={label} title={title} />
         <Button onClick={InitializeClick}>initialiser</Button>
       </Card>
     </>

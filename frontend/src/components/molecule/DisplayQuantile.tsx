@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import { extractor } from '../../service/fetcher';
 import { Button } from '../atomic';
-import { Card, Line } from '../molecule';
+
+import { Card, Line } from '.';
 
 type DisplayProps = {
   baseUrl: string;
@@ -17,11 +18,15 @@ export const DisplayQuantile: React.FC<DisplayProps> = ({
   title,
   timeMilliSecond,
 }) => {
-  const [data, setData] = useState<Array<number>>([]);
-  const [dataSum, setDataSum] = useState<Array<number>>([]);
+  const [data, setData] = useState<ReadonlyArray<number>>([]);
+  const [dataSum, setDataSum] = useState<ReadonlyArray<number>>([]);
+  const [label, setlabel] = useState<Array<string>>([]);
+  const [labelSum, setlabelSum] = useState<Array<string>>([]);
   const InitializeClick = () => {
     setData([]);
     setDataSum([]);
+    setlabel([]);
+    setlabelSum([]);
   };
 
   useEffect(() => {
@@ -37,32 +42,38 @@ export const DisplayQuantile: React.FC<DisplayProps> = ({
           });
         } else {
           const index = lines.findIndex(line => line['name'] === name);
+          const tmpPath = lines[index]['metrics'][0];
           setData(current => {
-            return current.concat(
-              quantile.map(quantileIndex => {
-                return parseFloat(
-                  lines[index]['metrics'][0]['quantiles'][quantileIndex],
-                );
+            return [
+              ...current,
+              ...quantile.map(quantileIndex => {
+                return parseFloat(tmpPath['quantiles'][quantileIndex]);
               }),
-            );
+            ];
           });
 
           setDataSum(current => {
-            return [...current, parseFloat(lines[index]['metrics'][0]['sum'])];
+            return [...current, parseFloat(tmpPath['sum'])];
           });
         }
+      });
+      setlabel(current => {
+        return [...current, ...quantile];
+      });
+      setlabelSum(current => {
+        return [...current, dataSum.length.toString()];
       });
     }, timeMilliSecond);
 
     return () => clearInterval(interval);
-  }, [baseUrl, name, timeMilliSecond]);
+  }, [baseUrl, name, data, dataSum, label, labelSum, timeMilliSecond]);
 
   return (
     <>
       <Card title={title}>
         <div>
-          <Line data={data} title={title} />
-          <Line data={dataSum} title={`Somme ${title}`} />
+          <Line data={data} label={label} title={title} />
+          <Line data={dataSum} label={labelSum} title={`Somme ${title}`} />
         </div>
 
         <Button onClick={InitializeClick}>initialiser</Button>

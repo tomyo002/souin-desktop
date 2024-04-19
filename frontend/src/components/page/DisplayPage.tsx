@@ -17,13 +17,13 @@ export const DisplayPage: React.FC<PropsDisplayPage> = ({ baseUrl, name }) => (
           baseUrl={baseUrl}
           name="process_resident_memory_bytes"
           timeMilliSecond={1000}
-          title="Octets de la mémoire résidente"
+          title="process resident memory bytes"
         />
         <Display
           baseUrl={baseUrl}
           name="process_virtual_memory_bytes"
           timeMilliSecond={1000}
-          title="Octets de la mémoire virtuelle"
+          title="process virtual memory bytes"
         />
       </div>
       <div className="flex flex-col justify-center">
@@ -31,7 +31,7 @@ export const DisplayPage: React.FC<PropsDisplayPage> = ({ baseUrl, name }) => (
           baseUrl={baseUrl}
           name="go_gc_duration_seconds"
           timeMilliSecond={5000}
-          title="Go gc durée par secondes"
+          title="go gc duration seconds"
         />
       </div>
     </div>

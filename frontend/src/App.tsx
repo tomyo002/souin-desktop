@@ -1,6 +1,4 @@
-import { Display } from './components/molecule';
-import { DisplayQuantile } from './components/molecule/DisplayQuantile';
-
+import { Display, DisplayQuantile } from './components/molecule';
 function App() {
   return (
     <>
@@ -8,19 +6,19 @@ function App() {
         baseUrl="http://localhost:2019"
         name="process_resident_memory_bytes"
         timeMilliSecond={1000}
-        title="Octets de la mémoire résidente"
+        title="process resident memory bytes"
       />
       <Display
         baseUrl="http://localhost:2019"
         name="process_virtual_memory_bytes"
         timeMilliSecond={1000}
-        title="Octets de la mémoire virtuelle"
+        title="process virtual memory bytes"
       />
       <DisplayQuantile
         baseUrl="http://localhost:2019"
         name="go_gc_duration_seconds"
         timeMilliSecond={5000}
-        title="Go gc durée par secondes"
+        title="go gc duration seconds"
       />
     </>
   );

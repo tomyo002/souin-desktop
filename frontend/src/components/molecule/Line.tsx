@@ -5,13 +5,13 @@ import { Line as LineJs } from 'react-chartjs-2';
 type LineProps = {
   data: ReadonlyArray<number>;
   title: string;
-  label: Array<string>;
+  labels: Array<string>;
 };
 
-export const Line: React.FC<LineProps> = ({ data, title, label }) => (
+export const Line: React.FC<LineProps> = ({ data, title, labels }) => (
   <LineJs
     data={{
-      labels: label,
+      labels: labels,
       datasets: [
         {
           label: title,

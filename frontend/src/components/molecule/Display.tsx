@@ -20,7 +20,7 @@ export const Display: React.FC<DisplayProps> = ({
 }) => {
   const [data, setData] = useState<ReadonlyArray<number>>([]);
   const [label, setlabel] = useState<Array<string>>([]);
-  const InitializeClick = () => {
+  const ResetClick = () => {
     setData([]);
     setlabel([]);
   };
@@ -56,8 +56,8 @@ export const Display: React.FC<DisplayProps> = ({
   return (
     <>
       <Card title={title}>
-        <Line data={data} label={label} title={title} />
-        <Button onClick={InitializeClick}>initialiser</Button>
+        <Line data={data} labels={label} title={title} />
+        <Button onClick={ResetClick}>Reset</Button>
       </Card>
     </>
   );

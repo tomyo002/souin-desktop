@@ -11,11 +11,11 @@ type LineProps = {
 export const Line: React.FC<LineProps> = ({ data, title, labels }) => (
   <LineJs
     data={{
-      labels: labels,
+      labels,
       datasets: [
         {
           label: title,
-          data: data,
+          data,
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
           tension: 0.1,

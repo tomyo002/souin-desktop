@@ -19,7 +19,7 @@ func main() {
 	err := wails.Run(&options.App{
 		Title:  "Souin Desktop",
 		Width:  1024,
-		Height: 768,
+		Height: 853,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

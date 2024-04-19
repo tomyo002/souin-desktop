@@ -5,8 +5,6 @@ export default {
   },
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
   daisyui: {
-    themes: ['luxury'],
+    themes: ['light', 'coffee'],
   },
 };
-
-//luxury forest sunset dark

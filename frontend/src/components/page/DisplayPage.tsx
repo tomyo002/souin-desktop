@@ -12,7 +12,7 @@ export const DisplayPage: React.FC<PropsDisplayPage> = ({ baseUrl, name }) => (
   <>
     <Navbar baseUrl={baseUrl} name={name} />
     <div className="flex flex-row gap-8 justify-center flex-1">
-      <div className="flex flex-col justify-center gap-8">
+      <div className="flex flex-col gap-8">
         <Display
           baseUrl={baseUrl}
           name="process_resident_memory_bytes"
@@ -26,7 +26,7 @@ export const DisplayPage: React.FC<PropsDisplayPage> = ({ baseUrl, name }) => (
           title="process virtual memory bytes"
         />
       </div>
-      <div className="flex flex-col justify-center">
+      <div className="flex flex-col ">
         <DisplayQuantile
           baseUrl={baseUrl}
           name="go_gc_duration_seconds"

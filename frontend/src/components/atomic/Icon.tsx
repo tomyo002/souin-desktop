@@ -1,14 +1,22 @@
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
+  CheckCircleIcon,
   Cog6ToothIcon,
   TrashIcon,
+  XCircleIcon,
 } from '@heroicons/react/16/solid';
 import React, { ComponentType } from 'react';
 
 import { ClassName } from '../global';
 
-export type AllowedIcon = 'arrow-left' | 'arrow-right' | 'trash' | 'settings';
+export type AllowedIcon =
+  | 'arrow-left'
+  | 'arrow-right'
+  | 'trash'
+  | 'settings'
+  | 'check-circle'
+  | 'x-circle';
 
 function mapIcon(
   name: AllowedIcon,
@@ -22,6 +30,10 @@ function mapIcon(
       return TrashIcon;
     case 'settings':
       return Cog6ToothIcon;
+    case 'check-circle':
+      return CheckCircleIcon;
+    case 'x-circle':
+      return XCircleIcon;
     default:
       return Cog6ToothIcon;
   }

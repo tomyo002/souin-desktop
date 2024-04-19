@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { extractor } from '../../service/fetcher';
 import { AllowedIcon, Icon } from '../atomic';
 
-type PropsConnected = {
+type ConnectedProps = {
   baseUrl: string;
 };
 
-export const Connected: React.FC<PropsConnected> = ({ baseUrl }) => {
+export const Connected: React.FC<ConnectedProps> = ({ baseUrl }) => {
   const [icon, seticon] = useState<AllowedIcon>('x-circle');
   useEffect(() => {
     const interval = setInterval(() => {

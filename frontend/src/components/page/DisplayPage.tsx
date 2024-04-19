@@ -3,12 +3,12 @@ import React from 'react';
 import { Navbar, Footer } from '../layout';
 import { Display, DisplayQuantile } from '../molecule';
 
-type PropsDisplayPage = {
+type DisplayPageProps = {
   baseUrl: string;
   name: string;
 };
 
-export const DisplayPage: React.FC<PropsDisplayPage> = ({ baseUrl, name }) => (
+export const DisplayPage: React.FC<DisplayPageProps> = ({ baseUrl, name }) => (
   <>
     <Navbar baseUrl={baseUrl} name={name} />
     <div className="flex flex-row gap-8 justify-center flex-1">
@@ -26,7 +26,7 @@ export const DisplayPage: React.FC<PropsDisplayPage> = ({ baseUrl, name }) => (
           title="process virtual memory bytes"
         />
       </div>
-      <div className="flex flex-col ">
+      <div className="flex flex-col">
         <DisplayQuantile
           baseUrl={baseUrl}
           name="go_gc_duration_seconds"

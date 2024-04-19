@@ -2,12 +2,12 @@ import React from 'react';
 
 import { Connected } from '../molecule';
 
-type PropsNavbar = {
+type NavbarProps = {
   name: string;
   baseUrl: string;
 };
 
-export const Navbar: React.FC<PropsNavbar> = ({ name, baseUrl }) => (
+export const Navbar: React.FC<NavbarProps> = ({ name, baseUrl }) => (
   <div className="navbar bg-neutral text-neutral-content">
     <div className="flex-1">
       <a className="btn btn-ghost text-xl">

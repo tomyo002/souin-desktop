@@ -20,10 +20,6 @@ export const Display: React.FC<DisplayProps> = ({
 }) => {
   const [data, setData] = useState<ReadonlyArray<number>>([]);
   const [label, setlabel] = useState<Array<string>>([]);
-  const ResetClick = () => {
-    setData([]);
-    setlabel([]);
-  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -57,7 +53,14 @@ export const Display: React.FC<DisplayProps> = ({
     <>
       <Card title={title}>
         <Line data={data} labels={label} title={title} />
-        <Button onClick={ResetClick}>Reset</Button>
+        <Button
+          onClick={() => {
+            setData([]);
+            setlabel([]);
+          }}
+        >
+          Reset
+        </Button>
       </Card>
     </>
   );

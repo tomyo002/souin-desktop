@@ -22,12 +22,6 @@ export const DisplayQuantile: React.FC<DisplayProps> = ({
   const [dataSum, setDataSum] = useState<ReadonlyArray<number>>([]);
   const [label, setlabel] = useState<Array<string>>([]);
   const [labelSum, setlabelSum] = useState<Array<string>>([]);
-  const ResetClick = () => {
-    setData([]);
-    setDataSum([]);
-    setlabel([]);
-    setlabelSum([]);
-  };
 
   useEffect(() => {
     const quantile: Array<string> = ['0', '0.25', '0.5', '0.75', '1'];
@@ -42,18 +36,18 @@ export const DisplayQuantile: React.FC<DisplayProps> = ({
           });
         } else {
           const index = lines.findIndex(line => line['name'] === name);
-          const path = lines[index].metrics[0];
+          const metric = lines[index].metrics[0];
           setData(current => {
             return [
               ...current,
               ...quantile.map(quantileIndex => {
-                return parseFloat(path.quantiles[quantileIndex]);
+                return parseFloat(metric.quantiles[quantileIndex]);
               }),
             ];
           });
 
           setDataSum(current => {
-            return [...current, parseFloat(path.sum)];
+            return [...current, parseFloat(metric.sum)];
           });
         }
       });
@@ -78,7 +72,16 @@ export const DisplayQuantile: React.FC<DisplayProps> = ({
           <Line data={dataSum} labels={labelSum} title={`${title} sum`} />
         </div>
 
-        <Button onClick={ResetClick}>Reset</Button>
+        <Button
+          onClick={() => {
+            setData([]);
+            setDataSum([]);
+            setlabel([]);
+            setlabelSum([]);
+          }}
+        >
+          Reset
+        </Button>
       </Card>
     </>
   );

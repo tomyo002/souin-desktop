@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { ClassName } from '../global';
+import { ClassName } from 'src/utils';
 
 type H1Props = ClassName & {
   content: string;

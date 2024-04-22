@@ -9,7 +9,7 @@ type CardProps = ClassName &
   };
 
 export const Card: React.FC<CardProps> = ({ className, title, children }) => (
-  <div className={`card w-96 bg-primary-content ${className}`}>
+  <div className={`card w-full bg-neutral/5 ${className}`}>
     <div className="card-body">
       <H2 className="card-title" content={title} />
       {children}

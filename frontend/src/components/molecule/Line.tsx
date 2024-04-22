@@ -2,26 +2,31 @@ import React from 'react';
 import 'chart.js/auto';
 import { Line as LineJs } from 'react-chartjs-2';
 
+import { MultiDataTypes } from './type';
+
 type LineProps = {
-  data: ReadonlyArray<number>;
-  title: string;
+  data: ReadonlyArray<MultiDataTypes>;
   labels: Array<string>;
 };
 
-export const Line: React.FC<LineProps> = ({ data, title, labels }) => (
+export const Line: React.FC<LineProps> = ({ data, labels }) => (
   <LineJs
     data={{
       labels,
-      datasets: [
-        {
-          label: title,
-          data,
-          fill: false,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1,
-        },
-      ],
+      datasets: Object.values(data),
     }}
     datasetIdKey="0"
+    options={{
+      animation: {
+        duration: 0,
+        delay: 0,
+      },
+      responsive: true,
+      scales: {
+        x: {
+          display: false,
+        },
+      },
+    }}
   />
 );

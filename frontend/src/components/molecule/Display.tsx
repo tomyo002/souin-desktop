@@ -1,66 +1,82 @@
 import React, { useEffect, useState } from 'react';
 
 import { extractor } from '../../service/fetcher';
-import { Button } from '../atomic';
+
+import { MultiDataTypes } from './type';
 
 import { Card, Line } from '.';
 
 type DisplayProps = {
   baseUrl: string;
-  name: string;
+  labels: ReadonlyArray<string>;
   title: string;
-  timeMilliSecond: number;
 };
 
-export const Display: React.FC<DisplayProps> = ({
-  baseUrl,
-  name,
-  title,
-  timeMilliSecond,
-}) => {
-  const [data, setData] = useState<ReadonlyArray<number>>([]);
+export const Display: React.FC<DisplayProps> = ({ baseUrl, labels, title }) => {
+  const [multiData, setMultiData] = useState<ReadonlyArray<MultiDataTypes>>(
+    labels.map(label => {
+      return {
+        label: label,
+        data: [],
+        bordercolor: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      };
+    }),
+  );
   const [label, setlabel] = useState<Array<string>>([]);
-
   useEffect(() => {
     const interval = setInterval(() => {
       extractor(baseUrl, '/metrics').then(lines => {
         if (!lines) {
-          setData(current => {
-            return [...current, 0];
+          setMultiData(current => {
+            return current.map(data => {
+              return {
+                data: [...data['data'], 0],
+                label: data['label'],
+                bordercolor: data['bordercolor'],
+              };
+            });
           });
         } else {
-          setData(current => {
-            return [
-              ...current,
-              parseFloat(
-                lines[lines.findIndex(line => line['name'] === name)][
-                  'metrics'
-                ][0]['value'],
-              ),
-            ];
+          setMultiData(current => {
+            return current.map(data => {
+              return {
+                data: [
+                  ...data['data'],
+                  parseFloat(
+                    lines[
+                      lines.findIndex(line => line['name'] === data['label'])
+                    ]['metrics'][0]['value'],
+                  ),
+                ],
+                label: data['label'],
+                bordercolor: data['bordercolor'],
+              };
+            });
           });
         }
       });
-      setlabel(current => {
-        return [...current, data.length.toString()];
+      setMultiData(current => {
+        return current;
       });
-    }, timeMilliSecond);
+      setlabel(current => {
+        return [
+          ...current,
+          new Intl.DateTimeFormat('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+          }).format(new Date()),
+        ];
+      });
+    }, 1000);
 
     return () => clearInterval(interval);
-  }, [baseUrl, name, label, data, timeMilliSecond]);
+  }, [baseUrl, label, multiData]);
 
   return (
     <>
       <Card title={title}>
-        <Line data={data} labels={label} title={title} />
-        <Button
-          onClick={() => {
-            setData([]);
-            setlabel([]);
-          }}
-        >
-          Reset
-        </Button>
+        <Line data={multiData} labels={label} />
       </Card>
     </>
   );

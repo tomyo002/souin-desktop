@@ -18,7 +18,7 @@ export const Display: React.FC<DisplayProps> = ({ baseUrl, labels, title }) => {
       return {
         label: label,
         data: [],
-        bordercolor: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+        borderColor: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
       };
     }),
   );
@@ -32,7 +32,7 @@ export const Display: React.FC<DisplayProps> = ({ baseUrl, labels, title }) => {
               return {
                 data: [...data['data'], 0],
                 label: data['label'],
-                bordercolor: data['bordercolor'],
+                borderColor: data['borderColor'],
               };
             });
           });
@@ -49,7 +49,7 @@ export const Display: React.FC<DisplayProps> = ({ baseUrl, labels, title }) => {
                   ),
                 ],
                 label: data['label'],
-                bordercolor: data['bordercolor'],
+                borderColor: data['borderColor'],
               };
             });
           });

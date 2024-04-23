@@ -6,13 +6,19 @@ import { MultiDataTypes } from './type';
 
 import { Card, Line } from '.';
 
-type DisplayProps = {
+type MultiLineDataProps = {
   baseUrl: string;
   labels: ReadonlyArray<string>;
   title: string;
+  max: number;
 };
 
-export const Display: React.FC<DisplayProps> = ({ baseUrl, labels, title }) => {
+export const MultiLineData: React.FC<MultiLineDataProps> = ({
+  baseUrl,
+  labels,
+  title,
+  max,
+}) => {
   const [multiData, setMultiData] = useState<ReadonlyArray<MultiDataTypes>>(
     labels.map(label => {
       return {
@@ -29,8 +35,12 @@ export const Display: React.FC<DisplayProps> = ({ baseUrl, labels, title }) => {
         if (!lines) {
           setMultiData(current => {
             return current.map(data => {
+              const currentData =
+                data['data'].length >= max
+                  ? data['data'].slice(1)
+                  : data['data'];
               return {
-                data: [...data['data'], 0],
+                data: [...currentData, 0],
                 label: data['label'],
                 borderColor: data['borderColor'],
               };
@@ -39,9 +49,13 @@ export const Display: React.FC<DisplayProps> = ({ baseUrl, labels, title }) => {
         } else {
           setMultiData(current => {
             return current.map(data => {
+              const currentData =
+                data['data'].length >= max
+                  ? data['data'].slice(1)
+                  : data['data'];
               return {
                 data: [
-                  ...data['data'],
+                  ...currentData,
                   parseFloat(
                     lines[
                       lines.findIndex(line => line['name'] === data['label'])
@@ -55,12 +69,11 @@ export const Display: React.FC<DisplayProps> = ({ baseUrl, labels, title }) => {
           });
         }
       });
-      setMultiData(current => {
-        return current;
-      });
+
       setlabel(current => {
+        const currentLabel = current.length >= max ? current.slice(1) : current;
         return [
-          ...current,
+          ...currentLabel,
           new Intl.DateTimeFormat('en-US', {
             hour: '2-digit',
             minute: '2-digit',
@@ -71,7 +84,7 @@ export const Display: React.FC<DisplayProps> = ({ baseUrl, labels, title }) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [baseUrl, label, multiData]);
+  }, [baseUrl, label, multiData, max]);
 
   return (
     <>

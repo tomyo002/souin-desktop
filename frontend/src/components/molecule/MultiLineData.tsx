@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
-import { extractor } from '../../service/fetcher';
-
-import { MultiDataTypes } from './type';
+import { extractor } from 'src/service/fetcher';
+import { MultiDataTypes } from 'src/utils';
 
 import { Card, Line } from '.';
 
@@ -29,6 +27,7 @@ export const MultiLineData: React.FC<MultiLineDataProps> = ({
     }),
   );
   const [label, setlabel] = useState<Array<string>>([]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       extractor(baseUrl, '/metrics').then(lines => {
@@ -36,13 +35,11 @@ export const MultiLineData: React.FC<MultiLineDataProps> = ({
           setMultiData(current => {
             return current.map(data => {
               const currentData =
-                data['data'].length >= max
-                  ? data['data'].slice(1)
-                  : data['data'];
+                data.data.length >= max ? data.data.slice(1) : data.data;
               return {
                 data: [...currentData, 0],
-                label: data['label'],
-                borderColor: data['borderColor'],
+                label: data.label,
+                borderColor: data.borderColor,
               };
             });
           });
@@ -50,20 +47,17 @@ export const MultiLineData: React.FC<MultiLineDataProps> = ({
           setMultiData(current => {
             return current.map(data => {
               const currentData =
-                data['data'].length >= max
-                  ? data['data'].slice(1)
-                  : data['data'];
+                data.data.length >= max ? data.data.slice(1) : data.data;
               return {
                 data: [
                   ...currentData,
                   parseFloat(
-                    lines[
-                      lines.findIndex(line => line['name'] === data['label'])
-                    ]['metrics'][0]['value'],
+                    lines[lines.findIndex(line => line.name === data.label)]
+                      .metrics[0].value,
                   ),
                 ],
-                label: data['label'],
-                borderColor: data['borderColor'],
+                label: data.label,
+                borderColor: data.borderColor,
               };
             });
           });

@@ -9,9 +9,9 @@ type DisplayPageProps = {
 };
 
 export const ChartPage: React.FC<DisplayPageProps> = ({ baseUrl, name }) => (
-  <>
+  <main>
     <Navbar baseUrl={baseUrl} name={name} />
-    <div className="grid grid-cols-2 gap-8 flex flex-1">
+    <div className="grid grid-cols-2 gap-8">
       <MultiLineData
         baseUrl={baseUrl}
         labels={['process_resident_memory_bytes']}
@@ -45,5 +45,5 @@ export const ChartPage: React.FC<DisplayPageProps> = ({ baseUrl, name }) => (
       />
     </div>
     <Footer />
-  </>
+  </main>
 );

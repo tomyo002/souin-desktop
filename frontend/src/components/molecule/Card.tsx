@@ -1,7 +1,7 @@
 import React from 'react';
+import { ClassName } from 'src/utils';
 
 import { H2 } from '../atomic';
-import { ClassName } from '../global';
 
 type CardProps = ClassName &
   React.PropsWithChildren & {

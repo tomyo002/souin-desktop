@@ -1,9 +1,9 @@
 import parsePrometheusTextFormat from 'parse-prometheus-text-format';
 
 export function fetcher(
-  method: string = 'GET',
   baseUrl: string,
   endpoint: string,
+  method: string = 'GET',
 ) {
   return fetch(`${baseUrl}${endpoint}`, {
     method: method,
@@ -11,7 +11,7 @@ export function fetcher(
 }
 
 export function extractor(baseUrl: string, endpoint: string) {
-  return fetcher('GET', baseUrl, endpoint)
+  return fetcher(baseUrl, endpoint)
     .then(response => response.text())
     .then(parsePrometheusTextFormat)
     .catch(error => {

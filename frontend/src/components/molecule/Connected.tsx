@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { extractor } from 'src/service/fetcher';
 
-import { extractor } from '../../service/fetcher';
 import { AllowedIcon, Icon } from '../atomic';
 
 type ConnectedProps = {

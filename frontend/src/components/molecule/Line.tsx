@@ -1,8 +1,7 @@
 import React from 'react';
 import 'chart.js/auto';
 import { Line as LineJs } from 'react-chartjs-2';
-
-import { MultiDataTypes } from './type';
+import { MultiDataTypes } from 'src/utils';
 
 type LineProps = {
   data: ReadonlyArray<MultiDataTypes>;

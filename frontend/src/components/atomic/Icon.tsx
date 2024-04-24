@@ -7,8 +7,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/16/solid';
 import React, { ComponentType } from 'react';
-
-import { ClassName } from '../global';
+import { ClassName } from 'src/utils';
 
 export type AllowedIcon =
   | 'arrow-left'

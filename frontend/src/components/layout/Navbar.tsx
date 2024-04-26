@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Connected } from '../molecule';
+import { HealthCheck } from '../molecule';
 
 type NavbarProps = {
   name: string;
@@ -15,7 +15,7 @@ export const Navbar: React.FC<NavbarProps> = ({ name, baseUrl }) => (
       </a>
     </div>
     <div className="flex-none">
-      <Connected baseUrl={baseUrl} />
+      <HealthCheck baseUrl={baseUrl} />
     </div>
   </div>
 );

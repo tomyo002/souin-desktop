@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { extractor } from 'src/service/fetcher';
+import { checkHealth } from 'src/service/fetcher';
 
 import { AllowedIcon, Icon } from '../atomic';
 
-type ConnectedProps = {
+type HealthCheckProps = {
   baseUrl: string;
 };
 
-export const Connected: React.FC<ConnectedProps> = ({ baseUrl }) => {
+export const HealthCheck: React.FC<HealthCheckProps> = ({ baseUrl }) => {
   const [icon, seticon] = useState<AllowedIcon>('x-circle');
   useEffect(() => {
     const interval = setInterval(() => {
-      extractor(baseUrl, '/').then(response => {
+      checkHealth(baseUrl).then(response => {
         if (response === null) {
           seticon('x-circle');
         } else {

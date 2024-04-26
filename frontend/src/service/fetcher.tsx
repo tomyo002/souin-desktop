@@ -19,3 +19,13 @@ export function extractor(baseUrl: string, endpoint: string) {
       console.warn(error);
     });
 }
+
+export function checkHealth(baseUrl: string) {
+  return fetcher(baseUrl, '/')
+    .then(() => {
+      return 'ok';
+    })
+    .catch(() => {
+      return null;
+    });
+}

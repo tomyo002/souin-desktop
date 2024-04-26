@@ -8,15 +8,11 @@ type HealthCheckProps = {
 };
 
 export const HealthCheck: React.FC<HealthCheckProps> = ({ baseUrl }) => {
-  const [icon, seticon] = useState<AllowedIcon>('x-circle');
+  const [icon, setIcon] = useState<AllowedIcon>('x-circle');
   useEffect(() => {
     const interval = setInterval(() => {
       checkHealth(baseUrl).then(response => {
-        if (response === null) {
-          seticon('x-circle');
-        } else {
-          seticon('check-circle');
-        }
+        setIcon(!response ? 'x-circle' : 'check-circle');
       });
     }, 1000);
 

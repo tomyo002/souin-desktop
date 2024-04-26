@@ -5,13 +5,13 @@ import { MultiDataTypes } from 'src/utils';
 
 type LineProps = {
   data: ReadonlyArray<MultiDataTypes>;
-  labels: Array<string>;
+  labels: ReadonlyArray<string>;
 };
 
 export const Line: React.FC<LineProps> = ({ data, labels }) => (
   <LineJs
     data={{
-      labels,
+      labels: [...labels],
       datasets: Object.values(data),
     }}
     datasetIdKey="0"

@@ -21,11 +21,7 @@ export function extractor(baseUrl: string, endpoint: string) {
 }
 
 export function checkHealth(baseUrl: string) {
-  return fetcher(baseUrl, '/')
-    .then(() => {
-      return 'ok';
-    })
-    .catch(() => {
-      return null;
-    });
+  return fetcher(baseUrl, '/').catch(() => {
+    return null;
+  });
 }

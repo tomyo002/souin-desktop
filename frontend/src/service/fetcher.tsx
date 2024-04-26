@@ -22,6 +22,6 @@ export function extractor(baseUrl: string, endpoint: string) {
 
 export function checkHealth(baseUrl: string) {
   return fetcher(baseUrl, '/').catch(() => {
-    return null;
+    return false;
   });
 }

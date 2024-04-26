@@ -29,35 +29,31 @@ export const MultiLineData: React.FC<MultiLineDataProps> = ({
   useEffect(() => {
     const interval = setInterval(() => {
       extractor(baseUrl, '/metrics').then(lines => {
-        setMultiData(currents => {
-          return currents.map(({ data, label, ...rest }) => {
-            return {
-              data: [
-                ...(data.length >= max ? data.slice(1) : data),
-                !lines
-                  ? 0
-                  : parseFloat(
-                      lines[lines.findIndex(line => line.name === label)]
-                        .metrics[0].value,
-                    ),
-              ],
-              label: label,
-              ...rest,
-            };
-          });
-        });
+        setMultiData(currents =>
+          currents.map(({ data, label, ...rest }) => ({
+            data: [
+              ...(data.length >= max ? data.slice(1) : data),
+              !lines
+                ? 0
+                : parseFloat(
+                    lines[lines.findIndex(line => line.name === label)]
+                      .metrics[0].value,
+                  ),
+            ],
+            label,
+            ...rest,
+          })),
+        );
       });
 
-      setlabel(current => {
-        return [
-          ...(current.length >= max ? current.slice(1) : current),
-          new Intl.DateTimeFormat('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-          }).format(new Date()),
-        ];
-      });
+      setlabel(current => [
+        ...(current.length >= max ? current.slice(1) : current),
+        new Intl.DateTimeFormat('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        }).format(new Date()),
+      ]);
     }, 1000);
 
     return () => clearInterval(interval);

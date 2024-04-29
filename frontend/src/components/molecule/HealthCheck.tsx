@@ -10,13 +10,9 @@ type HealthCheckProps = {
 export const HealthCheck: React.FC<HealthCheckProps> = ({ baseUrl }) => {
   const [icon, setIcon] = useState<AllowedIcon>('x-circle');
   useEffect(() => {
-    const interval = setInterval(() => {
-      checkHealth(baseUrl).then(response => {
-        setIcon(!response ? 'x-circle' : 'check-circle');
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
+    checkHealth(baseUrl).then(response => {
+      setIcon(!response ? 'x-circle' : 'check-circle');
+    });
   }, [baseUrl]);
 
   return <Icon name={icon} />;

@@ -7,6 +7,9 @@ export function fetcher(
 ) {
   return fetch(`${baseUrl}${endpoint}`, {
     method: method,
+    headers: {
+      Authorization: `Basic dGVzdDp0ZXN0`,
+    },
   });
 }
 
@@ -21,7 +24,7 @@ export function extractor(baseUrl: string, endpoint: string) {
 }
 
 export function checkHealth(baseUrl: string) {
-  return fetcher(baseUrl, '/').catch(() => {
+  return fetcher(baseUrl, '/metrics').catch(() => {
     return false;
   });
 }

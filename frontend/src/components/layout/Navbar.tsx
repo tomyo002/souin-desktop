@@ -10,11 +10,11 @@ type NavbarProps = {
 export const Navbar: React.FC<NavbarProps> = ({ name, baseUrl }) => (
   <div className="navbar bg-neutral text-neutral-content">
     <div className="flex-1">
-      <a className="btn btn-ghost text-xl">
+      <span className="btn btn-ghost text-xl">
         {name}: {baseUrl}
-      </a>
+      </span>
     </div>
-    <div className="flex-none">
+    <div>
       <HealthCheck baseUrl={baseUrl} />
     </div>
   </div>

@@ -5,3 +5,5 @@ export type MultiDataTypes = {
   data: ReadonlyArray<number>;
   borderColor: string;
 };
+
+export type dataType = 'name' | 'baseUrl' | 'login' | 'authentication';

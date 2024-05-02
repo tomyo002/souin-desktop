@@ -1,14 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
 
-import { ChartPage } from './components/page';
+import { ChartPage, FormPage, Home } from './components/page';
 
 function App() {
   return (
     <Routes>
-      <Route
-        element={<ChartPage baseUrl="https://localhost:2019" name="souin" />}
-        path="/"
-      />
+      <Route element={<Home />} path="/" />
+      <Route element={<FormPage />} path="/form" />
+      <Route element={<ChartPage />} path="/chart" />
     </Routes>
   );
 }

@@ -4,18 +4,28 @@ export function fetcher(
   baseUrl: string,
   endpoint: string,
   method: string = 'GET',
+  headers?: Record<string, string>,
 ) {
   return fetch(`${baseUrl}${endpoint}`, {
     method: method,
-    headers: {
-      Authorization: `Basic dGVzdDp0ZXN0`,
-    },
+    headers,
   });
 }
 
-export function extractor(baseUrl: string, endpoint: string) {
-  return fetcher(baseUrl, endpoint)
-    .then(response => response.text())
+export function extractor(
+  baseUrl: string,
+  endpoint: string,
+  authentication: string,
+) {
+  return fetcher(baseUrl, endpoint, 'GET', {
+    Authorization: `Basic ${authentication}`,
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Authentication is not correct');
+      }
+      return response.text();
+    })
     .then(parsePrometheusTextFormat)
     .catch(error => {
       return null;
@@ -27,4 +37,9 @@ export function checkHealth(baseUrl: string) {
   return fetcher(baseUrl, '/metrics').catch(() => {
     return false;
   });
+}
+export function fetchData() {
+  return fetcher('http://localhost:5000', '/api/getFormData').then(response =>
+    response.json(),
+  );
 }

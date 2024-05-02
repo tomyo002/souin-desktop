@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { checkHealth } from 'src/service/fetcher';
+import { checkHealth } from 'src/service';
 
 import { AllowedIcon, Icon } from '../atomic';
 

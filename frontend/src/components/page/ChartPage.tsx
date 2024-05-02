@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchData } from 'src/service/fetcher';
+import { getAuthentication } from 'src/service';
 import { dataType } from 'src/utils';
 
 import { Navbar, Footer } from '../layout';
@@ -8,9 +8,7 @@ import { MultiLineData } from '../molecule';
 export const ChartPage: React.FC = () => {
   const [data, setData] = useState<Record<dataType, string>>();
   useEffect(() => {
-    fetchData().then(({ formData }) => {
-      setData(formData);
-    });
+    setData(getAuthentication);
   }, []);
 
   return data ? (

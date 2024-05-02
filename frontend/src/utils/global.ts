@@ -6,4 +6,4 @@ export type MultiDataTypes = {
   borderColor: string;
 };
 
-export type dataType = 'name' | 'baseUrl' | 'login' | 'authentication';
+export type dataType = 'name' | 'baseUrl' | 'authentication';

@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { ClassName } from 'src/utils';
 
-type PropsLink = {
-  className?: string;
+type PropsLink = ClassName & {
   to: string;
   children: ReactNode;
 };

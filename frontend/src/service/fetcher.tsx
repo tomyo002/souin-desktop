@@ -38,8 +38,3 @@ export function checkHealth(baseUrl: string) {
     return false;
   });
 }
-export function fetchData() {
-  return fetcher('http://localhost:5000', '/api/getFormData').then(response =>
-    response.json(),
-  );
-}

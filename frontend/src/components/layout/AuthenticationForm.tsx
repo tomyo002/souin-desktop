@@ -1,19 +1,11 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchData } from 'src/service/fetcher';
-import { dataType } from 'src/utils';
+import { setAuthentication } from 'src/service';
 
-import { Icon } from '../atomic';
+import { H1, Icon } from '../atomic';
 
 export const AuthenticationForm: React.FC = () => {
-  const [data, setData] = useState<Record<dataType, string>>();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchData().then(({ formData }) => {
-      setData(formData);
-    });
-  }, []);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -21,55 +13,38 @@ export const AuthenticationForm: React.FC = () => {
     const data = {
       name: (form.elements.namedItem('name') as HTMLInputElement).value,
       baseUrl: (form.elements.namedItem('baseUrl') as HTMLInputElement).value,
-      login: (form.elements.namedItem('login') as HTMLInputElement).value,
       authentication: btoa(
         `${(form.elements.namedItem('login') as HTMLInputElement).value}:${(form.elements.namedItem('password') as HTMLInputElement).value}`,
       ),
     };
-    await fetch('http://localhost:5000/api/saveFormData', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    }).then(() => {
-      navigate(`/`);
-    });
+    setAuthentication(data);
+    navigate('/');
   };
 
   return (
-    <main>
-      <form onSubmit={submit}>
+    <>
+      <H1 className="text-center" content="Authentication" />
+      <form className="flex flex-col gap-8" onSubmit={submit}>
         <label className="input input-bordered flex items-center gap-2">
           <Icon name="chat-buble-left" />
-          <input id="name" placeholder="Name" type="text" value={data?.name} />
+          <input id="name" placeholder="Name" type="text" />
         </label>
         <label className="input input-bordered flex items-center gap-2">
           <Icon name="server" />
-          <input
-            id="baseUrl"
-            placeholder="Base url"
-            type="text"
-            value={data?.baseUrl}
-          />
+          <input id="baseUrl" placeholder="Base url" type="text" />
         </label>
         <label className="input input-bordered flex items-center gap-2">
           <Icon name="user" />
-          <input
-            id="login"
-            placeholder="Login"
-            type="text"
-            value={data?.login}
-          />
+          <input id="login" placeholder="Login" type="text" />
         </label>
         <label className="input input-bordered flex items-center gap-2">
           <Icon name="key" />
           <input id="password" placeholder="Password" type="password" />
         </label>
         <button className="btn" type="submit">
-          submit
+          Submit
         </button>
       </form>
-    </main>
+    </>
   );
 };

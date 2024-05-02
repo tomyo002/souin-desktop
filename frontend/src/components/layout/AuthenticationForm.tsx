@@ -7,17 +7,15 @@ import { H1, Icon } from '../atomic';
 export const AuthenticationForm: React.FC = () => {
   const navigate = useNavigate();
 
-  const submit = async (event: FormEvent<HTMLFormElement>) => {
+  const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    const data = {
-      name: (form.elements.namedItem('name') as HTMLInputElement).value,
-      baseUrl: (form.elements.namedItem('baseUrl') as HTMLInputElement).value,
-      authentication: btoa(
-        `${(form.elements.namedItem('login') as HTMLInputElement).value}:${(form.elements.namedItem('password') as HTMLInputElement).value}`,
-      ),
-    };
-    setAuthentication(data);
+    const formData = new FormData(event.target as HTMLFormElement);
+    const name = formData.get('name') as string;
+    const baseUrl = formData.get('baseUrl') as string;
+    const login = formData.get('login') as string;
+    const password = formData.get('password') as string;
+    const authentication = btoa(`${login}:${password}`);
+    setAuthentication({ name, baseUrl, authentication });
     navigate('/');
   };
 

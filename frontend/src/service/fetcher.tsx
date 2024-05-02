@@ -17,9 +17,7 @@ export function extractor(
   endpoint: string,
   authentication: string,
 ) {
-  return fetcher(baseUrl, endpoint, 'GET', {
-    Authorization: `Basic ${authentication}`,
-  })
+  return fetcher(baseUrl, endpoint, 'GET', headers(`Basic ${authentication}`))
     .then(response => {
       if (!response.ok) {
         throw new Error('Authentication is not correct');
@@ -37,4 +35,10 @@ export function checkHealth(baseUrl: string) {
   return fetcher(baseUrl, '/metrics').catch(() => {
     return false;
   });
+}
+
+function headers(authentication: string) {
+  return {
+    Authorization: authentication,
+  };
 }

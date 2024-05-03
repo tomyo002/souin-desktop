@@ -6,13 +6,13 @@ import { Navbar, Footer } from '../layout';
 export const Home: React.FC = () => (
   <>
     <Navbar />
-    <div className="flex flex-1 flex-col justify-center items-center">
+    <div className="flex flex-1 flex-col justify-center items-center gap-8">
       <H1 content="Welcome on Souin Desktop" />
       <Link to="/form">
-        <Button>New instance</Button>
+        <Button className="btn-outline btn-accent">New instance</Button>
       </Link>
       <Link to="/chart">
-        <Button>Instance</Button>
+        <Button className="btn-outline btn-info">Instance</Button>
       </Link>
     </div>
     <Footer />

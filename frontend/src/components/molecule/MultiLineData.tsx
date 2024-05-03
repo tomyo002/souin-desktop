@@ -9,7 +9,6 @@ type MultiLineDataProps = {
   labels: ReadonlyArray<string>;
   title: string;
   max: number;
-  authentication: string;
 };
 
 export const MultiLineData: React.FC<MultiLineDataProps> = ({
@@ -17,7 +16,6 @@ export const MultiLineData: React.FC<MultiLineDataProps> = ({
   labels,
   title,
   max,
-  authentication,
 }) => {
   const [multiData, setMultiData] = useState<ReadonlyArray<MultiDataTypes>>(
     labels.map(label => ({
@@ -30,7 +28,7 @@ export const MultiLineData: React.FC<MultiLineDataProps> = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      extractor(baseUrl, '/metrics', authentication).then(lines => {
+      extractor(baseUrl, '/metrics').then(lines => {
         setMultiData(currents =>
           currents.map(({ data, label, ...rest }) => ({
             data: [
@@ -59,7 +57,7 @@ export const MultiLineData: React.FC<MultiLineDataProps> = ({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [baseUrl, label, multiData, max, authentication]);
+  }, [baseUrl, label, multiData, max]);
 
   return (
     <>

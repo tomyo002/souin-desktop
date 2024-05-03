@@ -24,8 +24,9 @@ export type AllowedIcon =
   | 'user'
   | 'key'
   | 'server'
-  | 'chat-buble-left'
+  | 'chat'
   | 'chevron-down';
+
 function mapIcon(
   name: AllowedIcon,
 ): ComponentType<React.SVGProps<SVGSVGElement>> | undefined {
@@ -48,7 +49,7 @@ function mapIcon(
       return KeyIcon;
     case 'server':
       return ServerIcon;
-    case 'chat-buble-left':
+    case 'chat':
       return ChatBubbleLeftIcon;
     case 'chevron-down':
       return ChevronDownIcon;

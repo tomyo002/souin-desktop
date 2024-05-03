@@ -13,7 +13,7 @@ export const Navbar: React.FC<NavbarProps> = ({ name, baseUrl }) => (
     <div className="flex-1">
       <Link to="/">
         <span className="btn btn-ghost text-xl">
-          {name ? `${name}: ${baseUrl}` : `souin desktop`}
+          {name && baseUrl ? `${name}: ${baseUrl}` : 'souin desktop'}
           <Icon name="chevron-down" />
         </span>
       </Link>

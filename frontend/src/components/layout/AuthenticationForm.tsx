@@ -2,20 +2,23 @@ import React, { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { setAuthentication } from 'src/service';
 
-import { H1, Icon } from '../atomic';
+import { H1 } from '../atomic';
+import { Label } from '../molecule';
 
 export const AuthenticationForm: React.FC = () => {
   const navigate = useNavigate();
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    const name = formData.get('name') as string;
-    const baseUrl = formData.get('baseUrl') as string;
-    const login = formData.get('login') as string;
-    const password = formData.get('password') as string;
-    const authentication = btoa(`${login}:${password}`);
-    setAuthentication({ name, baseUrl, authentication });
+    const form = event.target as HTMLFormElement;
+    const data = {
+      name: (form.elements.namedItem('name') as HTMLInputElement).value,
+      baseUrl: (form.elements.namedItem('baseUrl') as HTMLInputElement).value,
+      authentication: btoa(
+        `${(form.elements.namedItem('login') as HTMLInputElement).value}:${(form.elements.namedItem('password') as HTMLInputElement).value}`,
+      ),
+    };
+    setAuthentication(data);
     navigate('/');
   };
 
@@ -23,23 +26,19 @@ export const AuthenticationForm: React.FC = () => {
     <>
       <H1 className="text-center" content="Authentication" />
       <form className="flex flex-col gap-8" onSubmit={submit}>
-        <label className="input input-bordered flex items-center gap-2">
-          <Icon name="chat-buble-left" />
+        <Label icon="chat">
           <input id="name" placeholder="Name" type="text" />
-        </label>
-        <label className="input input-bordered flex items-center gap-2">
-          <Icon name="server" />
+        </Label>
+        <Label icon="server">
           <input id="baseUrl" placeholder="Base url" type="text" />
-        </label>
-        <label className="input input-bordered flex items-center gap-2">
-          <Icon name="user" />
+        </Label>
+        <Label icon="user">
           <input id="login" placeholder="Login" type="text" />
-        </label>
-        <label className="input input-bordered flex items-center gap-2">
-          <Icon name="key" />
+        </Label>
+        <Label icon="key">
           <input id="password" placeholder="Password" type="password" />
-        </label>
-        <button className="btn" type="submit">
+        </Label>
+        <button className="btn btn-outline btn-success" type="submit">
           Submit
         </button>
       </form>

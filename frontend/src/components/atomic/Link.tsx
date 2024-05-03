@@ -7,6 +7,6 @@ type LinkProps = ClassName &
     to: string;
   };
 
-export const Link: React.FC<LinkProps> = ({ to, ...rest }) => (
-  <RouterLink to={to} {...rest} />
+export const Link: React.FC<LinkProps> = ({ ...props }) => (
+  <RouterLink {...props} />
 );

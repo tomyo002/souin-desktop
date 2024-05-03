@@ -1,6 +1,6 @@
 import parsePrometheusTextFormat from 'parse-prometheus-text-format';
 
-import { getAuthentication } from './authentication';
+import { getInstance } from './instance';
 
 export function fetcher(
   baseUrl: string,
@@ -15,11 +15,16 @@ export function fetcher(
 }
 
 export function extractor(baseUrl: string, endpoint: string) {
-  const { authentication } = getAuthentication();
+  const instance = getInstance();
 
-  return fetcher(baseUrl, endpoint, 'GET', {
-    Authorization: `Basic ${authentication}`,
-  })
+  return fetcher(
+    baseUrl,
+    endpoint,
+    'GET',
+    instance.authentication && {
+      Authorization: `Basic ${instance.authentication}`,
+    },
+  )
     .then(response => {
       switch (response.status) {
         case 401:
@@ -39,6 +44,3 @@ export function checkHealth(baseUrl: string) {
     return false;
   });
 }
-
-//case
-//object dans le fetch

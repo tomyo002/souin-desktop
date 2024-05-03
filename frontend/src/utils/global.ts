@@ -6,4 +6,8 @@ export type MultiDataTypes = {
   borderColor: string;
 };
 
-export type dataType = 'name' | 'baseUrl' | 'authentication';
+export type InstanceType = {
+  name: string;
+  baseUrl: string;
+  authentication?: string;
+};

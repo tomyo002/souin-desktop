@@ -1,3 +1,3 @@
 export * from './ChartPage';
 export * from './FormPage';
-export * from './Home';
+export * from './HomePage';

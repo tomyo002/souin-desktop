@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link, Icon } from '../atomic';
+import { Link } from '../atomic';
 import { HealthCheck } from '../molecule';
 
 type NavbarProps = {
@@ -14,7 +14,6 @@ export const Navbar: React.FC<NavbarProps> = ({ name, baseUrl }) => (
       <Link to="/">
         <span className="btn btn-ghost text-xl">
           {name && baseUrl ? `${name}: ${baseUrl}` : 'souin desktop'}
-          <Icon name="chevron-down" />
         </span>
       </Link>
     </div>

@@ -24,7 +24,7 @@ export type AllowedIcon =
   | 'user'
   | 'key'
   | 'server'
-  | 'chat'
+  | 'input.name'
   | 'chevron-down';
 
 function mapIcon(
@@ -49,7 +49,7 @@ function mapIcon(
       return KeyIcon;
     case 'server':
       return ServerIcon;
-    case 'chat':
+    case 'input.name':
       return ChatBubbleLeftIcon;
     case 'chevron-down':
       return ChevronDownIcon;

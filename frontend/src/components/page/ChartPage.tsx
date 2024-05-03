@@ -1,25 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { getAuthentication } from 'src/service';
-import { dataType } from 'src/utils';
 
 import { Navbar, Footer } from '../layout';
 import { MultiLineData } from '../molecule';
 
-export const ChartPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [data, setData] = useState<Record<dataType, string>>();
-  useEffect(() => {
-    try {
-      setData(getAuthentication);
-    } catch {
-      navigate('/form');
-    }
-  }, [navigate]);
-
-  return data ? (
-    <main>
-      <Navbar baseUrl={data.baseUrl} name={data.name} />
+const data = getAuthentication();
+export const ChartPage: React.FC = () => (
+  <main>
+    <Navbar baseUrl={data.baseUrl} name={data.name} />
+    {data ? (
       <div className="grid grid-cols-2 gap-8">
         <MultiLineData
           baseUrl={data.baseUrl}
@@ -53,7 +42,9 @@ export const ChartPage: React.FC = () => {
           title="Process"
         />
       </div>
-      <Footer />
-    </main>
-  ) : undefined;
-};
+    ) : (
+      <span>unable to launch a fetch</span>
+    )}
+    <Footer />
+  </main>
+);

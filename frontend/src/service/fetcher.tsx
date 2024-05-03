@@ -16,15 +16,17 @@ export function fetcher(
 
 export function extractor(baseUrl: string, endpoint: string) {
   const { authentication } = getAuthentication();
-  const headers = {
+
+  return fetcher(baseUrl, endpoint, 'GET', {
     Authorization: `Basic ${authentication}`,
-  };
-  return fetcher(baseUrl, endpoint, 'GET', headers)
+  })
     .then(response => {
-      if (!response.ok) {
-        throw new Error('Authentication is not correct');
+      switch (response.status) {
+        case 401:
+          throw new Error();
+        default:
+          return response.text();
       }
-      return response.text();
     })
     .then(parsePrometheusTextFormat)
     .catch(() => {
@@ -37,3 +39,6 @@ export function checkHealth(baseUrl: string) {
     return false;
   });
 }
+
+//case
+//object dans le fetch

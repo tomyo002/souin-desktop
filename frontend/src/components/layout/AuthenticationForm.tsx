@@ -26,7 +26,7 @@ export const AuthenticationForm: React.FC = () => {
     <>
       <H1 className="text-center" content="Authentication" />
       <form className="flex flex-col gap-8" onSubmit={submit}>
-        <Label icon="chat">
+        <Label icon="input.name">
           <input id="name" placeholder="Name" type="text" />
         </Label>
         <Label icon="server">

@@ -1,25 +1,41 @@
 import parsePrometheusTextFormat from 'parse-prometheus-text-format';
 
+import { getInstance } from './instance';
+
 export function fetcher(
   baseUrl: string,
   endpoint: string,
   method: string = 'GET',
+  headers?: Record<string, string>,
 ) {
   return fetch(`${baseUrl}${endpoint}`, {
     method: method,
-    headers: {
-      Authorization: `Basic dGVzdDp0ZXN0`,
-    },
+    headers,
   });
 }
 
 export function extractor(baseUrl: string, endpoint: string) {
-  return fetcher(baseUrl, endpoint)
-    .then(response => response.text())
+  const instance = getInstance();
+
+  return fetcher(
+    baseUrl,
+    endpoint,
+    'GET',
+    instance.authentication && {
+      Authorization: `Basic ${instance.authentication}`,
+    },
+  )
+    .then(response => {
+      switch (true) {
+        case response.status >= 400:
+          throw new Error();
+        default:
+          return response.text();
+      }
+    })
     .then(parsePrometheusTextFormat)
-    .catch(error => {
+    .catch(() => {
       return null;
-      console.warn(error);
     });
 }
 

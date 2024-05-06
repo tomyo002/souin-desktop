@@ -1,9 +1,14 @@
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
+  ChatBubbleLeftIcon,
   CheckCircleIcon,
+  ChevronDownIcon,
   Cog6ToothIcon,
+  KeyIcon,
+  ServerIcon,
   TrashIcon,
+  UserIcon,
   XCircleIcon,
 } from '@heroicons/react/16/solid';
 import React, { ComponentType } from 'react';
@@ -15,7 +20,12 @@ export type AllowedIcon =
   | 'trash'
   | 'settings'
   | 'check-circle'
-  | 'x-circle';
+  | 'x-circle'
+  | 'user'
+  | 'key'
+  | 'server'
+  | 'input.name'
+  | 'chevron-down';
 
 function mapIcon(
   name: AllowedIcon,
@@ -33,6 +43,16 @@ function mapIcon(
       return CheckCircleIcon;
     case 'x-circle':
       return XCircleIcon;
+    case 'user':
+      return UserIcon;
+    case 'key':
+      return KeyIcon;
+    case 'server':
+      return ServerIcon;
+    case 'input.name':
+      return ChatBubbleLeftIcon;
+    case 'chevron-down':
+      return ChevronDownIcon;
     default:
       return Cog6ToothIcon;
   }

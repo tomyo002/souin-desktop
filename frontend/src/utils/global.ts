@@ -5,3 +5,14 @@ export type MultiDataTypes = {
   data: ReadonlyArray<number>;
   borderColor: string;
 };
+
+export type InstanceType = {
+  name: string;
+  baseUrl: string;
+  authentication?: string;
+};
+
+export type InstanceProps = {
+  name?: string;
+  baseUrl?: string;
+};

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { extractor } from 'src/service/fetcher';
+import { extractor } from 'src/service';
 import { MultiDataTypes } from 'src/utils';
 
 import { Card, Line } from '.';

@@ -1,25 +1,24 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { getInstance } from 'src/service';
-import { Path } from 'src/utils';
+import { path } from 'src/utils';
 
-import { Button, H1, Link } from '../atomic';
-import { Main } from '../layout';
+import { Button, H1 } from '../atomic';
+import { Layout } from '../layout';
 
 export const HomePage: React.FC = () => {
   const instance = getInstance();
   return (
-    <Main>
+    <Layout>
       <H1 content="Welcome on Souin Desktop" />
-      <Link to={Path.form}>
+      <Link to={path.FORM}>
         <Button className="btn-outline btn-accent">New instance</Button>
       </Link>
       {instance && (
-        <Link to={Path.chart}>
+        <Link to={path.CHART}>
           <Button className="btn-outline btn-info">Instance</Button>
         </Link>
       )}
-    </Main>
+    </Layout>
   );
 };
-
-//layout

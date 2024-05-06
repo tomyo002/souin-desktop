@@ -26,8 +26,8 @@ export function extractor(baseUrl: string, endpoint: string) {
     },
   )
     .then(response => {
-      switch (response.status) {
-        case 401:
+      switch (true) {
+        case response.status >= 400:
           throw new Error();
         default:
           return response.text();

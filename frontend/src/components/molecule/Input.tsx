@@ -3,16 +3,18 @@ import { ClassName } from 'src/utils';
 
 import { AllowedIcon, Icon } from '../atomic/Icon';
 
-type LabelProps = ClassName &
-  React.PropsWithChildren & {
-    icon: AllowedIcon;
-  };
+type InputProps = ClassName & {
+  icon: AllowedIcon;
+  type: string;
+  placeholder: string;
+  id: string;
+};
 
-export const Label: React.FC<LabelProps> = ({ className, children, icon }) => (
+export const Input: React.FC<InputProps> = ({ className, icon, ...rest }) => (
   <label
     className={`input input-bordered flex items-center gap-2 ${className}`}
   >
     <Icon name={icon} />
-    {children}
+    <input {...rest} />
   </label>
 );

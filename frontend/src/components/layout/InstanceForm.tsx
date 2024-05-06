@@ -12,24 +12,25 @@ export const InstanceForm: React.FC = () => {
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const createInstance = (event: FormEvent<HTMLFormElement>) => {
-      const form = event.target as HTMLFormElement;
-      const instance: InstanceType = {
-        name: (form.elements.namedItem('name') as HTMLInputElement).value,
-        baseUrl: (form.elements.namedItem('baseUrl') as HTMLInputElement).value,
-      };
-      if (isAuthenticated) {
-        return {
-          ...instance,
-          authentication: btoa(
-            `${(form.elements.namedItem('login') as HTMLInputElement).value}:${(form.elements.namedItem('password') as HTMLInputElement).value}`,
-          ),
-        };
-      }
-      return instance;
-    };
     setInstance(createInstance(event));
     navigate(path.HOME);
+  };
+
+  const createInstance = (event: FormEvent<HTMLFormElement>) => {
+    const form = event.target as HTMLFormElement;
+    const instance: InstanceType = {
+      name: (form.elements.namedItem('name') as HTMLInputElement).value,
+      baseUrl: (form.elements.namedItem('baseUrl') as HTMLInputElement).value,
+    };
+    if (isAuthenticated) {
+      return {
+        ...instance,
+        authentication: btoa(
+          `${(form.elements.namedItem('login') as HTMLInputElement).value}:${(form.elements.namedItem('password') as HTMLInputElement).value}`,
+        ),
+      };
+    }
+    return instance;
   };
 
   return (

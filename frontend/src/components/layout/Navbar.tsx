@@ -1,15 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { path } from 'src/utils';
+import { InstanceProps, path } from 'src/utils';
 
 import { HealthCheck } from '../molecule';
 
-type NavbarProps = {
-  name?: string;
-  baseUrl?: string;
-};
-
-export const Navbar: React.FC<NavbarProps> = ({ name, baseUrl }) => (
+export const Navbar: React.FC<InstanceProps> = ({ name, baseUrl }) => (
   <div className="navbar bg-neutral text-neutral-content">
     <div className="flex-1">
       <Link to={path.HOME}>

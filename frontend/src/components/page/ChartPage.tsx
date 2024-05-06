@@ -1,14 +1,13 @@
 import React from 'react';
 import { getInstance } from 'src/service';
 
-import { Navbar, Footer } from '../layout';
+import { Layout } from '../layout';
 import { MultiLineData } from '../molecule';
 
 export const ChartPage: React.FC = () => {
   const instance = getInstance();
   return (
-    <main>
-      <Navbar baseUrl={instance.baseUrl} name={instance.name} />
+    <Layout baseUrl={instance.baseUrl} name={instance.name}>
       <div className="grid grid-cols-2 gap-8">
         <MultiLineData
           baseUrl={instance.baseUrl}
@@ -42,7 +41,6 @@ export const ChartPage: React.FC = () => {
           title="Process"
         />
       </div>
-      <Footer />
-    </main>
+    </Layout>
   );
 };

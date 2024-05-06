@@ -11,3 +11,8 @@ export type InstanceType = {
   baseUrl: string;
   authentication?: string;
 };
+
+export type InstanceProps = {
+  name?: string;
+  baseUrl?: string;
+};

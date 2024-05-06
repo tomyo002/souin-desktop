@@ -1,7 +1,5 @@
 import parsePrometheusTextFormat from 'parse-prometheus-text-format';
 
-import { getInstance } from './instance';
-
 export function fetcher(
   baseUrl: string,
   endpoint: string,
@@ -14,16 +12,20 @@ export function fetcher(
   });
 }
 
-export function extractor(baseUrl: string, endpoint: string) {
-  const instance = getInstance();
-
+export function extractor(
+  baseUrl: string,
+  endpoint: string,
+  authentication?: string,
+) {
   return fetcher(
     baseUrl,
     endpoint,
     'GET',
-    instance.authentication && {
-      Authorization: `Basic ${instance.authentication}`,
-    },
+    authentication
+      ? {
+          Authorization: `Basic ${authentication}`,
+        }
+      : undefined,
   )
     .then(response => {
       switch (true) {

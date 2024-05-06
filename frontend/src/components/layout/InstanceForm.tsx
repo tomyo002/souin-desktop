@@ -1,5 +1,6 @@
 import React, { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSetInstances } from 'src/context';
 import { setInstance } from 'src/service';
 import { path, InstanceType } from 'src/utils';
 
@@ -8,11 +9,13 @@ import { Input } from '../molecule';
 
 export const InstanceForm: React.FC = () => {
   const navigate = useNavigate();
+  const setInstances = useSetInstances();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setInstance(createInstance(event));
+    setInstances();
     navigate(path.HOME);
   };
 

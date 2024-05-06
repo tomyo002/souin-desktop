@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { useCurrentInstance } from 'src/context';
 import { extractor } from 'src/service';
 import { MultiDataTypes } from 'src/utils';
 
 import { Card, Line } from '.';
 
 type MultiLineDataProps = {
-  baseUrl: string;
   labels: ReadonlyArray<string>;
   title: string;
   max: number;
 };
 
 export const MultiLineData: React.FC<MultiLineDataProps> = ({
-  baseUrl,
   labels,
   title,
   max,
 }) => {
+  const instance = useCurrentInstance();
   const [multiData, setMultiData] = useState<ReadonlyArray<MultiDataTypes>>(
     labels.map(label => ({
       label: label,
@@ -28,23 +28,25 @@ export const MultiLineData: React.FC<MultiLineDataProps> = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      extractor(baseUrl, '/metrics').then(lines => {
-        setMultiData(currents =>
-          currents.map(({ data, label, ...rest }) => ({
-            data: [
-              ...(data.length >= max ? data.slice(1) : data),
-              !lines
-                ? 0
-                : parseFloat(
-                    lines[lines.findIndex(line => line.name === label)]
-                      .metrics[0].value,
-                  ),
-            ],
-            label,
-            ...rest,
-          })),
-        );
-      });
+      extractor(instance.baseUrl, '/metrics', instance.authentication).then(
+        lines => {
+          setMultiData(currents =>
+            currents.map(({ data, label, ...rest }) => ({
+              data: [
+                ...(data.length >= max ? data.slice(1) : data),
+                !lines
+                  ? 0
+                  : parseFloat(
+                      lines[lines.findIndex(line => line.name === label)]
+                        .metrics[0].value,
+                    ),
+              ],
+              label,
+              ...rest,
+            })),
+          );
+        },
+      );
 
       setlabel(current => [
         ...(current.length >= max ? current.slice(1) : current),
@@ -57,7 +59,7 @@ export const MultiLineData: React.FC<MultiLineDataProps> = ({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [baseUrl, label, multiData, max]);
+  }, [instance, label, multiData, max]);
 
   return (
     <>

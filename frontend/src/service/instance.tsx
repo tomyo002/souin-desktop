@@ -9,7 +9,7 @@ export function setInstances(instances: ReadonlyArray<InstanceType>) {
 export function getAllInstances(): ReadonlyArray<InstanceType> {
   const storedDataJSON = localStorage.getItem(instanceData);
   if (storedDataJSON) {
-    return JSON.parse(storedDataJSON);
+    return JSON.parse(storedDataJSON)[id];
   }
   return [];
 }

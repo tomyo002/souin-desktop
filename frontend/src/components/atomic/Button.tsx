@@ -13,6 +13,4 @@ export const Button: React.FC<ButtonProps> = ({ className, ...rest }) => (
 export const ButtonOutline: React.FC<ButtonProps> = ({
   className,
   ...rest
-}) => {
-  return <Button className={`btn-outline ${className}`} {...rest} />;
-};
+}) => <Button className={`btn-outline ${className}`} {...rest} />;

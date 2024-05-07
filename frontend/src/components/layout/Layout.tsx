@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMenu, useSetMenu } from 'src/context/MenuProvider';
+import { useMenu, useSetMenu } from 'src/context';
 import { InstanceProps } from 'src/utils';
 
 import { Footer } from './Footer';
@@ -13,6 +13,7 @@ export const Layout: React.FC<React.PropsWithChildren & InstanceProps> = ({
 }) => {
   const isMenu = useMenu();
   const setIsMenu = useSetMenu();
+
   return (
     <div className="flex flex-1">
       {isMenu && <Menu />}

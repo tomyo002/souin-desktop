@@ -5,7 +5,7 @@ import { InstanceProps, path } from 'src/utils';
 import { Button, Icon } from '../atomic';
 import { HealthCheck } from '../molecule';
 type NavbarProps = InstanceProps & {
-  menuClick?: () => void;
+  menuClick: () => void;
 };
 export const Navbar: React.FC<NavbarProps> = ({ name, baseUrl, menuClick }) => (
   <div className="navbar bg-neutral text-neutral-content">

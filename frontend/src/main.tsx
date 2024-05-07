@@ -4,8 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import './style.css';
 import App from './App';
-import { InstancesProvider } from './context';
-import { MenuProvider } from './context/MenuProvider';
+import { InstancesProvider, MenuProvider } from './context';
 
 const container = document.getElementById('root');
 

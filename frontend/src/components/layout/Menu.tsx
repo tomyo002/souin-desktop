@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   useAllInstances,
   useSetCurrentInstance,
@@ -15,6 +15,7 @@ export const Menu: React.FC = () => {
   const instances = useAllInstances();
   const setInstances = useSetInstances();
   const setCurrentInstance = useSetCurrentInstance();
+  const navigate = useNavigate();
 
   return (
     <Card title="instances">
@@ -23,9 +24,18 @@ export const Menu: React.FC = () => {
         onClick={() => {
           resetAll();
           setInstances();
+          navigate(path.HOME);
         }}
       >
         <Icon name="trash" />
+      </ButtonOutline>
+      <ButtonOutline
+        className="btn-success"
+        onClick={() => {
+          navigate(path.FORM);
+        }}
+      >
+        <Icon name="plus" />
       </ButtonOutline>
       {instances.map(instance => (
         <Link key={instance.name} to={path.CHART}>

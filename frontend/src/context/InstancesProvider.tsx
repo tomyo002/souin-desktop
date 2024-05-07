@@ -27,12 +27,16 @@ export const InstancesProvider: React.FC<React.PropsWithChildren> = ({
   const [currentInstance, setCurrentInstance] = useState<InstanceType>(
     instances[0],
   );
+  const updateInstanes = (instances: ReadonlyArray<InstanceType>) => {
+    setInstances(instances);
+    setCurrentInstance(instances[instances.length - 1]);
+  };
 
   return (
     <InstanceContext.Provider
       value={{
         instances,
-        setInstances,
+        setInstances: updateInstanes,
         currentInstance,
         setCurrentInstance,
       }}

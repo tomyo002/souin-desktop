@@ -1,11 +1,13 @@
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
+  Bars3Icon,
   ChatBubbleLeftIcon,
   CheckCircleIcon,
   ChevronDownIcon,
   Cog6ToothIcon,
   KeyIcon,
+  PlusCircleIcon,
   ServerIcon,
   TrashIcon,
   UserIcon,
@@ -25,7 +27,9 @@ export type AllowedIcon =
   | 'key'
   | 'server'
   | 'input.name'
-  | 'chevron-down';
+  | 'chevron-down'
+  | 'plus'
+  | 'menu';
 
 function mapIcon(
   name: AllowedIcon,
@@ -53,6 +57,10 @@ function mapIcon(
       return ChatBubbleLeftIcon;
     case 'chevron-down':
       return ChevronDownIcon;
+    case 'plus':
+      return PlusCircleIcon;
+    case 'menu':
+      return Bars3Icon;
     default:
       return Cog6ToothIcon;
   }

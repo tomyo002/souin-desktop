@@ -23,3 +23,16 @@ export function getAllInstances(): ReadonlyArray<InstanceType> {
 export function resetAll() {
   localStorage.clear();
 }
+
+export function deleteInstance(instance: InstanceType) {
+  const instances = getAllInstances();
+  localStorage.setItem(
+    'instanceData',
+    JSON.stringify(
+      instances.filter(
+        inst =>
+          inst.name !== instance.name && inst.baseUrl !== instance.baseUrl,
+      ),
+    ),
+  );
+}

@@ -5,7 +5,7 @@ import {
   useSetCurrentInstance,
   useSetInstances,
 } from 'src/context';
-import { resetAll } from 'src/service';
+import { deleteInstance, resetAll } from 'src/service';
 import { path } from 'src/utils';
 
 import { Button, ButtonOutline, Icon } from '../atomic';
@@ -18,7 +18,40 @@ export const Menu: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <Card title="instances">
+    <Card title="Instances">
+      <div className="flex-1">
+        {instances.map(instance => (
+          <div className="flex" key={instance.name}>
+            <Link className="flex-1" to={path.CHART}>
+              <Button
+                onClick={() => {
+                  setCurrentInstance(instance);
+                }}
+              >
+                {instance.name} : {instance.baseUrl}
+              </Button>
+            </Link>
+            <ButtonOutline
+              className="btn-error"
+              onClick={() => {
+                deleteInstance(instance);
+                setInstances();
+                navigate(path.HOME);
+              }}
+            >
+              <Icon name="trash" />
+            </ButtonOutline>
+          </div>
+        ))}
+      </div>
+      <ButtonOutline
+        className="btn-success"
+        onClick={() => {
+          navigate(path.FORM);
+        }}
+      >
+        <Icon name="plus" />
+      </ButtonOutline>
       <ButtonOutline
         className="btn-error"
         onClick={() => {
@@ -29,25 +62,6 @@ export const Menu: React.FC = () => {
       >
         <Icon name="trash" />
       </ButtonOutline>
-      <ButtonOutline
-        className="btn-success"
-        onClick={() => {
-          navigate(path.FORM);
-        }}
-      >
-        <Icon name="plus" />
-      </ButtonOutline>
-      {instances.map(instance => (
-        <Link key={instance.name} to={path.CHART}>
-          <Button
-            onClick={() => {
-              setCurrentInstance(instance);
-            }}
-          >
-            {instance.name} : {instance.baseUrl}
-          </Button>
-        </Link>
-      ))}
     </Card>
   );
 };

@@ -13,7 +13,7 @@ export const MenuProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
   const [isMenu, setIsMenu] = useState(false);
-  const updateIsMenu = () => {
+  const toggle = () => {
     setIsMenu(!isMenu);
   };
 
@@ -21,7 +21,7 @@ export const MenuProvider: React.FC<React.PropsWithChildren> = ({
     <menuContext.Provider
       value={{
         isMenu,
-        toggle: updateIsMenu,
+        toggle,
       }}
     >
       {children}

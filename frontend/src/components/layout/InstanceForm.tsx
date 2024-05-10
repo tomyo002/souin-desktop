@@ -6,11 +6,7 @@ import { path, InstanceType } from 'src/utils';
 import { H1 } from '../atomic';
 import { Input } from '../molecule';
 
-const createInstance = (
-  event: FormEvent<HTMLFormElement>,
-  isAuthenticated: boolean,
-) => {
-  const form = event.target as HTMLFormElement;
+const createInstance = (form: HTMLFormElement, isAuthenticated: boolean) => {
   const instance: InstanceType = {
     name: (form.elements.namedItem('name') as HTMLInputElement).value,
     baseUrl: (form.elements.namedItem('baseUrl') as HTMLInputElement).value,
@@ -33,7 +29,10 @@ export const InstanceForm: React.FC = () => {
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setInstances([...instances, createInstance(event, isAuthenticated)]);
+    setInstances([
+      ...instances,
+      createInstance(event.target as HTMLFormElement, isAuthenticated),
+    ]);
     navigate(path.HOME);
   };
 

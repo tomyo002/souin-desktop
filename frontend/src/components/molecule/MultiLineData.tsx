@@ -28,25 +28,23 @@ export const MultiLineData: React.FC<MultiLineDataProps> = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      extractor(instance.baseUrl, '/metrics', instance.authentication).then(
-        lines => {
-          setMultiData(currents =>
-            currents.map(({ data, label, ...rest }) => ({
-              data: [
-                ...(data.length >= max ? data.slice(1) : data),
-                !lines
-                  ? 0
-                  : parseFloat(
-                      lines[lines.findIndex(line => line.name === label)]
-                        .metrics[0].value,
-                    ),
-              ],
-              label,
-              ...rest,
-            })),
-          );
-        },
-      );
+      extractor(instance, '/metrics').then(lines => {
+        setMultiData(currents =>
+          currents.map(({ data, label, ...rest }) => ({
+            data: [
+              ...(data.length >= max ? data.slice(1) : data),
+              !lines
+                ? 0
+                : parseFloat(
+                    lines[lines.findIndex(line => line.name === label)]
+                      .metrics[0].value,
+                  ),
+            ],
+            label,
+            ...rest,
+          })),
+        );
+      });
 
       setlabel(current => [
         ...(current.length >= max ? current.slice(1) : current),

@@ -2,11 +2,11 @@ import React, { createContext, useContext, useState } from 'react';
 
 type menuContextProps = {
   isMenu: boolean;
-  setIsMenu: () => void;
+  toggle: () => void;
 };
 const menuContext = createContext<menuContextProps>({
   isMenu: false,
-  setIsMenu: () => {},
+  toggle: () => {},
 });
 
 export const MenuProvider: React.FC<React.PropsWithChildren> = ({
@@ -21,7 +21,7 @@ export const MenuProvider: React.FC<React.PropsWithChildren> = ({
     <menuContext.Provider
       value={{
         isMenu,
-        setIsMenu: updateIsMenu,
+        toggle: updateIsMenu,
       }}
     >
       {children}
@@ -29,14 +29,6 @@ export const MenuProvider: React.FC<React.PropsWithChildren> = ({
   );
 };
 
-export const useMenu = () => {
-  const { isMenu } = useContext(menuContext);
-  return isMenu;
-};
-
-export const useSetMenu = () => {
-  const { setIsMenu } = useContext(menuContext);
-  return () => {
-    setIsMenu();
-  };
+export const useMenuContext = () => {
+  return useContext(menuContext);
 };

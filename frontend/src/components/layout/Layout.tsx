@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMenu, useSetMenu } from 'src/context';
+import { useMenuContext } from 'src/context';
 import { InstanceProps } from 'src/utils';
 
 import { Footer } from './Footer';
@@ -8,17 +8,15 @@ import { Navbar } from './Navbar';
 
 export const Layout: React.FC<React.PropsWithChildren & InstanceProps> = ({
   children,
-  baseUrl,
-  name,
+  ...rest
 }) => {
-  const isMenu = useMenu();
-  const setIsMenu = useSetMenu();
+  const { isMenu, toggle } = useMenuContext();
 
   return (
     <div className="flex flex-1">
       {isMenu && <Menu />}
       <main className="flex flex-col">
-        <Navbar baseUrl={baseUrl} menuClick={setIsMenu} name={name} />
+        <Navbar menuClick={toggle} {...rest} />
         <div className="flex flex-col justify-center items-center flex-1 gap-8">
           {children}
         </div>

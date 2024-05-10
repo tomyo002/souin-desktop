@@ -1,19 +1,13 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  useAllInstances,
-  useSetCurrentInstance,
-  useSetInstances,
-} from 'src/context';
-import { deleteInstance, resetAll } from 'src/service';
+import { useInstances, useSetCurrentInstance } from 'src/context';
 import { path } from 'src/utils';
 
 import { Button, ButtonOutline, Icon } from '../atomic';
 import { Card } from '../molecule';
 
 export const Menu: React.FC = () => {
-  const instances = useAllInstances();
-  const setInstances = useSetInstances();
+  const { instances, setInstances } = useInstances();
   const setCurrentInstance = useSetCurrentInstance();
   const navigate = useNavigate();
 
@@ -34,8 +28,13 @@ export const Menu: React.FC = () => {
             <ButtonOutline
               className="btn-error"
               onClick={() => {
-                deleteInstance(instance);
-                setInstances();
+                setInstances(
+                  instances.filter(
+                    inst =>
+                      inst.name !== instance.name ||
+                      inst.baseUrl !== instance.baseUrl,
+                  ),
+                );
                 navigate(path.HOME);
               }}
             >
@@ -55,8 +54,7 @@ export const Menu: React.FC = () => {
       <ButtonOutline
         className="btn-error"
         onClick={() => {
-          resetAll();
-          setInstances();
+          setInstances([]);
           navigate(path.HOME);
         }}
       >

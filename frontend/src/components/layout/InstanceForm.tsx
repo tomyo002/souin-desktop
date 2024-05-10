@@ -1,39 +1,40 @@
 import React, { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetInstances } from 'src/context';
-import { setInstance } from 'src/service';
+import { useInstances } from 'src/context';
 import { path, InstanceType } from 'src/utils';
 
 import { H1 } from '../atomic';
 import { Input } from '../molecule';
 
+const createInstance = (
+  event: FormEvent<HTMLFormElement>,
+  isAuthenticated: boolean,
+) => {
+  const form = event.target as HTMLFormElement;
+  const instance: InstanceType = {
+    name: (form.elements.namedItem('name') as HTMLInputElement).value,
+    baseUrl: (form.elements.namedItem('baseUrl') as HTMLInputElement).value,
+  };
+  if (isAuthenticated) {
+    return {
+      ...instance,
+      authentication: btoa(
+        `${(form.elements.namedItem('login') as HTMLInputElement).value}:${(form.elements.namedItem('password') as HTMLInputElement).value}`,
+      ),
+    };
+  }
+  return instance;
+};
+
 export const InstanceForm: React.FC = () => {
   const navigate = useNavigate();
-  const setInstances = useSetInstances();
+  const { instances, setInstances } = useInstances();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setInstance(createInstance(event));
-    setInstances();
+    setInstances([...instances, createInstance(event, isAuthenticated)]);
     navigate(path.HOME);
-  };
-
-  const createInstance = (event: FormEvent<HTMLFormElement>) => {
-    const form = event.target as HTMLFormElement;
-    const instance: InstanceType = {
-      name: (form.elements.namedItem('name') as HTMLInputElement).value,
-      baseUrl: (form.elements.namedItem('baseUrl') as HTMLInputElement).value,
-    };
-    if (isAuthenticated) {
-      return {
-        ...instance,
-        authentication: btoa(
-          `${(form.elements.namedItem('login') as HTMLInputElement).value}:${(form.elements.namedItem('password') as HTMLInputElement).value}`,
-        ),
-      };
-    }
-    return instance;
   };
 
   return (

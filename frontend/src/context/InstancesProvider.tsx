@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useState } from 'react';
-import { getAllInstances } from 'src/service';
+import {
+  getAllInstances,
+  setInstances as setInstancesStorage,
+} from 'src/service';
 import { InstanceType } from 'src/utils';
 
 type instancesContextProps = {
@@ -8,7 +11,7 @@ type instancesContextProps = {
   setInstances: (instances: ReadonlyArray<InstanceType>) => void;
   setCurrentInstance: (instance: InstanceType) => void;
 };
-
+const allInstances = getAllInstances();
 const InstanceContext = createContext<instancesContextProps>({
   instances: getAllInstances(),
   currentInstance: getAllInstances()[0],
@@ -23,20 +26,21 @@ const InstanceContext = createContext<instancesContextProps>({
 export const InstancesProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const [instances, setInstances] = useState(getAllInstances());
+  const [instances, setInstances] = useState(allInstances);
   const [currentInstance, setCurrentInstance] = useState<InstanceType>(
-    instances[0],
+    allInstances[0],
   );
-  const updateInstanes = (instances: ReadonlyArray<InstanceType>) => {
-    setInstances(instances);
-    setCurrentInstance(instances[instances.length - 1]);
+  const updateInstances = (NewInstances: ReadonlyArray<InstanceType>) => {
+    setInstances(NewInstances);
+    setInstancesStorage(NewInstances);
+    setCurrentInstance(NewInstances[NewInstances.length - 1]);
   };
 
   return (
     <InstanceContext.Provider
       value={{
         instances,
-        setInstances: updateInstanes,
+        setInstances: updateInstances,
         currentInstance,
         setCurrentInstance,
       }}
@@ -53,9 +57,7 @@ export const useAllInstances = () => {
 
 export const useSetInstances = () => {
   const { setInstances } = useContext(InstanceContext);
-  return () => {
-    setInstances(getAllInstances());
-  };
+  return setInstances;
 };
 
 export const useCurrentInstance = () => {
@@ -65,7 +67,10 @@ export const useCurrentInstance = () => {
 
 export const useSetCurrentInstance = () => {
   const { setCurrentInstance } = useContext(InstanceContext);
-  return (instance: InstanceType) => {
-    setCurrentInstance(instance);
-  };
+  return setCurrentInstance;
+};
+
+export const useInstances = () => {
+  const { instances, setInstances } = useContext(InstanceContext);
+  return { instances, setInstances };
 };

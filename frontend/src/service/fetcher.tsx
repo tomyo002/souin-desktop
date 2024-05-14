@@ -43,18 +43,16 @@ function header(instance: InstanceType) {
   const head: Record<string, string> = {};
   switch (authentication.type) {
     case 'basicauth':
-      head['Authorization'] = `Basic ${authentication.token}`;
+      head[authentication.header] = `Basic ${authentication.token}`;
       break;
     case 'apikey':
-      head['X-API-Key'] = authentication.token;
+      head[authentication.header] = authentication.token;
       break;
     case 'JWT':
-      head['Authorization'] = `Bearer ${authentication.token}`;
+      head[authentication.header] = `Bearer ${authentication.token}`;
       break;
     default:
       throw new Error('Unsupported authentication type');
   }
   return head;
 }
-
-// modifiable x-api-key

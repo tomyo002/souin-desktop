@@ -17,4 +17,4 @@ export type InstanceProps = {
   baseUrl?: string;
 };
 
-type authenticationType = 'type' | 'token';
+type authenticationType = 'type' | 'token' | 'header';

@@ -32,6 +32,7 @@ const createInstance = (
     'password',
     'apikey',
     'jwt',
+    'header',
   );
   const instance: InstanceType = {
     name: elements['name'],
@@ -45,10 +46,12 @@ const createInstance = (
         : typeAuth === 'JWT'
           ? elements['jwt']
           : btoa(`${elements['login']}:${elements['password']}`);
+    const header: string =
+      typeAuth === 'apikey' ? elements['header'] : 'Authorization';
 
     return {
       ...instance,
-      authentication: { type: typeAuth, token },
+      authentication: { type: typeAuth, token, header },
     };
   }
   return instance;
@@ -118,7 +121,20 @@ export const InstanceForm: React.FC = () => {
                 />
               </>
             ) : typeAuth === 'apikey' ? (
-              <Input icon="key" id="apikey" placeholder="API Key" type="text" />
+              <>
+                <Input
+                  icon="input.header"
+                  id="header"
+                  placeholder="Header"
+                  type="text"
+                />
+                <Input
+                  icon="key"
+                  id="apikey"
+                  placeholder="API Key"
+                  type="text"
+                />
+              </>
             ) : (
               typeAuth === 'JWT' && (
                 <Input

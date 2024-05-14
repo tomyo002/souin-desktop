@@ -6,17 +6,35 @@ import { path, InstanceType } from 'src/utils';
 import { H1 } from '../atomic';
 import { Input } from '../molecule';
 
+const defaultArrayFormElements: Record<string, string> = {};
+const getFormElements = (
+  form: HTMLFormElement,
+  ...names: ReadonlyArray<string>
+) => {
+  return names.reduce((acc, current) => {
+    acc[current] = (
+      form.elements.namedItem(current) as HTMLInputElement
+    )?.value;
+    return acc;
+  }, defaultArrayFormElements);
+};
+
 const createInstance = (form: HTMLFormElement, isAuthenticated: boolean) => {
+  const elements = getFormElements(
+    form,
+    'name',
+    'baseUrl',
+    'login',
+    'password',
+  );
   const instance: InstanceType = {
-    name: (form.elements.namedItem('name') as HTMLInputElement).value,
-    baseUrl: (form.elements.namedItem('baseUrl') as HTMLInputElement).value,
+    name: elements['name'],
+    baseUrl: elements['baseUrl'],
   };
   if (isAuthenticated) {
     return {
       ...instance,
-      authentication: btoa(
-        `${(form.elements.namedItem('login') as HTMLInputElement).value}:${(form.elements.namedItem('password') as HTMLInputElement).value}`,
-      ),
+      authentication: btoa(`${elements['login']}:${elements['password']}`),
     };
   }
   return instance;

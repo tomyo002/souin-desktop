@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInstances } from 'src/context';
 import { path, InstanceType } from 'src/utils';
@@ -31,7 +31,17 @@ const createInstance = (form: HTMLFormElement, isAuthenticated: boolean) => {
     name: elements['name'],
     baseUrl: elements['baseUrl'],
   };
+
   if (isAuthenticated) {
+    const token: string =
+      typeAuth === 'apikey'
+        ? (form.elements.namedItem('apikey') as HTMLInputElement).value
+        : typeAuth === 'JWT'
+          ? (form.elements.namedItem('jwt') as HTMLInputElement).value
+          : btoa(
+              `${(form.elements.namedItem('login') as HTMLInputElement).value}:${(form.elements.namedItem('password') as HTMLInputElement).value}`,
+            );
+
     return {
       ...instance,
       authentication: btoa(`${elements['login']}:${elements['password']}`),
@@ -44,14 +54,25 @@ export const InstanceForm: React.FC = () => {
   const navigate = useNavigate();
   const { instances, setInstances } = useInstances();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [typeAuth, setTypeAuth] = useState('basicauth');
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setInstances([
       ...instances,
-      createInstance(event.target as HTMLFormElement, isAuthenticated),
+      createInstance(
+        event.target as HTMLFormElement,
+        isAuthenticated,
+        typeAuth,
+      ),
     ]);
     navigate(path.HOME);
+  };
+
+  const Change = (event: ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault();
+    const form = event.target as HTMLSelectElement;
+    setTypeAuth(form.value);
   };
 
   return (
@@ -63,6 +84,7 @@ export const InstanceForm: React.FC = () => {
           className="toggle"
           onClick={() => {
             setIsAuthenticated(!isAuthenticated);
+            setTypeAuth('basicauth');
           }}
           type="checkbox"
         />
@@ -72,13 +94,32 @@ export const InstanceForm: React.FC = () => {
         <Input icon="server" id="baseUrl" placeholder="Base url" type="text" />
         {isAuthenticated && (
           <>
-            <Input icon="user" id="login" placeholder="Login" type="text" />
-            <Input
-              icon="key"
-              id="password"
-              placeholder="Password"
-              type="password"
-            />
+            <select
+              className="select select-bordered w-full max-w-xs"
+              id="type-authentication"
+              onChange={Change}
+            >
+              <option value="basicauth">Basic auth</option>
+              <option value="apikey">API Key</option>
+              <option value="JWT">JSON Web Token</option>
+            </select>
+            {typeAuth === 'basicauth' && (
+              <>
+                <Input icon="user" id="login" placeholder="Login" type="text" />
+                <Input
+                  icon="key"
+                  id="password"
+                  placeholder="Password"
+                  type="password"
+                />
+              </>
+            )}
+            {typeAuth === 'apikey' && (
+              <Input icon="key" id="apikey" placeholder="API Key" type="text" />
+            )}
+            {typeAuth === 'JWT' && (
+              <Input icon="key" id="jwt" placeholder="JWT Token" type="text" />
+            )}
           </>
         )}
         <button className="btn btn-outline btn-success" type="submit">

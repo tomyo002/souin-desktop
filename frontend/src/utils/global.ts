@@ -9,10 +9,12 @@ export type MultiDataTypes = {
 export type InstanceType = {
   name: string;
   baseUrl: string;
-  authentication?: string;
+  authentication?: Record<authenticationType, string>;
 };
 
 export type InstanceProps = {
   name?: string;
   baseUrl?: string;
 };
+
+type authenticationType = 'type' | 'token';

@@ -14,16 +14,7 @@ export function fetcher(
 }
 
 export function extractor(instance: InstanceType, endpoint: string) {
-  return fetcher(
-    instance.baseUrl,
-    endpoint,
-    'GET',
-    instance.authentication
-      ? {
-          Authorization: `Basic ${instance.authentication}`,
-        }
-      : undefined,
-  )
+  return fetcher(instance.baseUrl, endpoint, 'GET', header(instance))
     .then(response => {
       switch (true) {
         case response.status >= 400:
@@ -42,4 +33,21 @@ export function checkHealth(baseUrl: string) {
   return fetcher(baseUrl, '/metrics').catch(() => {
     return false;
   });
+}
+
+function header(instance: InstanceType) {
+  const head: Record<string, string> = {};
+  if (!instance.authentication) {
+    return undefined;
+  }
+  if (instance.authentication.type === 'basicauth') {
+    head['Authorization'] = `Basic ${instance.authentication.token}`;
+  }
+  if (instance.authentication.type === 'apikey') {
+    head['X-API-Key'] = instance.authentication.token;
+  }
+  if (instance.authentication.type === 'JWT') {
+    head['Authorization'] = `Bearer ${instance.authentication.token}`;
+  }
+  return head;
 }

@@ -19,13 +19,19 @@ const getFormElements = (
   }, defaultArrayFormElements);
 };
 
-const createInstance = (form: HTMLFormElement, isAuthenticated: boolean) => {
+const createInstance = (
+  form: HTMLFormElement,
+  isAuthenticated: boolean,
+  typeAuth: string,
+) => {
   const elements = getFormElements(
     form,
     'name',
     'baseUrl',
     'login',
     'password',
+    'apikey',
+    'jwt',
   );
   const instance: InstanceType = {
     name: elements['name'],
@@ -35,16 +41,14 @@ const createInstance = (form: HTMLFormElement, isAuthenticated: boolean) => {
   if (isAuthenticated) {
     const token: string =
       typeAuth === 'apikey'
-        ? (form.elements.namedItem('apikey') as HTMLInputElement).value
+        ? elements['apikey']
         : typeAuth === 'JWT'
-          ? (form.elements.namedItem('jwt') as HTMLInputElement).value
-          : btoa(
-              `${(form.elements.namedItem('login') as HTMLInputElement).value}:${(form.elements.namedItem('password') as HTMLInputElement).value}`,
-            );
+          ? elements['jwt']
+          : btoa(`${elements['login']}:${elements['password']}`);
 
     return {
       ...instance,
-      authentication: btoa(`${elements['login']}:${elements['password']}`),
+      authentication: { type: typeAuth, token },
     };
   }
   return instance;

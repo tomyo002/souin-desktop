@@ -103,7 +103,7 @@ export const InstanceForm: React.FC = () => {
               <option value="apikey">API Key</option>
               <option value="JWT">JSON Web Token</option>
             </select>
-            {typeAuth === 'basicauth' && (
+            {typeAuth === 'basicauth' ? (
               <>
                 <Input icon="user" id="login" placeholder="Login" type="text" />
                 <Input
@@ -113,12 +113,17 @@ export const InstanceForm: React.FC = () => {
                   type="password"
                 />
               </>
-            )}
-            {typeAuth === 'apikey' && (
+            ) : typeAuth === 'apikey' ? (
               <Input icon="key" id="apikey" placeholder="API Key" type="text" />
-            )}
-            {typeAuth === 'JWT' && (
-              <Input icon="key" id="jwt" placeholder="JWT Token" type="text" />
+            ) : (
+              typeAuth === 'JWT' && (
+                <Input
+                  icon="key"
+                  id="jwt"
+                  placeholder="JWT Token"
+                  type="text"
+                />
+              )
             )}
           </>
         )}

@@ -36,18 +36,25 @@ export function checkHealth(baseUrl: string) {
 }
 
 function header(instance: InstanceType) {
-  const head: Record<string, string> = {};
-  if (!instance.authentication) {
+  const { authentication } = instance;
+  if (!authentication) {
     return undefined;
   }
-  if (instance.authentication.type === 'basicauth') {
-    head['Authorization'] = `Basic ${instance.authentication.token}`;
-  }
-  if (instance.authentication.type === 'apikey') {
-    head['X-API-Key'] = instance.authentication.token;
-  }
-  if (instance.authentication.type === 'JWT') {
-    head['Authorization'] = `Bearer ${instance.authentication.token}`;
+  const head: Record<string, string> = {};
+  switch (authentication.type) {
+    case 'basicauth':
+      head['Authorization'] = `Basic ${authentication.token}`;
+      break;
+    case 'apikey':
+      head['X-API-Key'] = authentication.token;
+      break;
+    case 'JWT':
+      head['Authorization'] = `Bearer ${authentication.token}`;
+      break;
+    default:
+      throw new Error('Unsupported authentication type');
   }
   return head;
 }
+
+// modifiable x-api-key

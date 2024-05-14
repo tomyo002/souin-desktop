@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import './style.css';
 import App from './App';
+import { InstancesProvider, MenuProvider } from './context';
 
 const container = document.getElementById('root');
 
@@ -12,7 +13,11 @@ const root = createRoot(container!);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <MenuProvider>
+        <InstancesProvider>
+          <App />
+        </InstancesProvider>
+      </MenuProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );

@@ -26,5 +26,3 @@ type authType = { token: string } & (
       header: string;
     }
 );
-
-type authenticationType = 'type' | 'token';

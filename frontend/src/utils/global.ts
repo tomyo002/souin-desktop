@@ -9,12 +9,20 @@ export type MultiDataTypes = {
 export type InstanceType = {
   name: string;
   baseUrl: string;
-  authentication?: Record<authenticationType, string>;
+  authentication?: authType;
 };
 
 export type InstanceProps = {
   name?: string;
   baseUrl?: string;
 };
-
-type authenticationType = 'type' | 'token' | 'header';
+export type allowedAuthType = 'apikey' | 'basicauth' | 'jwt';
+type authType = { token: string } & (
+  | {
+      type: 'basicauth' | 'jwt';
+    }
+  | {
+      type: 'apikey';
+      header: string;
+    }
+);

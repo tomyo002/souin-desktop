@@ -14,7 +14,7 @@ export function fetcher(
 }
 
 export function extractor(instance: InstanceType, endpoint: string) {
-  return fetcher(instance.baseUrl, endpoint, 'GET', header(instance))
+  return fetcher(instance.baseUrl, endpoint, 'GET', createAuthHeader(instance))
     .then(response => {
       switch (true) {
         case response.status >= 400:
@@ -35,7 +35,7 @@ export function checkHealth(baseUrl: string) {
   });
 }
 
-function header(instance: InstanceType) {
+function createAuthHeader(instance: InstanceType) {
   const { authentication } = instance;
   if (!authentication) {
     return undefined;
@@ -43,13 +43,13 @@ function header(instance: InstanceType) {
   const head: Record<string, string> = {};
   switch (authentication.type) {
     case 'basicauth':
-      head[authentication.header] = `Basic ${authentication.token}`;
+      head.Authorization = `Basic ${authentication.token}`;
       break;
     case 'apikey':
       head[authentication.header] = authentication.token;
       break;
     case 'jwt':
-      head[authentication.header] = `Bearer ${authentication.token}`;
+      head.Authorization = `Bearer ${authentication.token}`;
       break;
     default:
       throw new Error('Unsupported authentication type');

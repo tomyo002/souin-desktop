@@ -48,7 +48,7 @@ function header(instance: InstanceType) {
     case 'apikey':
       head[authentication.header] = authentication.token;
       break;
-    case 'JWT':
+    case 'jwt':
       head[authentication.header] = `Bearer ${authentication.token}`;
       break;
     default:

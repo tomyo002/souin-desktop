@@ -43,7 +43,7 @@ const createInstance = (
     const token: string =
       typeAuth === 'apikey'
         ? elements['apikey']
-        : typeAuth === 'JWT'
+        : typeAuth === 'jwt'
           ? elements['jwt']
           : btoa(`${elements['login']}:${elements['password']}`);
     const header: string =
@@ -108,7 +108,7 @@ export const InstanceForm: React.FC = () => {
             >
               <option value="basicauth">Basic auth</option>
               <option value="apikey">API Key</option>
-              <option value="JWT">JSON Web Token</option>
+              <option value="jwt">JSON Web Token</option>
             </select>
             {typeAuth === 'basicauth' ? (
               <>
@@ -136,7 +136,7 @@ export const InstanceForm: React.FC = () => {
                 />
               </>
             ) : (
-              typeAuth === 'JWT' && (
+              typeAuth === 'jwt' && (
                 <Input
                   icon="key"
                   id="jwt"

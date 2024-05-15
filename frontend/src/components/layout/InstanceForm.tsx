@@ -115,7 +115,7 @@ export const InstanceForm: React.FC = () => {
               <option value="apikey">API Key</option>
               <option value="jwt">JSON Web Token</option>
             </select>
-            {(authType === 'basicauth' && (
+            {authType === 'basicauth' && (
               <>
                 <Input icon="user" id="login" placeholder="Login" type="text" />
                 <Input
@@ -125,31 +125,26 @@ export const InstanceForm: React.FC = () => {
                   type="password"
                 />
               </>
-            )) ||
-              (authType === 'apikey' && (
-                <>
-                  <Input
-                    icon="input.header"
-                    id="header"
-                    placeholder="Header"
-                    type="text"
-                  />
-                  <Input
-                    icon="key"
-                    id="apikey"
-                    placeholder="API Key"
-                    type="text"
-                  />
-                </>
-              )) ||
-              (authType === 'jwt' && (
+            )}
+            {authType === 'apikey' && (
+              <>
                 <Input
-                  icon="key"
-                  id="jwt"
-                  placeholder="JWT Token"
+                  icon="input.header"
+                  id="header"
+                  placeholder="Header"
                   type="text"
                 />
-              ))}
+                <Input
+                  icon="key"
+                  id="apikey"
+                  placeholder="API Key"
+                  type="text"
+                />
+              </>
+            )}
+            {authType === 'jwt' && (
+              <Input icon="key" id="jwt" placeholder="JWT Token" type="text" />
+            )}
           </>
         )}
         <button className="btn btn-outline btn-success" type="submit">

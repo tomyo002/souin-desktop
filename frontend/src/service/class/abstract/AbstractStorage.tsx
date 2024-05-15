@@ -1,4 +1,4 @@
-import { interfaceStorage } from 'src/service/interface/InterfaceStorage';
+import { interfaceStorage } from 'src/service/interface';
 import { InstanceType } from 'src/utils';
 
 export abstract class abstractStorage implements interfaceStorage {

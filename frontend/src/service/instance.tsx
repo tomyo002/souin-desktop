@@ -1,15 +1,13 @@
 import { InstanceType } from 'src/utils';
 
-const instanceData = 'instanceData';
+import { InstanceData } from './class';
+
+const instanceStorage = new InstanceData();
 
 export function setInstances(instances: ReadonlyArray<InstanceType>) {
-  localStorage.setItem(instanceData, JSON.stringify(instances));
+  instanceStorage.set(instances);
 }
 
 export function getAllInstances(): ReadonlyArray<InstanceType> {
-  const storedDataJSON = localStorage.getItem(instanceData);
-  if (storedDataJSON) {
-    return JSON.parse(storedDataJSON);
-  }
-  return [];
+  return instanceStorage.get();
 }

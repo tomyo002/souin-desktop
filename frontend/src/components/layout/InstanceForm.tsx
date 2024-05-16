@@ -35,8 +35,8 @@ const createInstance = (
     'header',
   );
   const instance: InstanceType = {
-    name: elements['name'],
-    baseUrl: elements['baseUrl'],
+    name: elements.name,
+    baseUrl: elements.baseUrl,
   };
 
   if (isAuthenticated) {
@@ -47,7 +47,7 @@ const createInstance = (
         token = elements[authType];
         break;
       case 'basicauth':
-        token = btoa(`${elements['login']}:${elements['password']}`);
+        token = btoa(`${elements.login}:${elements.password}`);
         break;
     }
 
@@ -56,7 +56,7 @@ const createInstance = (
       authentication: {
         type: authType,
         token,
-        ...(authType === 'apikey' && { header: elements['header'] }),
+        ...(authType === 'apikey' && { header: elements.header }),
       },
     } as InstanceType;
   }
@@ -83,7 +83,7 @@ export const InstanceForm: React.FC = () => {
     navigate(path.HOME);
   };
 
-  const change = (event: ChangeEvent<HTMLSelectElement>) => {
+  const onChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setAuthType(event.target.value as allowedAuthType);
   };
 
@@ -109,7 +109,7 @@ export const InstanceForm: React.FC = () => {
             <select
               className="select select-bordered w-full max-w-xs"
               id="type-authentication"
-              onChange={change}
+              onChange={onChange}
             >
               <option value="basicauth">Basic auth</option>
               <option value="apikey">API Key</option>

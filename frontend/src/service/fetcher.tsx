@@ -38,9 +38,9 @@ export function checkHealth(baseUrl: string) {
 function createAuthHeader(instance: InstanceType) {
   const { authentication } = instance;
   if (!authentication) {
-    return undefined;
+    return;
   }
-  const head: Record<string, string> = {};
+  const head: HeadersInit = {};
   switch (authentication.type) {
     case 'basicauth':
       head.Authorization = `Basic ${authentication.token}`;

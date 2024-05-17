@@ -5,6 +5,7 @@ import {
   ChatBubbleLeftIcon,
   CheckCircleIcon,
   ChevronDownIcon,
+  CodeBracketSquareIcon,
   Cog6ToothIcon,
   KeyIcon,
   PlusCircleIcon,
@@ -29,7 +30,8 @@ export type AllowedIcon =
   | 'input.name'
   | 'chevron-down'
   | 'plus'
-  | 'menu';
+  | 'menu'
+  | 'input.header';
 
 function mapIcon(
   name: AllowedIcon,
@@ -61,6 +63,8 @@ function mapIcon(
       return PlusCircleIcon;
     case 'menu':
       return Bars3Icon;
+    case 'input.header':
+      return CodeBracketSquareIcon;
     default:
       return Cog6ToothIcon;
   }

@@ -14,16 +14,7 @@ export function fetcher(
 }
 
 export function extractor(instance: InstanceType, endpoint: string) {
-  return fetcher(
-    instance.baseUrl,
-    endpoint,
-    'GET',
-    instance.authentication
-      ? {
-          Authorization: `Basic ${instance.authentication}`,
-        }
-      : undefined,
-  )
+  return fetcher(instance.baseUrl, endpoint, 'GET', createAuthHeader(instance))
     .then(response => {
       switch (true) {
         case response.status >= 400:
@@ -42,4 +33,26 @@ export function checkHealth(baseUrl: string) {
   return fetcher(baseUrl, '/metrics').catch(() => {
     return false;
   });
+}
+
+function createAuthHeader(instance: InstanceType) {
+  const { authentication } = instance;
+  if (!authentication) {
+    return;
+  }
+  const head: HeadersInit = {};
+  switch (authentication.type) {
+    case 'basicauth':
+      head.Authorization = `Basic ${authentication.token}`;
+      break;
+    case 'apikey':
+      head[authentication.header] = authentication.token;
+      break;
+    case 'jwt':
+      head.Authorization = `Bearer ${authentication.token}`;
+      break;
+    default:
+      throw new Error('Unsupported authentication type');
+  }
+  return head;
 }

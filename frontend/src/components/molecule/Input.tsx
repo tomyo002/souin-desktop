@@ -5,10 +5,10 @@ import { AllowedIcon, Icon } from '../atomic/Icon';
 
 type InputProps = ClassName & {
   icon: AllowedIcon;
-  type: string;
-  placeholder: string;
-  id: string;
-};
+} & React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  >;
 
 export const Input: React.FC<InputProps> = ({ className, icon, ...rest }) => (
   <label

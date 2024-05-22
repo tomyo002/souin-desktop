@@ -7,7 +7,7 @@ import { MultiLineData } from '../molecule';
 export const ChartPage: React.FC = () => {
   const instance = useCurrentInstance();
   return (
-    <Layout baseUrl={instance.baseUrl} name={instance.name}>
+    <Layout baseUrl={instance?.baseUrl} name={instance?.name}>
       <div className="grid grid-cols-2 gap-8">
         <MultiLineData
           labels={['process_resident_memory_bytes']}

@@ -14,6 +14,8 @@ var assets embed.FS
 func main() {
 	// Create an instance of the app structure
 	app := NewApp()
+	instanceApp := NewInstanceApp()
+	instanceApp.Init()
 
 	// Create application with options
 	err := wails.Run(&options.App{
@@ -27,6 +29,10 @@ func main() {
 		OnStartup:        app.startup,
 		Bind: []interface{}{
 			app,
+			instanceApp,
+		},
+		Debug: options.Debug{
+			OpenInspectorOnStartup: false,
 		},
 	})
 

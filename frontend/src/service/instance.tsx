@@ -8,6 +8,6 @@ export function setInstances(instances: ReadonlyArray<InstanceType>) {
   instanceStorage.set(instances);
 }
 
-export function getAllInstances(): ReadonlyArray<InstanceType> {
+export function getAllInstances(): Promise<ReadonlyArray<InstanceType>> {
   return instanceStorage.get();
 }

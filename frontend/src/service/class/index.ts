@@ -1,2 +1,1 @@
-export * from './LocalStorage';
-export * from './InstanceData';
+export * from './Storage';

@@ -27,6 +27,9 @@ export const MultiLineData: React.FC<MultiLineDataProps> = ({
   const [label, setlabel] = useState<ReadonlyArray<string>>([]);
 
   useEffect(() => {
+    if (!instance) {
+      return;
+    }
     const interval = setInterval(() => {
       extractor(instance, '/metrics').then(lines => {
         setMultiData(currents =>

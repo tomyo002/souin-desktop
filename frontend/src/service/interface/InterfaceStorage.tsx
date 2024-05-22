@@ -1,7 +1,7 @@
 import { InstanceType } from 'src/utils';
 
-export interface interfaceStorage {
-  get: () => ReadonlyArray<InstanceType>;
-  set: (instances: ReadonlyArray<InstanceType>) => void;
-  delete: () => void;
+export interface InterfaceStorage {
+  get: () => Promise<ReadonlyArray<InstanceType>>;
+  set: (instances: ReadonlyArray<InstanceType>) => Promise<void>;
+  delete: () => Promise<void>;
 }

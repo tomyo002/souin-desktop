@@ -34,12 +34,10 @@ export const InstancesProvider: React.FC<React.PropsWithChildren> = ({
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      getAllInstances().then(allInstances => {
-        setInstances(allInstances);
-        setCurrentInstance(allInstances[0]);
-      });
-    }, 1000);
+    getAllInstances().then(allInstances => {
+      setInstances(allInstances);
+      setCurrentInstance(allInstances[0]);
+    });
   }, []);
 
   return (

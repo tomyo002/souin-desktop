@@ -1,1 +1,1 @@
-export * from './InterfaceStorage';
+export * from './IStorage';

@@ -12,7 +12,7 @@ export const Menu: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <Card title="Instances">
+    <Card className="shadow-2xl" title="Instances">
       <div className="flex-1">
         {instances.map(instance => (
           <div className="flex" key={instance.name}>
@@ -50,15 +50,6 @@ export const Menu: React.FC = () => {
         }}
       >
         <Icon name="plus" />
-      </ButtonOutline>
-      <ButtonOutline
-        className="btn-error"
-        onClick={() => {
-          setInstances([]);
-          navigate(path.HOME);
-        }}
-      >
-        <Icon name="trash" />
       </ButtonOutline>
     </Card>
   );

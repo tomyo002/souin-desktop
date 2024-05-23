@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   getAllInstances,
   setInstances as setInstancesStorage,
@@ -7,14 +7,13 @@ import { InstanceType } from 'src/utils';
 
 type instancesContextProps = {
   instances: ReadonlyArray<InstanceType>;
-  currentInstance: InstanceType;
+  currentInstance?: InstanceType;
   setInstances: (instances: ReadonlyArray<InstanceType>) => void;
   setCurrentInstance: (instance: InstanceType) => void;
 };
-const allInstances = getAllInstances();
 const InstanceContext = createContext<instancesContextProps>({
-  instances: getAllInstances(),
-  currentInstance: getAllInstances()[0],
+  instances: [],
+  currentInstance: undefined,
   setInstances: (instances: ReadonlyArray<InstanceType>) => {
     console.log(instances);
   },
@@ -26,15 +25,20 @@ const InstanceContext = createContext<instancesContextProps>({
 export const InstancesProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const [instances, setInstances] = useState(allInstances);
-  const [currentInstance, setCurrentInstance] = useState<InstanceType>(
-    allInstances[0],
-  );
-  const updateInstances = (NewInstances: ReadonlyArray<InstanceType>) => {
-    setInstances(NewInstances);
-    setInstancesStorage(NewInstances);
-    setCurrentInstance(NewInstances[NewInstances.length - 1]);
+  const [instances, setInstances] = useState<ReadonlyArray<InstanceType>>([]);
+  const [currentInstance, setCurrentInstance] = useState<InstanceType>();
+  const updateInstances = (newInstances: ReadonlyArray<InstanceType>) => {
+    setInstances(newInstances);
+    setInstancesStorage(newInstances);
+    setCurrentInstance(newInstances[newInstances.length - 1]);
   };
+
+  useEffect(() => {
+    getAllInstances().then(allInstances => {
+      setInstances(allInstances);
+      setCurrentInstance(allInstances[0]);
+    });
+  }, []);
 
   return (
     <InstanceContext.Provider

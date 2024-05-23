@@ -37,7 +37,7 @@ export function checkHealth(baseUrl: string) {
 
 function createAuthHeader(instance: InstanceType) {
   const { authentication } = instance;
-  if (!authentication) {
+  if (!authentication?.type) {
     return;
   }
   const head: HeadersInit = {};

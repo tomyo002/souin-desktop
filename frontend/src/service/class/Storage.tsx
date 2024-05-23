@@ -1,3 +1,4 @@
+import { AllowedStorage } from 'src/context';
 import { InstanceType } from 'src/utils';
 import { Clear, Get, Set } from 'src/wailsjs/go/main/InstanceApp';
 import { main } from 'src/wailsjs/go/models';
@@ -35,4 +36,32 @@ export class SqliteStorage extends AbstractStorage {
   }
 }
 
-export class InstanceData extends SqliteStorage {}
+export class InstanceData {
+  localStorage;
+  sqliteStorage;
+
+  constructor() {
+    this.localStorage = new LocalStorage();
+    this.sqliteStorage = new SqliteStorage();
+  }
+
+  get(storage: AllowedStorage) {
+    switch (storage) {
+      case 'sqliteStorage':
+        return this.sqliteStorage.get();
+      case 'localStorage':
+      default:
+        return this.localStorage.get();
+    }
+  }
+
+  set(storage: AllowedStorage, instances: ReadonlyArray<InstanceType>) {
+    switch (storage) {
+      case 'sqliteStorage':
+        return this.sqliteStorage.set(instances);
+      case 'localStorage':
+      default:
+        return this.localStorage.set(instances);
+    }
+  }
+}

@@ -22,7 +22,7 @@ export const HomePage: React.FC = () => {
     <Layout>
       <H1 content="Welcome on Souin Desktop" />
       <select
-        className="select select-bordered"
+        className="select select-bordered w-60"
         onChange={onChange}
         value={storage}
       >
@@ -30,12 +30,12 @@ export const HomePage: React.FC = () => {
         <option value="sqliteStorage">Sqlite</option>
       </select>
       <Link to={path.FORM}>
-        <ButtonOutline className="btn-accent">New instance</ButtonOutline>
+        <ButtonOutline className="btn-accent w-60">New instance</ButtonOutline>
       </Link>
       {!!useAllInstances().length && (
         <>
           <ButtonOutline
-            className="btn-error"
+            className="btn-error w-60"
             onClick={() => {
               setInstances([]);
             }}
@@ -43,7 +43,7 @@ export const HomePage: React.FC = () => {
             Clear instances
           </ButtonOutline>
           <Link to={path.CHART}>
-            <ButtonOutline className="btn-info">Instance</ButtonOutline>
+            <ButtonOutline className="btn-info w-60">Instance</ButtonOutline>
           </Link>
         </>
       )}

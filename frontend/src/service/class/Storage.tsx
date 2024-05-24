@@ -74,5 +74,6 @@ export class SwitchStorage implements IStorage {
     return this.currentStorage.getName();
   }
 }
+export class InstanceData extends SwitchStorage {}
 
 export class InstanceData extends SwitchStorage {}

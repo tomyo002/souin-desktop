@@ -1,9 +1,9 @@
-import React, { ChangeEvent, useContext } from 'react';
+import React, { ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import {
   AllowedStorage,
-  storageContext,
   useAllInstances,
+  useSelectStorage,
   useSetInstances,
 } from 'src/context';
 import { path } from 'src/utils';
@@ -13,7 +13,7 @@ import { Layout } from '../layout';
 
 export const HomePage: React.FC = () => {
   const setInstances = useSetInstances();
-  const { storage, setStorage } = useContext(storageContext);
+  const { currentType, setStorage } = useSelectStorage();
   const onChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setStorage(event.target.value as AllowedStorage);
   };
@@ -24,7 +24,7 @@ export const HomePage: React.FC = () => {
       <select
         className="select select-bordered w-60"
         onChange={onChange}
-        value={storage}
+        value={currentType}
       >
         <option value="localStorage">Local</option>
         <option value="sqliteStorage">Sqlite</option>

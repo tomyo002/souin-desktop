@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import './style.css';
 import App from './App';
-import { InstancesProvider } from './context';
+import { InstancesProvider, StorageProvider } from './context';
 
 const container = document.getElementById('root');
 
@@ -14,9 +14,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <StorageProvider>
-          <InstancesProvider>
-            <App />
-          </InstancesProvider>
+        <InstancesProvider>
+          <App />
+        </InstancesProvider>
       </StorageProvider>
     </BrowserRouter>
   </React.StrictMode>,

@@ -1,19 +1,16 @@
-import { AllowedStorage } from 'src/context';
 import { InstanceType } from 'src/utils';
 
-import { InstanceData } from './class';
-
-const instanceStorage = new InstanceData();
+import { IStorage } from './interface';
 
 export function setInstances(
-  storage: AllowedStorage,
+  storage: IStorage,
   instances: ReadonlyArray<InstanceType>,
 ) {
-  instanceStorage.set(storage, instances);
+  storage.set(instances);
 }
 
 export function getAllInstances(
-  storage: AllowedStorage,
+  storage: IStorage,
 ): Promise<ReadonlyArray<InstanceType>> {
-  return instanceStorage.get(storage);
+  return storage.get();
 }

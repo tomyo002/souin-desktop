@@ -5,7 +5,7 @@ import {
 } from 'src/service';
 import { InstanceType } from 'src/utils';
 
-import { storageContext } from './StorageProvider';
+import { useStorage } from './StorageProvider';
 
 type instancesContextProps = {
   instances: ReadonlyArray<InstanceType>;
@@ -29,7 +29,7 @@ export const InstancesProvider: React.FC<React.PropsWithChildren> = ({
 }) => {
   const [instances, setInstances] = useState<ReadonlyArray<InstanceType>>([]);
   const [currentInstance, setCurrentInstance] = useState<InstanceType>();
-  const { storage } = useContext(storageContext);
+  const storage = useStorage();
   const updateInstances = (newInstances: ReadonlyArray<InstanceType>) => {
     setInstances(newInstances);
     setInstancesStorage(storage, newInstances);

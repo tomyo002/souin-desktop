@@ -13,9 +13,11 @@ const root = createRoot(container!);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <InstancesProvider>
-        <App />
-      </InstancesProvider>
+      <StorageProvider>
+          <InstancesProvider>
+            <App />
+          </InstancesProvider>
+      </StorageProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );

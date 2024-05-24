@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useInstances, useSetCurrentInstance } from 'src/context';
 import { path } from 'src/utils';
 
-import { Button, ButtonOutline, Icon } from '../atomic';
-import { Card } from '../molecule';
+import { Button, ButtonOutline, H1, Icon } from '../atomic';
 
 export const Menu: React.FC = () => {
   const { instances, setInstances } = useInstances();
@@ -12,7 +11,8 @@ export const Menu: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <Card className="shadow-2xl" title="Instances">
+    <div className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+      <H1 content="Instances" />
       <div className="flex-1">
         {instances.map(instance => (
           <div className="flex" key={instance.name}>
@@ -51,6 +51,6 @@ export const Menu: React.FC = () => {
       >
         <Icon name="plus" />
       </ButtonOutline>
-    </Card>
+    </div>
   );
 };

@@ -14,7 +14,7 @@ export const HomePage: React.FC = () => {
       <Link to={path.FORM}>
         <ButtonOutline className="btn-accent">New instance</ButtonOutline>
       </Link>
-      {useAllInstances().length !== 0 && (
+      {!!useAllInstances().length && (
         <>
           <ButtonOutline
             className="btn-error"

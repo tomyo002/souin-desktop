@@ -37,3 +37,9 @@ on frontend
 ```shell
 pnpm install
 ```
+
+## Golangci-lint
+
+```shell
+golangci-lint run
+```

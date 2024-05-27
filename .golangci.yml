@@ -1,0 +1,19 @@
+run:
+  go: '1.22.2'
+
+output:
+  formats:
+    - format: json
+      path: stderr
+    - format: checkstyle
+      path: report.xml
+    - format: colored-line-number
+  sort-results: true
+  sort-order:
+    - linter
+    - severity
+    - file
+  show-stats: true
+  
+linters:
+  enable-all: true

@@ -11,42 +11,54 @@ import { path } from 'src/utils';
 import { ButtonOutline, H1 } from '../atomic';
 import { Layout } from '../layout';
 
+const allowStorage = (value: string): value is AllowedStorage => {
+  return value === 'localStorage' || value === 'sqliteStorage';
+};
+
 export const HomePage: React.FC = () => {
   const setInstances = useSetInstances();
   const { currentType, setStorage } = useSelectStorage();
   const onChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setStorage(event.target.value as AllowedStorage);
+    if (allowStorage(event.target.value)) {
+      setStorage(event.target.value);
+    }
   };
 
   return (
     <Layout>
       <H1 content="Welcome on Souin Desktop" />
-      <select
-        className="select select-bordered w-60"
-        onChange={onChange}
-        value={currentType}
-      >
-        <option value="localStorage">Local</option>
-        <option value="sqliteStorage">Sqlite</option>
-      </select>
-      <Link to={path.FORM}>
-        <ButtonOutline className="btn-accent w-60">New instance</ButtonOutline>
-      </Link>
-      {!!useAllInstances().length && (
-        <>
-          <ButtonOutline
-            className="btn-error w-60"
-            onClick={() => {
-              setInstances([]);
-            }}
-          >
-            Clear instances
+      <div className="flex flex-col gap-8 w-60">
+        <select
+          className="select select-bordered w-full"
+          onChange={onChange}
+          value={currentType}
+        >
+          <option value="localStorage">Local</option>
+          <option value="sqliteStorage">Sqlite</option>
+        </select>
+        <Link to={path.FORM}>
+          <ButtonOutline className="btn-accent w-full">
+            New instance
           </ButtonOutline>
-          <Link to={path.CHART}>
-            <ButtonOutline className="btn-info w-60">Instance</ButtonOutline>
-          </Link>
-        </>
-      )}
+        </Link>
+        {!!useAllInstances().length && (
+          <>
+            <ButtonOutline
+              className="btn-error w-full"
+              onClick={() => {
+                setInstances([]);
+              }}
+            >
+              Clear instances
+            </ButtonOutline>
+            <Link to={path.CHART}>
+              <ButtonOutline className="btn-info w-full">
+                Instance
+              </ButtonOutline>
+            </Link>
+          </>
+        )}
+      </div>
     </Layout>
   );
 };

@@ -10,6 +10,4 @@ export function Delete(arg1:main.Instance):Promise<void>;
 
 export function Get():Promise<Array<main.Instance>>;
 
-export function Init():Promise<void>;
-
 export function Set(arg1:Array<main.Instance>):Promise<void>;

@@ -1,3 +1,4 @@
+import { AllowedStorage } from 'src/context';
 import { IStorage } from 'src/service/interface';
 import { AllowedStorage, InstanceType } from 'src/utils';
 

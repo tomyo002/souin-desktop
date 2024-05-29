@@ -1,5 +1,4 @@
-import { AllowedStorage } from 'src/context';
-import { InstanceType } from 'src/utils';
+import { AllowedStorage, InstanceType } from 'src/utils';
 
 export interface IStorage {
   get: () => Promise<ReadonlyArray<InstanceType>>;

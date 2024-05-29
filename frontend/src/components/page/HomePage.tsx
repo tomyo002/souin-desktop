@@ -1,18 +1,17 @@
 import React, { ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  AllowedStorage,
   useAllInstances,
   useSelectStorage,
   useSetInstances,
 } from 'src/context';
-import { path } from 'src/utils';
+import { AllowedStorage, LOCAL, SQLITE, path } from 'src/utils';
 
 import { ButtonOutline, H1 } from '../atomic';
 import { Layout } from '../layout';
 
 const isAllowStorage = (value: string): value is AllowedStorage => {
-  return value === 'localStorage' || value === 'sqliteStorage';
+  return value === LOCAL || value === SQLITE;
 };
 
 export const HomePage: React.FC = () => {
@@ -33,8 +32,8 @@ export const HomePage: React.FC = () => {
           onChange={onChange}
           value={storage.getName()}
         >
-          <option value="localStorage">Local</option>
-          <option value="sqliteStorage">Sqlite</option>
+          <option value={LOCAL}>Local</option>
+          <option value={SQLITE}>Sqlite</option>
         </select>
         <Link to={path.FORM}>
           <ButtonOutline className="btn-accent w-full">
@@ -45,9 +44,7 @@ export const HomePage: React.FC = () => {
           <>
             <ButtonOutline
               className="btn-error w-full"
-              onClick={() => {
-                setInstances([]);
-              }}
+              onClick={() => setInstances([])}
             >
               Clear instances
             </ButtonOutline>

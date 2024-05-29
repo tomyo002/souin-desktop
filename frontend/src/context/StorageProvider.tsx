@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from 'react';
 import { InstanceData } from 'src/service/class';
 import { IStorage } from 'src/service/interface';
+import { AllowedStorage } from 'src/utils';
 
-export type AllowedStorage = 'localStorage' | 'sqliteStorage';
 type storageContextProps = {
   storage: IStorage;
   setStorage: (storage: AllowedStorage) => void;

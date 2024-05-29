@@ -17,7 +17,7 @@ const isAllowStorage = (value: string): value is AllowedStorage => {
 
 export const HomePage: React.FC = () => {
   const setInstances = useSetInstances();
-  const { currentType, setStorage } = useSelectStorage();
+  const { storage, setStorage } = useSelectStorage();
   const onChange = (event: ChangeEvent<HTMLSelectElement>) => {
     if (isAllowStorage(event.target.value)) {
       setStorage(event.target.value);
@@ -31,7 +31,7 @@ export const HomePage: React.FC = () => {
         <select
           className="select select-bordered w-full"
           onChange={onChange}
-          value={currentType}
+          value={storage.getName()}
         >
           <option value="localStorage">Local</option>
           <option value="sqliteStorage">Sqlite</option>

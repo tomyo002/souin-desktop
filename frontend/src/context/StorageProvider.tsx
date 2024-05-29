@@ -5,13 +5,11 @@ import { IStorage } from 'src/service/interface';
 export type AllowedStorage = 'localStorage' | 'sqliteStorage';
 type storageContextProps = {
   storage: IStorage;
-  currentType: AllowedStorage;
   setStorage: (storage: AllowedStorage) => void;
 };
 
 const storageContext = createContext<storageContextProps>({
   storage: new InstanceData('localStorage'),
-  currentType: 'localStorage',
   setStorage: storage => console.log(storage),
 });
 
@@ -21,18 +19,13 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
   const [storage, setStorage] = useState<IStorage>(
     new InstanceData('localStorage'),
   );
-  const [currentType, setCurrentType] =
-    useState<AllowedStorage>('localStorage');
 
   const updateStorage = (name: AllowedStorage) => {
-    setCurrentType(name);
     setStorage(new InstanceData(name));
   };
 
   return (
-    <storageContext.Provider
-      value={{ storage, currentType, setStorage: updateStorage }}
-    >
+    <storageContext.Provider value={{ storage, setStorage: updateStorage }}>
       {children}
     </storageContext.Provider>
   );
@@ -45,7 +38,7 @@ export const useStorage = () => {
 };
 
 export const useSelectStorage = () => {
-  const { currentType, setStorage } = useContext(storageContext);
+  const { storage, setStorage } = useContext(storageContext);
 
-  return { currentType, setStorage };
+  return { storage, setStorage };
 };

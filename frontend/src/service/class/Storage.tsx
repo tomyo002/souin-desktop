@@ -50,14 +50,18 @@ export class SwitchStorage implements IStorage {
         this.currentStorage = new LocalStorage();
     }
   }
+
   async get() {
     return this.currentStorage.get();
   }
-  async set(instances: readonly InstanceType[]) {
+
+  async set(instances: ReadonlyArray<InstanceType>) {
     this.currentStorage.set(instances);
   }
+
   async delete() {
     this.currentStorage.delete();
   }
 }
+
 export class InstanceData extends SwitchStorage {}

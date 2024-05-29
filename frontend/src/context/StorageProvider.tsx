@@ -40,10 +40,12 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
 
 export const useStorage = () => {
   const { storage } = useContext(storageContext);
+
   return storage;
 };
 
 export const useSelectStorage = () => {
   const { currentType, setStorage } = useContext(storageContext);
+
   return { currentType, setStorage };
 };

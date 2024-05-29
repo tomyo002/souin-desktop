@@ -11,7 +11,7 @@ import { path } from 'src/utils';
 import { ButtonOutline, H1 } from '../atomic';
 import { Layout } from '../layout';
 
-const allowStorage = (value: string): value is AllowedStorage => {
+const isAllowStorage = (value: string): value is AllowedStorage => {
   return value === 'localStorage' || value === 'sqliteStorage';
 };
 
@@ -19,7 +19,7 @@ export const HomePage: React.FC = () => {
   const setInstances = useSetInstances();
   const { currentType, setStorage } = useSelectStorage();
   const onChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    if (allowStorage(event.target.value)) {
+    if (isAllowStorage(event.target.value)) {
       setStorage(event.target.value);
     }
   };

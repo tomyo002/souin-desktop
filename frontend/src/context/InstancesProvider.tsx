@@ -1,8 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import {
-  getAllInstances,
-  setInstances as setInstancesStorage,
-} from 'src/service';
 import { InstanceType } from 'src/utils';
 
 import { useStorage } from './StorageProvider';
@@ -32,12 +28,13 @@ export const InstancesProvider: React.FC<React.PropsWithChildren> = ({
   const storage = useStorage();
   const updateInstances = (newInstances: ReadonlyArray<InstanceType>) => {
     setInstances(newInstances);
-    setInstancesStorage(storage, newInstances);
+    storage.set(newInstances);
+
     setCurrentInstance(newInstances[newInstances.length - 1]);
   };
 
   useEffect(() => {
-    getAllInstances(storage).then(allInstances => {
+    storage.get().then(allInstances => {
       setInstances(allInstances);
       setCurrentInstance(allInstances[0]);
     });

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { InstanceData } from 'src/service/class';
 import { IStorage } from 'src/service/interface';
-import { AllowedStorage } from 'src/utils';
+import { AllowedStorage, LOCAL } from 'src/utils';
 
 type storageContextProps = {
   storage: IStorage;
@@ -9,16 +9,14 @@ type storageContextProps = {
 };
 
 const storageContext = createContext<storageContextProps>({
-  storage: new InstanceData('localStorage'),
+  storage: new InstanceData(LOCAL),
   setStorage: storage => console.log(storage),
 });
 
 export const StorageProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const [storage, setStorage] = useState<IStorage>(
-    new InstanceData('localStorage'),
-  );
+  const [storage, setStorage] = useState<IStorage>(new InstanceData(LOCAL));
 
   const updateStorage = (name: AllowedStorage) => {
     setStorage(new InstanceData(name));

@@ -33,4 +33,3 @@ linters-settings:
 
 linters:
   enable-all: true
-  

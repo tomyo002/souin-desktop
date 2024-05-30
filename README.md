@@ -18,6 +18,7 @@ This application allows to monitor the instances of souins in the form of graph 
 - Chart js >= 4.4.2
 - Tailwind css >= v3.4.3
 - DaisyUI >= 4.10.1
+- Golangci-lint >= v1.59.0
 
 ## Install project
 

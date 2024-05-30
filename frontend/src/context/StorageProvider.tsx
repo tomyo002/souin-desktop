@@ -36,7 +36,5 @@ export const useStorage = () => {
 };
 
 export const useSelectStorage = () => {
-  const { storage, setStorage } = useContext(storageContext);
-
-  return { storage, setStorage };
+  return useContext(storageContext);
 };

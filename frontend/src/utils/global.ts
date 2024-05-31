@@ -26,3 +26,7 @@ type authType = { token: string } & (
       header: string;
     }
 );
+
+export const LOCAL = 'localStorage';
+export const SQLITE = 'sqliteStorage';
+export type AllowedStorage = 'localStorage' | 'sqliteStorage';

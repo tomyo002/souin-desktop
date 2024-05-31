@@ -1,6 +1,8 @@
-import { InstanceType } from 'src/utils';
+import { AllowedStorage, InstanceType, LOCAL, SQLITE } from 'src/utils';
 import { Clear, Get, Set } from 'src/wailsjs/go/main/InstanceApp';
 import { main } from 'src/wailsjs/go/models';
+
+import { IStorage } from '../interface';
 
 import { AbstractStorage } from './abstract';
 
@@ -21,6 +23,10 @@ export class LocalStorage extends AbstractStorage {
   async delete() {
     localStorage.clear();
   }
+
+  getName(): AllowedStorage {
+    return LOCAL;
+  }
 }
 
 export class SqliteStorage extends AbstractStorage {
@@ -33,6 +39,40 @@ export class SqliteStorage extends AbstractStorage {
   async delete() {
     Clear();
   }
+
+  getName(): AllowedStorage {
+    return SQLITE;
+  }
 }
 
-export class InstanceData extends SqliteStorage {}
+export class SwitchStorage implements IStorage {
+  currentStorage: IStorage;
+
+  constructor(storage: AllowedStorage) {
+    switch (storage) {
+      case SQLITE:
+        this.currentStorage = new SqliteStorage();
+        break;
+      default:
+        this.currentStorage = new LocalStorage();
+    }
+  }
+
+  async get() {
+    return this.currentStorage.get();
+  }
+
+  async set(instances: ReadonlyArray<InstanceType>) {
+    this.currentStorage.set(instances);
+  }
+
+  async delete() {
+    this.currentStorage.delete();
+  }
+
+  getName() {
+    return this.currentStorage.getName();
+  }
+}
+
+export class InstanceData extends SwitchStorage {}

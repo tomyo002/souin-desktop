@@ -76,5 +76,3 @@ export class SwitchStorage implements IStorage {
 }
 
 export class InstanceData extends SwitchStorage {}
-
-export class InstanceData extends SwitchStorage {}

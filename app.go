@@ -1,35 +1,12 @@
 package main
 
 import (
-	"context"
 	"database/sql"
 	"fmt"
-	"log"
 
 	"github.com/go-gorp/gorp"
 	_ "github.com/mattn/go-sqlite3"
 )
-
-type App struct{}
-
-func NewApp() *App {
-	return &App{}
-}
-
-func (a *App) startup(ctx context.Context) {
-	select {
-	case <-ctx.Done():
-		log.Println("Startup canceled:", ctx.Err())
-
-		return
-	default:
-		log.Println("Startup complete")
-	}
-}
-
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
-}
 
 type Instance struct {
 	ID             int64  `db:"id"               json:"id"`
@@ -47,8 +24,23 @@ type InstanceApp struct {
 	dbmap *gorp.DbMap
 }
 
-func NewInstanceApp() (*InstanceApp, error) {
-	dataBase, err := sql.Open("sqlite3", "instance.db")
+type DatabaseOpener interface {
+	Open(driverName, dataSourceName string) (*sql.DB, error)
+}
+
+type SQLDatabaseOpener struct{}
+
+func (o *SQLDatabaseOpener) Open(driverName, dataSourceName string) (*sql.DB, error) {
+	db, err := sql.Open(driverName, dataSourceName)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open database with driver %s: %w", driverName, err)
+	}
+
+	return db, nil
+}
+
+func NewInstanceApp(opener DatabaseOpener) (*InstanceApp, error) {
+	dataBase, err := opener.Open("sqlite3", "instance.db")
 	if err != nil {
 		return nil, fmt.Errorf("failed to open database: %w", err)
 	}
@@ -86,8 +78,11 @@ func (app *InstanceApp) Get() ([]Instance, error) {
 
 func (app *InstanceApp) Add(instance Instance) error {
 	err := app.dbmap.Insert(&instance)
+	if err != nil {
+		return fmt.Errorf("failed to add database: %w", err)
+	}
 
-	return fmt.Errorf("failed to add database: %w", err)
+	return nil
 }
 
 func (app *InstanceApp) Set(instances []Instance) {
@@ -99,12 +94,18 @@ func (app *InstanceApp) Set(instances []Instance) {
 
 func (app *InstanceApp) Clear() error {
 	_, err := app.dbmap.Exec("DELETE FROM instances")
+	if err != nil {
+		return fmt.Errorf("failed to clear database: %w", err)
+	}
 
-	return fmt.Errorf("failed to clear database: %w", err)
+	return nil
 }
 
 func (app *InstanceApp) Delete(instance Instance) error {
 	_, err := app.dbmap.Exec("DELETE FROM instances WHERE name = ? AND baseUrl = ?", instance.Name, instance.BaseURL)
+	if err != nil {
+		return fmt.Errorf("failed to delete database: %w", err)
+	}
 
-	return fmt.Errorf("failed to delete database: %w", err)
+	return nil
 }

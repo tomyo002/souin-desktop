@@ -24,8 +24,8 @@ const (
 )
 
 func main() {
-	app := NewApp()
-	instanceApp, _ := NewInstanceApp()
+	opener := &SQLDatabaseOpener{}
+	instanceApp, _ := NewInstanceApp(opener)
 
 	err := wails.Run(&options.App{
 		Title:             "Souin Desktop",
@@ -52,7 +52,7 @@ func main() {
 		Logger:                           nil,
 		LogLevel:                         logger.DEBUG,
 		LogLevelProduction:               logger.ERROR,
-		OnStartup:                        app.startup,
+		OnStartup:                        nil,
 		OnDomReady:                       nil,
 		OnShutdown:                       nil,
 		OnBeforeClose:                    nil,
@@ -61,7 +61,6 @@ func main() {
 		EnableDefaultContextMenu:         false,
 		EnableFraudulentWebsiteDetection: false,
 		Bind: []interface{}{
-			app,
 			instanceApp,
 		},
 		ErrorFormatter: nil,

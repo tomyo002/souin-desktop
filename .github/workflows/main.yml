@@ -26,10 +26,12 @@ jobs:
         uses: actions/setup-node@v4
         with: 
           node-version: ${{ env.NODE_VERSION }}
-      - name: Run npm install
-        run: (cd frontend && npm install)
-      - name: Run npm build
-        run: (cd frontend && npm run build)
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Run pnpm install
+        run: pnpm -C frontend install
+      - name: Run pnpm build
+        run: pnpm -C frontend build
       - name: Golangci-lint
         uses: golangci/golangci-lint-action@v6
         with:
@@ -44,19 +46,18 @@ jobs:
         uses: actions/setup-node@v4
         with: 
           node-version: ${{ env.NODE_VERSION }}
-      - name: Run npm install
-        run: (cd frontend && npm install)
-      - name: Install ESLint
-        run: |
-          npm install eslint@8.10.0
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Run pnpm install
+        run: pnpm -C frontend install
       - name: Run ESLint
-        run: npx eslint . \
+        run: pnpx eslint . \
           --config "frontend/.eslintrc.cjs" \
           --ext .ts,.tsx \
           --ignore-pattern "frontend/src/wailsjs/**"
         continue-on-error: true
-      - name: Run npm build
-        run: (cd frontend && npm run build)
+      - name: Run pnpm build
+        run: pnpm -C frontend build
   wails-build:
     needs: 
       - eslint-validation

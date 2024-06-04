@@ -51,9 +51,7 @@ jobs:
       - name: Run pnpm install
         run: pnpm -C frontend install
       - name: Run ESLint
-        run: pnpx eslint . \
-          --config "frontend/eslint.config.cjs" \
-          --ignore-pattern "frontend/src/wailsjs/**"
+        run: (cd frontend && pnpx eslint .)
         continue-on-error: true
       - name: Run pnpm build
         run: pnpm -C frontend build

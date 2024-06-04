@@ -52,7 +52,7 @@ jobs:
         run: pnpm -C frontend install
       - name: Run ESLint
         run: pnpx eslint . \
-          --config "frontend/.eslintrc.cjs" \
+          --config "frontend/eslint.config.cjs" \
           --ext .ts,.tsx \
           --ignore-pattern "frontend/src/wailsjs/**"
         continue-on-error: true

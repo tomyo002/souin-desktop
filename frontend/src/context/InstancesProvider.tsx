@@ -9,7 +9,7 @@ type instancesContextProps = {
   setInstances: (instances: ReadonlyArray<InstanceType>) => void;
   setCurrentInstance: (instance: InstanceType) => void;
 };
-const InstanceContext = createContext<instancesContextProps>({
+export const InstanceContext = createContext<instancesContextProps>({
   instances: [],
   currentInstance: undefined,
   setInstances: (instances: ReadonlyArray<InstanceType>) => {

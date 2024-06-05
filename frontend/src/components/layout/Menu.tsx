@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useInstances, useSetCurrentInstance } from 'src/context';
+import { InstanceContext } from 'src/context';
 import { path } from 'src/utils';
 
 import { Button, ButtonOutline, H1, Icon } from '../atomic';
 
 export const Menu: React.FC = () => {
-  const { instances, setInstances } = useInstances();
-  const setCurrentInstance = useSetCurrentInstance();
+  const { instances, setInstances, currentInstance, setCurrentInstance } =
+    useContext(InstanceContext);
   const navigate = useNavigate();
 
   return (
@@ -16,8 +16,9 @@ export const Menu: React.FC = () => {
       <div className="flex-1">
         {instances.map(instance => (
           <div className="flex" key={instance.name}>
-            <Link className="flex-1" to={path.CHART}>
+            <Link className="flex flex-1" to={path.CHART}>
               <Button
+                className={`flex-1 ${currentInstance === instance && 'border-black'}`}
                 onClick={() => {
                   setCurrentInstance(instance);
                 }}

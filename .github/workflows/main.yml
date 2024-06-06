@@ -37,7 +37,7 @@ jobs:
         with:
           args: --timeout=240s
   eslint-validation:
-    name: eslint
+    name: Validate Eslint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -57,7 +57,7 @@ jobs:
         run: pnpm -C frontend build
   go-test-validation:
     needs: lint-validation
-    name: go test
+    name: Validate Go test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -83,7 +83,7 @@ jobs:
       - eslint-validation
       - lint-validation
       - go-test-validation
-    name: build wails
+    name: Build wails
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

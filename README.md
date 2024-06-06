@@ -44,3 +44,10 @@ pnpm install
 ```shell
 golangci-lint run
 ```
+
+## Unit tests
+
+### Back
+```shell
+go test
+```

@@ -3,17 +3,15 @@ import { useCurrentInstance } from 'src/context';
 import { extractor } from 'src/service';
 import { MultiDataTypes } from 'src/utils';
 
-import { Card, Line } from '.';
+import { Line } from '.';
 
 type MultiLineDataProps = {
   labels: ReadonlyArray<string>;
-  title: string;
   max: number;
 };
 
 export const MultiLineData: React.FC<MultiLineDataProps> = ({
   labels,
-  title,
   max,
 }) => {
   const instance = useCurrentInstance();
@@ -62,11 +60,5 @@ export const MultiLineData: React.FC<MultiLineDataProps> = ({
     return () => clearInterval(interval);
   }, [instance, label, multiData, max]);
 
-  return (
-    <>
-      <Card title={title}>
-        <Line data={multiData} labels={label} />
-      </Card>
-    </>
-  );
+  return <Line data={multiData} labels={label} />;
 };

@@ -6,6 +6,12 @@ export type MultiDataTypes = {
   borderColor: string;
 };
 
+export type ChartType = {
+  title: string;
+  labels: ReadonlyArray<string>;
+  max: number;
+};
+
 export type InstanceType = {
   name: string;
   baseUrl: string;

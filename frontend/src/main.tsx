@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import './style.css';
 import App from './App';
-import { InstancesProvider, StorageProvider } from './context';
+import { ChartProvider, InstancesProvider, StorageProvider } from './context';
 
 const container = document.getElementById('root');
 
@@ -15,7 +15,9 @@ root.render(
     <BrowserRouter>
       <StorageProvider>
         <InstancesProvider>
-          <App />
+          <ChartProvider>
+            <App />
+          </ChartProvider>
         </InstancesProvider>
       </StorageProvider>
     </BrowserRouter>

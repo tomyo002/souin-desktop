@@ -83,5 +83,5 @@ export const Icon: React.FC<IconProps> = ({ className, name }) => {
   if (!Icon) {
     return null;
   }
-  return <Icon className={!className ? 'h-6 w-6' : className} />;
+  return <Icon className={className ?? 'h-6 w-6'} />;
 };

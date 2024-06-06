@@ -15,32 +15,36 @@ export const Menu: React.FC = () => {
       <H1 content="Instances" />
       <div className="flex-1">
         {instances.map(instance => (
-          <div className="relative flex mb-2" key={instance.name}>
-            <Link className="flex flex-1" to={path.CHART}>
-              <Button
-                className={`w-full ${currentInstance === instance && 'border-black'}`}
-                onClick={() => {
-                  setCurrentInstance(instance);
-                }}
-              >
-                {instance.name} : {instance.baseUrl}
-              </Button>
-            </Link>
-            <Button
-              className="btn-circle btn-error border-white absolute right-0.5 top-0.5 btn-xs"
-              onClick={() => {
-                setInstances(
-                  instances.filter(
-                    inst =>
-                      inst.name !== instance.name ||
-                      inst.baseUrl !== instance.baseUrl,
-                  ),
-                );
-                navigate(path.HOME);
-              }}
-            >
-              <Icon className="text-white h-4 w-4" name="cross" />
-            </Button>
+          <div className="flex mb-4" key={instance.name}>
+            <div className='flex-1 indicator w-5'>
+              <Link className="flex-1" to={path.CHART}>
+                <Button
+                  className={`w-full ${currentInstance === instance && 'border-black'}`}
+                  onClick={() => {
+                    setCurrentInstance(instance);
+                  }}
+                >
+                  {instance.name} : {instance.baseUrl}
+                </Button>
+              </Link>
+              <div className="indicator-item">
+                <Button
+                  className="btn-circle btn-error border-white btn-xs"
+                  onClick={() => {
+                    setInstances(
+                      instances.filter(
+                        inst =>
+                          inst.name !== instance.name ||
+                          inst.baseUrl !== instance.baseUrl,
+                      ),
+                    );
+                    navigate(path.HOME);
+                  }}
+                >
+                  <Icon className="text-white h-4 w-4" name="cross" />
+                </Button>
+              </div>
+            </div>
           </div>
         ))}
       </div>

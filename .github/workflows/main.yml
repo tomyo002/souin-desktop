@@ -56,6 +56,7 @@ jobs:
       - name: Run pnpm build
         run: pnpm -C frontend build
   go-test-validation:
+    needs: lint-validation
     name: go test
     runs-on: ubuntu-latest
     steps:
@@ -65,12 +66,23 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: ${{ env.GO_VERSION }}
+      - name: Install node
+        uses: actions/setup-node@v4
+        with: 
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Run pnpm install
+        run: pnpm -C frontend install
+      - name: Run pnpm build
+        run: pnpm -C frontend build
       - name: Run Go test
         run: go test
   wails-build:
     needs: 
       - eslint-validation
       - lint-validation
+      - go-test-validation
     name: build wails
     runs-on: ubuntu-latest
     steps:

@@ -15,10 +15,10 @@ export const Menu: React.FC = () => {
       <H1 content="Instances" />
       <div className="flex-1">
         {instances.map(instance => (
-          <div className="flex" key={instance.name}>
+          <div className="relative flex mb-2" key={instance.name}>
             <Link className="flex flex-1" to={path.CHART}>
               <Button
-                className={`flex-1 ${currentInstance === instance && 'border-black'}`}
+                className={`w-full ${currentInstance === instance && 'border-black'}`}
                 onClick={() => {
                   setCurrentInstance(instance);
                 }}
@@ -26,8 +26,8 @@ export const Menu: React.FC = () => {
                 {instance.name} : {instance.baseUrl}
               </Button>
             </Link>
-            <ButtonOutline
-              className="btn-error"
+            <Button
+              className="btn-circle btn-error border-white absolute right-0.5 top-0.5 btn-xs"
               onClick={() => {
                 setInstances(
                   instances.filter(
@@ -39,8 +39,8 @@ export const Menu: React.FC = () => {
                 navigate(path.HOME);
               }}
             >
-              <Icon name="trash" />
-            </ButtonOutline>
+              <Icon className="text-white h-4 w-4" name="cross" />
+            </Button>
           </div>
         ))}
       </div>

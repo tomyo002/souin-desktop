@@ -35,7 +35,7 @@ export const HomePage: React.FC = () => {
           <option value={LOCAL}>Local</option>
           <option value={SQLITE}>Sqlite</option>
         </select>
-        <Link to={path.FORM}>
+        <Link to={path.FORM_INSTANCE}>
           <ButtonOutline className="btn-accent w-full">
             New instance
           </ButtonOutline>

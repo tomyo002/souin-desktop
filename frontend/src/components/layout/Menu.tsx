@@ -50,7 +50,7 @@ export const Menu: React.FC = () => {
       <ButtonOutline
         className="btn-success"
         onClick={() => {
-          navigate(path.FORM);
+          navigate(path.FORM_INSTANCE);
         }}
       >
         <Icon name="plus" />

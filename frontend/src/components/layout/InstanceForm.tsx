@@ -1,23 +1,15 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInstances } from 'src/context';
-import { path, InstanceType, allowedAuthType } from 'src/utils';
+import {
+  path,
+  InstanceType,
+  allowedAuthType,
+  getFormElements,
+} from 'src/utils';
 
 import { H1 } from '../atomic';
 import { Input } from '../molecule';
-
-const defaultArrayFormElements: Record<string, string> = {};
-const getFormElements = (
-  form: HTMLFormElement,
-  ...names: ReadonlyArray<string>
-) => {
-  return names.reduce((acc, current) => {
-    acc[current] = (
-      form.elements.namedItem(current) as HTMLInputElement
-    )?.value;
-    return acc;
-  }, defaultArrayFormElements);
-};
 
 const createInstance = (
   form: HTMLFormElement,

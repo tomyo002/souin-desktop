@@ -1,5 +1,6 @@
 export const path = {
   HOME: '/',
-  FORM: '/form',
+  FORM_INSTANCE: '/form_instance',
   CHART: '/chart',
+  FORM_CHART: '/form_chart'
 };

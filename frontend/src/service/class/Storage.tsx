@@ -1,4 +1,10 @@
-import { AllowedStorage, InstanceType, LOCAL, SQLITE } from 'src/utils';
+import {
+  AllowedStorage,
+  ChartType,
+  InstanceType,
+  LOCAL,
+  SQLITE,
+} from 'src/utils';
 import { Clear, Get, Set } from 'src/wailsjs/go/main/InstanceApp';
 import { main } from 'src/wailsjs/go/models';
 
@@ -8,16 +14,30 @@ import { AbstractStorage } from './abstract';
 
 export class LocalStorage extends AbstractStorage {
   private instanceData = 'instanceData';
+  private chartData = 'chartData';
 
-  async get() {
+  async getInstances() {
     const storedDataJSON = localStorage.getItem(this.instanceData);
     if (storedDataJSON) {
       return JSON.parse(storedDataJSON);
     }
     return [];
   }
-  async set(instances: ReadonlyArray<InstanceType>) {
+
+  async setInstances(instances: ReadonlyArray<InstanceType>) {
     localStorage.setItem(this.instanceData, JSON.stringify(instances));
+  }
+
+  async getCharts(): Promise<readonly ChartType[]> {
+    const storedDataJSON = localStorage.getItem(this.chartData);
+    if (storedDataJSON) {
+      return JSON.parse(storedDataJSON);
+    }
+    return [];
+  }
+
+  async setCharts(charts: readonly ChartType[]): Promise<void> {
+    localStorage.setItem(this.chartData, JSON.stringify(charts));
   }
 
   async delete() {
@@ -30,10 +50,16 @@ export class LocalStorage extends AbstractStorage {
 }
 
 export class SqliteStorage extends AbstractStorage {
-  async get() {
+  getCharts(): Promise<readonly ChartType[]> {
+    throw new Error('Method not implemented.');
+  }
+  setCharts(charts: readonly ChartType[]): Promise<void> {
+    throw new Error(`Method not implemented. ${charts}`);
+  }
+  async getInstances() {
     return Get();
   }
-  async set(instances: ReadonlyArray<InstanceType>) {
+  async setInstances(instances: ReadonlyArray<InstanceType>) {
     Set(instances as main.Instance[]);
   }
   async delete() {
@@ -58,12 +84,20 @@ export class SwitchStorage implements IStorage {
     }
   }
 
-  async get() {
-    return this.currentStorage.get();
+  async getCharts() {
+    return this.currentStorage.getCharts();
   }
 
-  async set(instances: ReadonlyArray<InstanceType>) {
-    this.currentStorage.set(instances);
+  async setCharts(charts: ReadonlyArray<ChartType>) {
+    return this.currentStorage.setCharts(charts);
+  }
+
+  async getInstances() {
+    return this.currentStorage.getInstances();
+  }
+
+  async setInstances(instances: ReadonlyArray<InstanceType>) {
+    this.currentStorage.setInstances(instances);
   }
 
   async delete() {

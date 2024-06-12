@@ -30,7 +30,7 @@ func TestNewInstanceApp(t *testing.T) {
 		db: dataBase,
 	}
 
-	app, err := NewInstanceApp(mockOpener)
+	app, err := NewSqliteApp(mockOpener)
 	require.NoError(t, err)
 	require.NotNil(t, app)
 
@@ -38,7 +38,7 @@ func TestNewInstanceApp(t *testing.T) {
 	require.NoError(t, err)
 }
 
-func TestGet(t *testing.T) {
+func TestGetInstance(t *testing.T) {
 	t.Parallel()
 
 	db, mock, err := sqlmock.New()
@@ -46,7 +46,7 @@ func TestGet(t *testing.T) {
 	defer db.Close()
 
 	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}, TypeConverter: nil, ExpandSliceArgs: false}
-	app := &InstanceApp{dbmap: dbmap}
+	app := &SqliteApp{dbmap: dbmap}
 
 	rows := sqlmock.NewRows([]string{"ID", "Name", "BaseURL", "Token", "Type", "Header"}).
 		AddRow(1, "Instance1", "http://example.com", "", "", "").
@@ -55,7 +55,7 @@ func TestGet(t *testing.T) {
 
 	mock.ExpectQuery("SELECT \\* FROM instances").WillReturnRows(rows)
 
-	instances, err := app.Get()
+	instances, err := app.GetInstance()
 	require.NoError(t, err)
 	require.Len(t, instances, 3)
 
@@ -97,7 +97,7 @@ func TestGet(t *testing.T) {
 	require.NoError(t, err)
 }
 
-func TestAdd(t *testing.T) {
+func TestAddInstance(t *testing.T) {
 	t.Parallel()
 
 	db, mock, err := sqlmock.New()
@@ -112,7 +112,7 @@ func TestAdd(t *testing.T) {
 		Authentication: Authentication{Token: "", Type: "", Header: ""},
 	}, "instances").SetKeys(true, "ID")
 
-	app := &InstanceApp{dbmap: dbmap}
+	app := &SqliteApp{dbmap: dbmap}
 
 	instance := Instance{
 		ID:      1,
@@ -137,14 +137,14 @@ func TestAdd(t *testing.T) {
 			instance.Authentication.Header).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
-	err = app.Add(instance)
+	err = app.AddInstance(instance)
 	require.NoError(t, err)
 
 	err = mock.ExpectationsWereMet()
 	require.NoError(t, err)
 }
 
-func TestSet(t *testing.T) {
+func TestSetInstance(t *testing.T) {
 	t.Parallel()
 
 	db, mock, err := sqlmock.New()
@@ -159,7 +159,7 @@ func TestSet(t *testing.T) {
 		Authentication: Authentication{Token: "", Type: "", Header: ""},
 	}, "instances").SetKeys(true, "ID")
 
-	app := &InstanceApp{dbmap: dbmap}
+	app := &SqliteApp{dbmap: dbmap}
 
 	instances := []Instance{
 		{
@@ -197,13 +197,13 @@ func TestSet(t *testing.T) {
 			WillReturnResult(sqlmock.NewResult(1, 1))
 	}
 
-	app.Set(instances)
+	app.SetInstance(instances)
 
 	err = mock.ExpectationsWereMet()
 	require.NoError(t, err)
 }
 
-func TestClear(t *testing.T) {
+func TestClearInstance(t *testing.T) {
 	t.Parallel()
 
 	db, mock, err := sqlmock.New()
@@ -218,18 +218,18 @@ func TestClear(t *testing.T) {
 		Authentication: Authentication{Token: "", Type: "", Header: ""},
 	}, "instances").SetKeys(true, "ID")
 
-	app := &InstanceApp{dbmap: dbmap}
+	app := &SqliteApp{dbmap: dbmap}
 
 	mock.ExpectExec(`DELETE FROM instances`).WillReturnResult(sqlmock.NewResult(0, 0))
 
-	err = app.Clear()
+	err = app.ClearInstance()
 	require.NoError(t, err)
 
 	err = mock.ExpectationsWereMet()
 	require.NoError(t, err)
 }
 
-func TestDelete(t *testing.T) {
+func TestDeleteInstance(t *testing.T) {
 	t.Parallel()
 
 	db, mock, err := sqlmock.New()
@@ -244,7 +244,7 @@ func TestDelete(t *testing.T) {
 		Authentication: Authentication{Token: "", Type: "", Header: ""},
 	}, "instances").SetKeys(true, "ID")
 
-	app := &InstanceApp{dbmap: dbmap}
+	app := &SqliteApp{dbmap: dbmap}
 
 	instance := Instance{
 		ID:             1,
@@ -256,7 +256,7 @@ func TestDelete(t *testing.T) {
 	mock.ExpectExec(`DELETE FROM instances WHERE name = \? AND baseUrl = \?`).
 		WithArgs(instance.Name, instance.BaseURL).WillReturnResult(sqlmock.NewResult(0, 1))
 
-	err = app.Delete(instance)
+	err = app.DeleteInstance(instance)
 	require.NoError(t, err)
 
 	err = mock.ExpectationsWereMet()

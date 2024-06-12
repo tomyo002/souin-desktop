@@ -5,7 +5,13 @@ import {
   LOCAL,
   SQLITE,
 } from 'src/utils';
-import { Clear, Get, Set } from 'src/wailsjs/go/main/InstanceApp';
+import {
+  ClearInstance,
+  GetInstance,
+  SetInstance,
+  GetChart,
+  SetChart,
+} from 'src/wailsjs/go/main/SqliteApp';
 import { main } from 'src/wailsjs/go/models';
 
 import { IStorage } from '../interface';
@@ -50,20 +56,20 @@ export class LocalStorage extends AbstractStorage {
 }
 
 export class SqliteStorage extends AbstractStorage {
-  getCharts(): Promise<readonly ChartType[]> {
-    throw new Error('Method not implemented.');
+  async getCharts() {
+    return GetChart();
   }
-  setCharts(charts: readonly ChartType[]): Promise<void> {
-    throw new Error(`Method not implemented. ${charts}`);
+  async setCharts(charts: ReadonlyArray<ChartType>) {
+    SetChart(charts as main.Chart[]);
   }
   async getInstances() {
-    return Get();
+    return GetInstance();
   }
   async setInstances(instances: ReadonlyArray<InstanceType>) {
-    Set(instances as main.Instance[]);
+    SetInstance(instances as main.Instance[]);
   }
   async delete() {
-    Clear();
+    ClearInstance();
   }
 
   getName(): AllowedStorage {

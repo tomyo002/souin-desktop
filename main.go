@@ -32,7 +32,7 @@ func main() {
 		Width:             DefaultWidth,
 		Height:            DefaultHeight,
 		DisableResize:     true,
-		Fullscreen:        true,
+		Fullscreen:        false,
 		WindowStartState:  options.Maximised,
 		Frameless:         false,
 		MinWidth:          DefaultMin,

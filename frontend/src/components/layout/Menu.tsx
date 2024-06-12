@@ -33,7 +33,7 @@ export const Menu: React.FC = () => {
             <div className="flex-1 indicator w-5">
               <Link className="flex-1" to={path.CHART}>
                 <button
-                  className={`btn w-full ${currentInstance === instance && 'border-black'}`}
+                  className={`btn w-full hover:bg-gray-400 ${currentInstance === instance && 'border-black hover:border-black'}`}
                   onClick={() => {
                     setCurrentInstance(instance);
                   }}

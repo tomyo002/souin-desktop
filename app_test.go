@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -257,6 +258,198 @@ func TestDeleteInstance(t *testing.T) {
 		WithArgs(instance.Name, instance.BaseURL).WillReturnResult(sqlmock.NewResult(0, 1))
 
 	err = app.DeleteInstance(instance)
+	require.NoError(t, err)
+
+	err = mock.ExpectationsWereMet()
+	require.NoError(t, err)
+}
+
+func TestGetChart(t *testing.T) {
+	t.Parallel()
+
+	db, mock, err := sqlmock.New()
+	require.NoError(t, err)
+	defer db.Close()
+
+	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}, TypeConverter: nil, ExpandSliceArgs: false}
+	app := &SqliteApp{dbmap: dbmap}
+
+	rows := sqlmock.NewRows([]string{"ID", "Title", "Labels", "Max"}).
+		AddRow(1, "Chart1", `["process_open_fds"]`, 10).
+		AddRow(2, "Chart2", `["process_open_fds","test"]`, 15)
+
+	mock.ExpectQuery("SELECT \\* FROM charts").WillReturnRows(rows)
+
+	charts, err := app.GetChart()
+	require.NoError(t, err)
+	require.Len(t, charts, 2)
+
+	expected := []Chart{
+		{
+			ID:     1,
+			Title:  "Chart1",
+			Labels: []string{"process_open_fds"},
+			Max:    10,
+		},
+		{
+			ID:     2,
+			Title:  "Chart2",
+			Labels: []string{"process_open_fds", "test"},
+			Max:    15,
+		},
+	}
+	require.Equal(t, expected, charts)
+
+	err = mock.ExpectationsWereMet()
+	require.NoError(t, err)
+}
+
+func TestAddChart(t *testing.T) {
+	t.Parallel()
+
+	db, mock, err := sqlmock.New()
+	require.NoError(t, err)
+	defer db.Close()
+
+	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}, TypeConverter: nil, ExpandSliceArgs: false}
+	_ = dbmap.AddTableWithName(Chart{
+		ID:     0,
+		Title:  "",
+		Labels: []string{},
+		Max:    0,
+	}, "charts").SetKeys(true, "ID")
+
+	app := &SqliteApp{dbmap: dbmap}
+
+	chart := Chart{
+		ID:     1,
+		Title:  "Chart1",
+		Labels: []string{"process_open_fds"},
+		Max:    15,
+	}
+
+	labels, err := json.Marshal(chart.Labels)
+	require.NoError(t, err)
+
+	mock.
+		ExpectExec(`INSERT INTO charts \(title, labels, max\) VALUES \(\?, \?, \?\)`).
+		WithArgs(
+			chart.Title,
+			string(labels),
+			chart.Max).
+		WillReturnResult(sqlmock.NewResult(1, 1))
+
+	err = app.AddChart(chart)
+	require.NoError(t, err)
+
+	err = mock.ExpectationsWereMet()
+	require.NoError(t, err)
+}
+
+func TestSetChart(t *testing.T) {
+	t.Parallel()
+
+	db, mock, err := sqlmock.New()
+	require.NoError(t, err)
+	defer db.Close()
+
+	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}, TypeConverter: nil, ExpandSliceArgs: false}
+	_ = dbmap.AddTableWithName(Chart{
+		ID:     0,
+		Title:  "",
+		Labels: []string{},
+		Max:    0,
+	}, "charts").SetKeys(true, "ID")
+
+	app := &SqliteApp{dbmap: dbmap}
+
+	charts := []Chart{
+		{
+			ID:     1,
+			Title:  "Chart1",
+			Labels: []string{"process_open_fds"},
+			Max:    10,
+		},
+		{
+			ID:     2,
+			Title:  "Chart2",
+			Labels: []string{"process_open_fds", "test"},
+			Max:    15,
+		},
+	}
+
+	for _, chart := range charts {
+		labels, err := json.Marshal(chart.Labels)
+		require.NoError(t, err)
+
+		mock.ExpectExec(`INSERT INTO charts \(title, labels, max\) VALUES \(\?, \?, \?\)`).
+			WithArgs(
+				chart.Title,
+				string(labels),
+				chart.Max).
+			WillReturnResult(sqlmock.NewResult(1, 1))
+	}
+
+	app.SetChart(charts)
+
+	err = mock.ExpectationsWereMet()
+	require.NoError(t, err)
+}
+
+func TestClearChart(t *testing.T) {
+	t.Parallel()
+
+	db, mock, err := sqlmock.New()
+	require.NoError(t, err)
+	defer db.Close()
+
+	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}, TypeConverter: nil, ExpandSliceArgs: false}
+	_ = dbmap.AddTableWithName(Chart{
+		ID:     0,
+		Title:  "",
+		Labels: []string{},
+		Max:    0,
+	}, "charts").SetKeys(true, "ID")
+
+	app := &SqliteApp{dbmap: dbmap}
+
+	mock.ExpectExec(`DELETE FROM charts`).WillReturnResult(sqlmock.NewResult(0, 0))
+
+	err = app.ClearChart()
+	require.NoError(t, err)
+
+	err = mock.ExpectationsWereMet()
+	require.NoError(t, err)
+}
+
+func TestDeleteChart(t *testing.T) {
+	t.Parallel()
+
+	db, mock, err := sqlmock.New()
+	require.NoError(t, err)
+	defer db.Close()
+
+	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}, TypeConverter: nil, ExpandSliceArgs: false}
+	_ = dbmap.AddTableWithName(Chart{
+		ID:     0,
+		Title:  "",
+		Labels: []string{},
+		Max:    0,
+	}, "charts").SetKeys(true, "ID")
+
+	app := &SqliteApp{dbmap: dbmap}
+
+	chart := Chart{
+		ID:     1,
+		Title:  "Chart1",
+		Labels: []string{"process_open_fds"},
+		Max:    10,
+	}
+
+	mock.ExpectExec(`DELETE FROM charts WHERE title = \?`).
+		WithArgs(chart.Title).WillReturnResult(sqlmock.NewResult(0, 1))
+
+	err = app.DeleteChart(chart)
 	require.NoError(t, err)
 
 	err = mock.ExpectationsWereMet()

@@ -139,13 +139,16 @@ func (app *SqliteApp) GetChart() ([]Chart, error) {
 		return nil, fmt.Errorf("failed to select database: %w", err)
 	}
 
-	var charts []Chart
+	charts := make([]Chart, 0, len(rows))
+
 	for _, row := range rows {
 		var labels []string
+
 		err := json.Unmarshal([]byte(row.Labels), &labels)
 		if err != nil {
 			return nil, fmt.Errorf("failed to unmarshal labels: %w", err)
 		}
+
 		charts = append(charts, Chart{
 			ID:     row.ID,
 			Title:  row.Title,
@@ -163,7 +166,8 @@ func (app *SqliteApp) AddChart(chart Chart) error {
 		return fmt.Errorf("failed to marshal labels: %w", err)
 	}
 
-	_, err = app.dbmap.Exec("INSERT INTO charts (title, labels, max) VALUES (?, ?, ?)", chart.Title, string(labels), chart.Max)
+	_, err = app.dbmap.Exec("INSERT INTO charts (title, labels, max) VALUES (?, ?, ?)",
+		chart.Title, string(labels), chart.Max)
 	if err != nil {
 		return fmt.Errorf("failed to add chart: %w", err)
 	}

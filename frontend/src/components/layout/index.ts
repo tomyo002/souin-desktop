@@ -3,4 +3,4 @@ export * from './Navbar';
 export * from './InstanceForm';
 export * from './Layout';
 export * from './Menu';
-export * from './ChartForm'
+export * from './ChartForm';

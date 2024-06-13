@@ -13,6 +13,7 @@ const createChart = (form: HTMLFormElement, labels: ReadonlyArray<string>) => {
 
   const newLabels = labels.reduce((acc, current) => {
     acc = [...acc, elements[current]];
+
     return acc;
   }, defaultLabelsElements);
 

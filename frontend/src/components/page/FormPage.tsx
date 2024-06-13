@@ -9,7 +9,7 @@ type FormProps = {
 
 export const FormPage: React.FC<FormProps> = ({ type }) => (
   <Layout>
-    {type === INSTANCEFORM && <InstanceForm />}{' '}
+    {type === INSTANCEFORM && <InstanceForm />}
     {type === CHARTFORM && <ChartForm />}
   </Layout>
 );

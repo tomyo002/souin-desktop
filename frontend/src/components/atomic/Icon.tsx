@@ -13,6 +13,7 @@ import {
   TrashIcon,
   UserIcon,
   XCircleIcon,
+  XMarkIcon,
 } from '@heroicons/react/16/solid';
 import React, { ComponentType } from 'react';
 import { ClassName } from 'src/utils';
@@ -24,6 +25,7 @@ export type AllowedIcon =
   | 'settings'
   | 'check-circle'
   | 'x-circle'
+  | 'cross'
   | 'user'
   | 'key'
   | 'server'
@@ -49,6 +51,8 @@ function mapIcon(
       return CheckCircleIcon;
     case 'x-circle':
       return XCircleIcon;
+    case 'cross':
+      return XMarkIcon;
     case 'user':
       return UserIcon;
     case 'key':
@@ -79,5 +83,5 @@ export const Icon: React.FC<IconProps> = ({ className, name }) => {
   if (!Icon) {
     return null;
   }
-  return <Icon className={`h-6 w-6 ${className}`} />;
+  return <Icon className={className ?? 'h-6 w-6'} />;
 };

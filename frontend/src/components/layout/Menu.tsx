@@ -1,45 +1,49 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useInstances, useSetCurrentInstance } from 'src/context';
+import { InstanceContext } from 'src/context';
 import { path } from 'src/utils';
 
 import { Button, ButtonOutline, H1, Icon } from '../atomic';
 
 export const Menu: React.FC = () => {
-  const { instances, setInstances } = useInstances();
-  const setCurrentInstance = useSetCurrentInstance();
+  const { instances, setInstances, currentInstance, setCurrentInstance } =
+    useContext(InstanceContext);
   const navigate = useNavigate();
 
   return (
-    <div className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+    <div className="menu p-4 w-80 h-full bg-base-200 text-base-content">
       <H1 content="Instances" />
-      <div className="flex-1">
+      <div className="flex flex-col flex-1 gap-3 mt-3">
         {instances.map(instance => (
           <div className="flex" key={instance.name}>
-            <Link className="flex-1" to={path.CHART}>
-              <Button
-                onClick={() => {
-                  setCurrentInstance(instance);
-                }}
-              >
-                {instance.name} : {instance.baseUrl}
-              </Button>
-            </Link>
-            <ButtonOutline
-              className="btn-error"
-              onClick={() => {
-                setInstances(
-                  instances.filter(
-                    inst =>
-                      inst.name !== instance.name ||
-                      inst.baseUrl !== instance.baseUrl,
-                  ),
-                );
-                navigate(path.HOME);
-              }}
-            >
-              <Icon name="trash" />
-            </ButtonOutline>
+            <div className="group flex-1 indicator">
+              <Link className="w-full" to={path.CHART}>
+                <Button
+                  className={`btn-ghost w-full group-hover:bg-neutral-300 
+                  ${currentInstance === instance && 'border-black group-hover:border-black'}`}
+                  onClick={() => setCurrentInstance(instance)}
+                >
+                  {instance.name} : {instance.baseUrl}
+                </Button>
+              </Link>
+              <div className="indicator-item invisible group-hover:visible">
+                <Button
+                  className="btn-circle btn-error border-white btn-xs"
+                  onClick={() => {
+                    setInstances(
+                      instances.filter(
+                        inst =>
+                          inst.name !== instance.name ||
+                          inst.baseUrl !== instance.baseUrl,
+                      ),
+                    );
+                    navigate(path.HOME);
+                  }}
+                >
+                  <Icon className="text-white h-4 w-4" name="cross" />
+                </Button>
+              </div>
+            </div>
           </div>
         ))}
       </div>

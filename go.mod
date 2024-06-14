@@ -7,7 +7,7 @@ require (
 	github.com/go-gorp/gorp v2.2.0+incompatible
 	github.com/mattn/go-sqlite3 v1.14.22
 	github.com/stretchr/testify v1.8.4
-	github.com/wailsapp/wails/v2 v2.8.1
+	github.com/wailsapp/wails/v2 v2.8.2
 )
 
 require (

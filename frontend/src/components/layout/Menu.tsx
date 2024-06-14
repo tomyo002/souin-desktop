@@ -11,22 +11,20 @@ export const Menu: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+    <div className="menu p-4 w-80 h-full bg-base-200 text-base-content">
       <H1 content="Instances" />
-      <div className="flex-1">
+      <div className="flex flex-col flex-1 gap-3 mt-3">
         {instances.map(instance => (
-          <div className="flex mb-4" key={instance.name}>
-            <div className="group flex-1 indicator w-5">
-              <Link className="flex-1" to={path.CHART}>
-                <button
-                  className={`btn w-full group-hover:bg-gray-400
+          <div className="flex" key={instance.name}>
+            <div className="group flex-1 indicator">
+              <Link className="w-full" to={path.CHART}>
+                <Button
+                  className={`btn-ghost w-full group-hover:bg-neutral-300 
                   ${currentInstance === instance && 'border-black group-hover:border-black'}`}
-                  onClick={() => {
-                    setCurrentInstance(instance);
-                  }}
+                  onClick={() => setCurrentInstance(instance)}
                 >
                   {instance.name} : {instance.baseUrl}
-                </button>
+                </Button>
               </Link>
               <div className="indicator-item invisible group-hover:visible">
                 <Button

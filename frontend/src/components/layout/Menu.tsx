@@ -1,28 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { InstanceContext } from 'src/context';
-import { InstanceType, path } from 'src/utils';
+import { path } from 'src/utils';
 
 import { Button, ButtonOutline, H1, Icon } from '../atomic';
 
 export const Menu: React.FC = () => {
-  const [hoveredInstance, setHoveredInstance] = useState<InstanceType>();
   const { instances, setInstances, currentInstance, setCurrentInstance } =
     useContext(InstanceContext);
   const navigate = useNavigate();
-
-  let hideTimeout: NodeJS.Timeout;
-
-  const handleMouseEnter = (instance: InstanceType) => {
-    clearTimeout(hideTimeout);
-    setHoveredInstance(instance);
-  };
-
-  const handleMouseLeave = () => {
-    hideTimeout = setTimeout(() => {
-      setHoveredInstance(undefined);
-    }, 300);
-  };
 
   return (
     <div className="menu p-4 w-80 h-full bg-base-200 text-base-content">

@@ -1,10 +1,9 @@
 import React, { FormEvent, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ChartContext } from 'src/context';
 import { ChartType, getFormElements, path } from 'src/utils';
 
-import { ButtonOutline, H1, Icon } from '../atomic';
-import { Input } from '../molecule';
+import { ButtonOutline, Icon } from '../atomic';
+import { Form, InputProps } from '../molecule';
 
 const defaultLabelsElements: ReadonlyArray<string> = [];
 
@@ -26,9 +25,17 @@ const createChart = (form: HTMLFormElement, labels: ReadonlyArray<string>) => {
   return chart;
 };
 
+const defaultInputLabel: InputProps = {
+  icon: 'key',
+  placeholder: 'label',
+  type: 'text',
+};
+
 export const ChartForm: React.FC = () => {
-  const navigate = useNavigate();
   const { charts, setCharts } = useContext(ChartContext);
+  const [inputsLabels, setInputsLabels] = useState<ReadonlyArray<InputProps>>([
+    { ...defaultInputLabel, id: 'label1' },
+  ]);
   const [labels, setLabels] = useState(['label1']);
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
@@ -38,17 +45,35 @@ export const ChartForm: React.FC = () => {
       ...charts,
       createChart(event.target as HTMLFormElement, labels),
     ]);
-    navigate(path.CHART);
   };
 
   return (
-    <>
-      <H1 className="text-center" content="Chart" />
-      <div className="flex gap-8">
+    <Form
+      inputs={[
+        {
+          icon: 'input.name',
+          id: 'title',
+          placeholder: 'Title',
+          type: 'text',
+        },
+        {
+          icon: 'settings',
+          id: 'max',
+          placeholder: 'max data points',
+          type: 'number',
+        },
+        ...inputsLabels,
+      ]}
+      route={path.CHART}
+      submit={submit}
+      title="Chart"
+    >
+      <div className="flex justify-center gap-8">
         <ButtonOutline
           onClick={() => {
             if (labels.length) {
               setLabels(labels.slice(0, -1));
+              setInputsLabels(inputsLabels.slice(0, -1));
             }
           }}
         >
@@ -57,26 +82,15 @@ export const ChartForm: React.FC = () => {
         <ButtonOutline
           onClick={() => {
             setLabels([...labels, `label${labels.length + 1}`]);
+            setInputsLabels([
+              ...inputsLabels,
+              { ...defaultInputLabel, id: `label${labels.length + 1}` },
+            ]);
           }}
         >
           <Icon name="plus" />
         </ButtonOutline>
       </div>
-      <form className="flex flex-col gap-8" onSubmit={submit}>
-        <Input icon="input.name" id="title" placeholder="Title" type="text" />
-        <Input
-          icon="settings"
-          id="max"
-          placeholder="Max points"
-          type="number"
-        />
-        {labels.map(item => (
-          <Input icon="key" id={item} placeholder="Label" type="text" />
-        ))}
-        <button className="btn btn-outline btn-success" type="submit">
-          Submit
-        </button>
-      </form>
-    </>
+    </Form>
   );
 };

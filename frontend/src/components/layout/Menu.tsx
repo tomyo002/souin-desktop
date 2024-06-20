@@ -24,7 +24,7 @@ export const Menu: React.FC = () => {
                   onClick={() => setCurrentInstance(instance)}
                 >
                   {instance.name} : {instance.baseUrl}
-                </button>
+                </Button>
               </Link>
               <div className="indicator-item invisible group-hover:visible">
                 <Button

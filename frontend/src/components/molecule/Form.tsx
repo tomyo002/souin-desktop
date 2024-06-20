@@ -31,9 +31,9 @@ export const Form: React.FC<FormProps> = ({
       <H1 className="text-center" content={title} />
       {children}
       <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-        {inputs.map(({ icon, id, ...rest }) => (
+        {inputs.map(({ id, ...rest }) => (
           <div key={id}>
-            <Input icon={icon} id={id} {...rest} />
+            <Input id={id} {...rest} />
           </div>
         ))}
         <button className="btn btn-outline btn-success" type="submit">

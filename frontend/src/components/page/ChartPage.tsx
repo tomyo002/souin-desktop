@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChartContext, useCurrentInstance } from 'src/context';
 import { path } from 'src/utils';
@@ -10,6 +10,11 @@ import { Card, MultiLineData } from '../molecule';
 export const ChartPage: React.FC = () => {
   const instance = useCurrentInstance();
   const { charts, setCharts } = useContext(ChartContext);
+  const [reloadKey, setReloadKey] = useState(0);
+
+  useEffect(() => {
+    setReloadKey(prevKey => prevKey + 1);
+  }, [instance]);
 
   return (
     <Layout baseUrl={instance?.baseUrl} name={instance?.name}>
@@ -20,15 +25,19 @@ export const ChartPage: React.FC = () => {
               <Card className="group indicator" title={chart.title}>
                 <div className="invisible indicator-item group-hover:visible">
                   <Button
-                    className="btn-circle btn-error border-black btn-xs"
+                    className="btn-circle btn-error border-white btn-xs"
                     onClick={() => {
                       setCharts(charts.filter(ch => ch.title !== chart.title));
                     }}
                   >
-                    <Icon className="h-4 w-4" name="cross" />
+                    <Icon className="h-4 w-4 text-white" name="cross" />
                   </Button>
                 </div>
-                <MultiLineData labels={chart.labels} max={chart.max} />
+                <MultiLineData
+                  key={reloadKey}
+                  labels={chart.labels}
+                  max={chart.max}
+                />
               </Card>
             </div>
           ))

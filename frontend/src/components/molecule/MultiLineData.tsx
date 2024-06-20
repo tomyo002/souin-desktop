@@ -32,16 +32,16 @@ export const MultiLineData: React.FC<MultiLineDataProps> = ({
       extractor(instance, '/metrics').then(lines => {
         setMultiData(currents =>
           currents.map(({ data, label, ...rest }) => {
-            const newLine =
-              !lines || !lines[lines.findIndex(line => line.name === label)]
-                ? 0
-                : parseFloat(
-                    lines[lines.findIndex(line => line.name === label)]
-                      .metrics[0].value,
-                  );
-
             return {
-              data: [...(data.length >= max ? data.slice(1) : data), newLine],
+              data: [
+                ...(data.length >= max ? data.slice(1) : data),
+                !lines || !lines[lines.findIndex(line => line.name === label)]
+                  ? 0
+                  : parseFloat(
+                      lines[lines.findIndex(line => line.name === label)]
+                        .metrics[0].value,
+                    ),
+              ],
               label,
               ...rest,
             };

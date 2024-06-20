@@ -2,7 +2,7 @@ import React, { FormEvent, useContext, useState } from 'react';
 import { ChartContext } from 'src/context';
 import { ChartType, getFormElements, path } from 'src/utils';
 
-import { ButtonOutline, Icon } from '../atomic';
+import { ButtonOutline } from '../atomic';
 import { Form, InputProps } from '../molecule';
 
 const defaultLabelsElements: ReadonlyArray<string> = [];
@@ -61,6 +61,7 @@ export const ChartForm: React.FC = () => {
           id: 'max',
           placeholder: 'max data points',
           type: 'number',
+          min: '1',
         },
         ...inputsLabels,
       ]}
@@ -68,7 +69,8 @@ export const ChartForm: React.FC = () => {
       submit={submit}
       title="Chart"
     >
-      <div className="flex justify-center gap-8">
+      <div className="flex items-center justify-center gap-8">
+        <span>Labels</span>
         <ButtonOutline
           onClick={() => {
             if (labels.length) {
@@ -77,7 +79,7 @@ export const ChartForm: React.FC = () => {
             }
           }}
         >
-          <Icon name="minus" />
+          Remove
         </ButtonOutline>
         <ButtonOutline
           onClick={() => {
@@ -88,7 +90,7 @@ export const ChartForm: React.FC = () => {
             ]);
           }}
         >
-          <Icon name="plus" />
+          Add
         </ButtonOutline>
       </div>
     </Form>

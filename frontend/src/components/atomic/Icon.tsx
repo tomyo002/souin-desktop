@@ -8,6 +8,7 @@ import {
   CodeBracketSquareIcon,
   Cog6ToothIcon,
   KeyIcon,
+  MinusCircleIcon,
   PlusCircleIcon,
   ServerIcon,
   TrashIcon,
@@ -32,6 +33,7 @@ export type AllowedIcon =
   | 'input.name'
   | 'chevron-down'
   | 'plus'
+  | 'minus'
   | 'menu'
   | 'input.header';
 
@@ -65,6 +67,8 @@ function mapIcon(
       return ChevronDownIcon;
     case 'plus':
       return PlusCircleIcon;
+    case 'minus':
+      return MinusCircleIcon;
     case 'menu':
       return Bars3Icon;
     case 'input.header':

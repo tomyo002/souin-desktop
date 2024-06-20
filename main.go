@@ -25,7 +25,7 @@ const (
 
 func main() {
 	opener := &SQLDatabaseOpener{}
-	instanceApp, _ := NewInstanceApp(opener)
+	sqliteApp, _ := NewSqliteApp(opener)
 
 	err := wails.Run(&options.App{
 		Title:             "Souin Desktop",
@@ -61,7 +61,7 @@ func main() {
 		EnableDefaultContextMenu:         false,
 		EnableFraudulentWebsiteDetection: false,
 		Bind: []interface{}{
-			instanceApp,
+			sqliteApp,
 		},
 		ErrorFormatter: nil,
 		Debug: options.Debug{

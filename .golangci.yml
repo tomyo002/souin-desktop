@@ -33,6 +33,7 @@ linters-settings:
           - testing
           - github.com/DATA-DOG/go-sqlmock
           - github.com/stretchr/testify/require
+          - encoding/json
 
 linters:
   enable-all: true

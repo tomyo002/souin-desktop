@@ -3,7 +3,7 @@ import { ClassName } from 'src/utils';
 
 import { AllowedIcon, Icon } from '../atomic/Icon';
 
-type InputProps = ClassName & {
+export type InputProps = ClassName & {
   icon: AllowedIcon;
 } & React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,

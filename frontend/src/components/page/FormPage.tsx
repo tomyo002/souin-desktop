@@ -1,9 +1,15 @@
 import React from 'react';
+import { CHARTFORM, FormType, INSTANCEFORM } from 'src/utils';
 
-import { InstanceForm, Layout } from '../layout';
+import { ChartForm, InstanceForm, Layout } from '../layout';
 
-export const FormPage: React.FC = () => (
+type FormProps = {
+  type: FormType;
+};
+
+export const FormPage: React.FC<FormProps> = ({ type }) => (
   <Layout>
-    <InstanceForm />
+    {type === INSTANCEFORM && <InstanceForm />}
+    {type === CHARTFORM && <ChartForm />}
   </Layout>
 );

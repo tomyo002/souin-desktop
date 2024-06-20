@@ -28,13 +28,13 @@ export const InstancesProvider: React.FC<React.PropsWithChildren> = ({
   const storage = useStorage();
   const updateInstances = (newInstances: ReadonlyArray<InstanceType>) => {
     setInstances(newInstances);
-    storage.set(newInstances);
+    storage.setInstances(newInstances);
 
     setCurrentInstance(newInstances[newInstances.length - 1]);
   };
 
   useEffect(() => {
-    storage.get().then(allInstances => {
+    storage.getInstances().then(allInstances => {
       setInstances(allInstances);
       setCurrentInstance(allInstances[0]);
     });

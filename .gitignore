@@ -1,5 +1,5 @@
 build/bin
 node_modules
 frontend/dist
-instance.db
+sqlite.db
 report.xml

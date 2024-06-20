@@ -1,5 +1,17 @@
-import { AllowedStorage, InstanceType, LOCAL, SQLITE } from 'src/utils';
-import { Clear, Get, Set } from 'src/wailsjs/go/main/InstanceApp';
+import {
+  AllowedStorage,
+  ChartType,
+  InstanceType,
+  LOCAL,
+  SQLITE,
+} from 'src/utils';
+import {
+  ClearInstance,
+  GetInstance,
+  SetInstance,
+  GetChart,
+  SetChart,
+} from 'src/wailsjs/go/main/SqliteApp';
 import { main } from 'src/wailsjs/go/models';
 
 import { IStorage } from '../interface';
@@ -8,16 +20,30 @@ import { AbstractStorage } from './abstract';
 
 export class LocalStorage extends AbstractStorage {
   private instanceData = 'instanceData';
+  private chartData = 'chartData';
 
-  async get() {
+  async getInstances() {
     const storedDataJSON = localStorage.getItem(this.instanceData);
     if (storedDataJSON) {
       return JSON.parse(storedDataJSON);
     }
     return [];
   }
-  async set(instances: ReadonlyArray<InstanceType>) {
+
+  async setInstances(instances: ReadonlyArray<InstanceType>) {
     localStorage.setItem(this.instanceData, JSON.stringify(instances));
+  }
+
+  async getCharts(): Promise<readonly ChartType[]> {
+    const storedDataJSON = localStorage.getItem(this.chartData);
+    if (storedDataJSON) {
+      return JSON.parse(storedDataJSON);
+    }
+    return [];
+  }
+
+  async setCharts(charts: readonly ChartType[]): Promise<void> {
+    localStorage.setItem(this.chartData, JSON.stringify(charts));
   }
 
   async delete() {
@@ -30,14 +56,20 @@ export class LocalStorage extends AbstractStorage {
 }
 
 export class SqliteStorage extends AbstractStorage {
-  async get() {
-    return Get();
+  async getCharts() {
+    return GetChart();
   }
-  async set(instances: ReadonlyArray<InstanceType>) {
-    Set(instances as main.Instance[]);
+  async setCharts(charts: ReadonlyArray<ChartType>) {
+    SetChart(charts as main.Chart[]);
+  }
+  async getInstances() {
+    return GetInstance();
+  }
+  async setInstances(instances: ReadonlyArray<InstanceType>) {
+    SetInstance(instances as main.Instance[]);
   }
   async delete() {
-    Clear();
+    ClearInstance();
   }
 
   getName(): AllowedStorage {
@@ -58,12 +90,20 @@ export class SwitchStorage implements IStorage {
     }
   }
 
-  async get() {
-    return this.currentStorage.get();
+  async getCharts() {
+    return this.currentStorage.getCharts();
   }
 
-  async set(instances: ReadonlyArray<InstanceType>) {
-    this.currentStorage.set(instances);
+  async setCharts(charts: ReadonlyArray<ChartType>) {
+    return this.currentStorage.setCharts(charts);
+  }
+
+  async getInstances() {
+    return this.currentStorage.getInstances();
+  }
+
+  async setInstances(instances: ReadonlyArray<InstanceType>) {
+    this.currentStorage.setInstances(instances);
   }
 
   async delete() {
